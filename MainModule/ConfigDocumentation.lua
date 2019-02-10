@@ -45,6 +45,7 @@
     -- Permission Overrides --
     From Lowest Rights to Highest Rights
     - NoAccess                      :   No Access; Removes any privilages/permissions from this Group, and Negates any Inheritaed ranks
+    - Normal                        :   A Normal Group; Nothing to see here
     - Administrator                 :   Full Access; Automatically given every privilage/permission
 
 --]]

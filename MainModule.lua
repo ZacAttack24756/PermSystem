@@ -56,8 +56,8 @@ end
 
 return function(Settings)
     -- Minor Error Checking
-    if type(Settings) ~= "table" then kill() return end
-    if type(Settings.Groups) ~= "table" then kill() return end
+    if type(Settings) ~= "table" then kill() return "Settings is not a table!" end
+    if type(Settings.Groups) ~= "table" then kill() return "" end
 
     -- Compiles the groups
     for _, v in pairs(Settings.Groups) do

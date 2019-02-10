@@ -18,6 +18,7 @@ This script is also a, **one-time-configuration** type of script, meaning that i
 
 ## Planned Features
 - Initial Release
+- The Ability to save users' groups via DataStores
 
 ## Usage
 You may distribute and modify this script, but any works must be under the same license, you must disclose the source of the script, and state the changes made. You may not edit the Copyright and License notices. For more detailed, and the actual license, refer to the LICENSE document.
