@@ -15,7 +15,7 @@ local Groups = {}
 
 function GetEvent(...)
     local Args = {...}
-    if type(Args[1]) ~= "string" or Args[1] == "" then return end
+    if (type(Args[1]) ~= "string") or (Args[1] == "") then return end
 
     if Args[1] == "CheckPerm" then
         local Player = Args[2]
