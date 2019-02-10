@@ -6,7 +6,7 @@
 		PlayerObj	:	The Player in question (The Object)
 --]]
 
-local DS = require(script.Parent.Services.DataStore)
+local DS = require(script.Parent.Parent.Services.DataStore)
 local Http = game:GetService("HttpService")
 
 --local Settings = DS.New("MysteryPermissions", "Settings")

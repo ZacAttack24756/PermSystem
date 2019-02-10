@@ -14,8 +14,12 @@ script = nil
 -- Script Vars
 local Services = script.Services
 local Functions = script.Functions
+local CreatePermGroup = Functions.CreatePermGroup
+local RefreshUser = Functions.RefreshUser
+local CheckUserPerm = Functions.CheckUserPerm
 
 -- Services
+local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 -- Changable Script Vars
@@ -39,6 +43,10 @@ local function GetEvent(...)
         if type(Args[3]) ~= "string" or Args[3] == "" then return end
 
         local Found = string.match(Permission, "[%.(%w*|%*)]*")
+
+        if type(Found) == "string" and Found ~= "" then
+            return CheckUserPerm(Groups, Player, Found)
+        end
     end
 end
 -- Keep it in it's own function, just incase
@@ -53,6 +61,13 @@ local function MakeFunc()
     BFunc.Parent = ReplicatedStorage
     return BFunc
 end
+
+Players.PlayerAdded:Connect(function(plr)
+    RefreshUser(Groups, plr)
+end)
+Players.PlayerRemoving:Connect(function(plr)
+    RefreshUser(Groups, plr)
+end)
 
 return function(Settings)
     -- Minor Error Checking
@@ -77,8 +92,8 @@ return function(Settings)
     while Loop do
         wait(30)
 
-        local Players = game:GetService("Players"):GetPlayers
-        for _, v in pairs(Players) do
+        local Plrs = Players:GetPlayers
+        for _, v in pairs(Plrs) do
             RefreshUser(Groups, v)
         end
     end
