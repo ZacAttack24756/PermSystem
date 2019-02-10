@@ -11,15 +11,21 @@ script = nil
     The Permission Pattern: "[%.(%w*|%*)]*"
 ]]--
 
+-- Script Vars
 local Services = script.Services
 local Functions = script.Functions
 
+-- Services
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+-- Changable Script Vars
 local Groups = {}
 
+
+---- Main Functions ----
 local function kill()
     script:Destroy()
 end
-
 -- Event Function
 local function GetEvent(...)
     local Args = {...}
@@ -35,14 +41,17 @@ local function GetEvent(...)
         local Found = string.match(Permission, "[%.(%w*|%*)]*")
     end
 end
-
 -- Keep it in it's own function, just incase
 local function MakeFunc()
     local BFunc = Instance.new("BindableFunction")
     BFunc.Name = "PermSystem"
     -- Connect the event, and move it
-    BEvent.OnInvoke = GetEvent
-    BFunc.Parent = game:GetService("ReplicatedStorage")
+    BFunc.OnInvoke = GetEvent
+    if ReplicatedStorage:FindFirstChild("PermSystem") then
+        ReplicatedStorage.PermSystem:Destroy()
+    end
+    BFunc.Parent = ReplicatedStorage
+    return BFunc
 end
 
 return function(Settings)
@@ -61,3 +70,16 @@ return function(Settings)
     end
 
     -- Creates the event
+    local BFunc = MakeFunc()
+
+    -- Refreshes all Users every 30 seconds
+    local Loop = true
+    while Loop do
+        wait(30)
+
+        local Players = game:GetService("Players"):GetPlayers
+        for _, v in pairs(Players) do
+            RefreshUser(Groups, v)
+        end
+    end
+end

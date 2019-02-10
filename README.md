@@ -12,6 +12,8 @@ A "Rank Ladder" is another way to say a group of groups. One player may only be 
 
 One Powerful use of groups is inheritance, which saves you time in making groups. A group that is on another group's "inheritance" list 'inherits' any permissions from that group, and for any group that inherits from it as well.. Meaning if Group B inherits from Group A, and Group A has the permission `.interact.door.house1`, Group B also has that permission, and adding it specifically to it's permission would be a waste of time. Group C which inherits from Group B would also have that permission. Any group can inherit from any other group, and there are preventative measures to prevent loops from lagging servers.
 
+This script is also a, **one-time-configuration** type of script, meaning that it's configuration typically cannot be editing during a game, A strength and weakness.
+
 **Disclaimer:** This script takes preventative precautions in order to secure your game from exploitation. That being said, this script will not accept any messages or commands from any 'Local' or client script, but securing any server scripts is your responsibility. If a hacker somehow got access to a backdoor server script, and uses that server script to gain access to all permissions, its not my responsibility.
 
 ## Planned Features
