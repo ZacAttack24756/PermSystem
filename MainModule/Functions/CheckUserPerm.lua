@@ -65,6 +65,9 @@ return function(Groups, PlayerObj, PermStr)
     local Result = false
     for _, v in pairs(PlayerData.Groups) do
         Result = Result or CheckDescendantsForPerm(Groups, v, Permission)
+        if Result == true then
+            return Result
+        end --quick resource helper
     end
     return Result
 end

@@ -50,8 +50,6 @@ MTable:GroupHasPerm = function(Perm)
 			end
 		end
 
-		-- Logic Dealing with Negative Permissions
-
 		-- Split each into it's components
 		local VComp = {}
 		if string.sub(v1, 1, 1) == "-" then
