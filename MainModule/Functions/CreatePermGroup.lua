@@ -39,30 +39,49 @@ MTable:PlayerBelongsInGroup = function(PlayerObj)
 end
 MTable:GroupHasPerm = function(Perm)
 	for i1, v1 in pairs(self.Perms) do
+		-- Logic Dealing with basic S
 		if v1 == Perm then
 			return true
 		elseif string.match(v1, Perm) == Perm then
-			return true
+			if string.sub(v1, 1, 1) == "-" then
+				return false
+			else
+				return true
+			end
 		end
+
+		-- Logic Dealing with Negative Permissions
 
 		-- Split each into it's components
 		local VComp = {}
-		for v2 in string.gmatch(v1  , "(\.[%w]*)") do
-			table.insert(VComp, v2)
+		if string.sub(v1, 1, 1) == "-" then
+			table.insert(VComp, "-")
+		end
+		for v2 in string.gmatch(v1  , "(\.[%P]*)") do
+			table.insert(VComp, string.sub(v2, 2))
 		end
 		local PComp = {}
-		for v2 in string.gmatch(Perm, "(\.[%w]*)") do
-			table.insert(PComp, v2)
+		for v2 in string.gmatch(Perm, "(\.[%P]*)") do
+			table.insert(PComp, string.sub(v2, 2))
 		end
 		-- Compare them Side by Side
 		for i2, v2 in pairs(PComp) do
 			if VComp[v2] == PComp[v2] then
 				if table.getn(VComp) == i2 then
-					return true
+					if VComp[1] ~= "-" then
+						return true
+					else
+						return false
+					end
 				end
 				-- continue
-			elseif VComp[v2] == ".*" then
-				return true -- Return true because the guy has all the permissions
+			elseif VComp[v2] == "*" then
+				-- Person has a ALL PERMISSIONS qualifier
+				if VComp[1] == "-" then
+					return false
+				else
+					return true -- Return true because the guy has all the permissions
+				end
 			else
 				return false
 			end
@@ -90,7 +109,7 @@ return function(Data, Name)
 	Content.Perms = {}
 	if type(Data.Perms) == "table" then
 		for _, value in pairs(Data.Perms) do
-			local Pattern = "[%.(%w*|%*)]*"
+			local Pattern = "[\.%P|\*]*"
 			local Found = string.match(value, Pattern)
 
 			-- If theres a match

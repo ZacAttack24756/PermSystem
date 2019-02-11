@@ -8,7 +8,8 @@ script = nil
 --[[
     MainModule
     Script which contians runtime
-    The Permission Pattern: "[%.(%w*|%*)]*"
+    match Permission Pattern : "[\.%P|\*]*"
+    gmatch Permission Pattern : "(\.[%P]*)"
 ]]--
 
 -- Script Vars
@@ -42,7 +43,7 @@ local function GetEvent(...)
         if type(Args[2]) ~= "userdata" or Args[2]:IsA("Player") == false then return end
         if type(Args[3]) ~= "string" or Args[3] == "" then return end
 
-        local Found = string.match(Permission, "[%.(%w*|%*)]*")
+        local Found = string.match(Permission, "[\.%P|\*]*")
 
         if type(Found) == "string" and Found ~= "" then
             return CheckUserPerm(Groups, Player, Found)

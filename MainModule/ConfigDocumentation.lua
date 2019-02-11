@@ -40,7 +40,7 @@
     For Example, ".interact.house1.*" would also give ".interact.house1.frontdoor" and ".interact.house1.backdoor".
     ".interact.*" would give all the permissions of house1 - houseinfinity, and their lower layers.
     A ".*" permission gives literally any permission possible, since it is on the highest layer.
-    NOTE: Permissions CAN be negative, which takes the ability away
+    NOTE: Permissions CAN be negative, but this doesn't work when dealing with `.*`.
 
     -- Permission Overrides --
     From Lowest Rights to Highest Rights

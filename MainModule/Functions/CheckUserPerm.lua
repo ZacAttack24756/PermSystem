@@ -50,7 +50,7 @@ return function(Groups, PlayerObj, PermStr)
     local PlayerId = PlayerObj.UserId
 
     -- Checks the Permission with the Standard Pattern
-    local Found = string.match(PermStr, "[%.(%w*|%*)]*")
+    local Found = string.match(PermStr, "[\.%P|\*]*")
     if type(Found) ~= "string" or Found == "" then return nil end
 
     -- Gets Player Data
@@ -64,7 +64,7 @@ return function(Groups, PlayerObj, PermStr)
     -- Finally, Checks all the Groups and it's Decendants
     local Result = false
     for _, v in pairs(PlayerData.Groups) do
-        Result = Result or CheckDescendantsForPerm(Groups, v, Found)
+        Result = Result or CheckDescendantsForPerm(Groups, v, Permission)
     end
     return Result
 end
