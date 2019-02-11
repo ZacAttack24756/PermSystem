@@ -76,8 +76,8 @@ return function(Settings)
     if type(Settings.Groups) ~= "table" then kill() return "" end
 
     -- Compiles the groups
-    for _, v in pairs(Settings.Groups) do
-        local Return = CreatePermGroup(v)
+    for i, v in pairs(Settings.Groups) do
+        local Return = CreatePermGroup(v, i)
         if type(Return) == "string" then
             print("PermSystem Group Error: -> ".. Return)
         elseif type(Return) == "table" then
