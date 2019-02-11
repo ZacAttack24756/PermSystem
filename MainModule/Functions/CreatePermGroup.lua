@@ -9,7 +9,7 @@ local MTable = {}
 MTable.__index = MTable
 -- Insert Meta things here
 
-MTable:PlayerBelongsInGroup = function(PlayerObj)
+function MTable:PlayerBelongsInGroup(PlayerObj)
 	local Pass = false
 
 	if self.Default == true then
@@ -30,14 +30,14 @@ MTable:PlayerBelongsInGroup = function(PlayerObj)
 	end
 
 	for _, v in pairs(G.RblxTeams) do
-		if PlayerObj.Neutral == false and type(PlayerObj.Team) == "userdata" and type(v) == "userdata" and PlayerObj.Team = v then
+		if PlayerObj.Neutral == false and type(PlayerObj.Team) == "userdata" and type(v) == "userdata" and PlayerObj.Team == v then
 			Pass = true
 		end
 	end
 
 	return Pass
 end
-MTable:GroupHasPerm = function(Perm)
+function MTable:GroupHasPerm(Perm)
 	for i1, v1 in pairs(self.Perms) do
 		-- Logic Dealing with basic S
 		if v1 == Perm then
@@ -185,7 +185,7 @@ return function(Data, Name)
 	if type(Data.RobloxTeam) == "table"	then
 		for _, v in pairs(Data.RobloxTeam) do
 			if type(v) == "userdata" then
-				if v:IsA("Team") and v.Parent = game:GetService("Teams") then
+				if v:IsA("Team") and v.Parent == game:GetService("Teams") then
 					table.insert(Content.RblxTeams, tostring(v.Name))
 					Content.Options.SaveUsers = false
 				end

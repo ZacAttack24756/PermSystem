@@ -3,7 +3,6 @@ script = Instance.new("ModuleScript")
 for _, child in pairs(children) do
     child.Parent = script
 end
-script = nil
 
 --[[
     MainModule
@@ -15,9 +14,9 @@ script = nil
 -- Script Vars
 local Services = script.Services
 local Functions = script.Functions
-local CreatePermGroup = Functions.CreatePermGroup
-local RefreshUser = Functions.RefreshUser
-local CheckUserPerm = Functions.CheckUserPerm
+local CreatePermGroup = require(Functions.CreatePermGroup)
+local RefreshUser = require(Functions.RefreshUser)
+local CheckUserPerm = require(Functions.CheckUserPerm)
 
 -- Services
 local Players = game:GetService("Players")
@@ -93,7 +92,7 @@ return function(Settings)
     while Loop do
         wait(30)
 
-        local Plrs = Players:GetPlayers
+        local Plrs = Players:GetPlayers()
         for _, v in pairs(Plrs) do
             RefreshUser(Groups, v)
         end

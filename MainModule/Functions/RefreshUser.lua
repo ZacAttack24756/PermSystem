@@ -6,7 +6,7 @@
 		PlayerObj	:	The Player in question (The Object)
 --]]
 
-local DS = require(script.Parent.Parent.Services.DataStore)
+local DS = require(script.Parent.Parent.Services.DataStoreService)
 local Http = game:GetService("HttpService")
 
 --local Settings = DS.New("MysteryPermissions", "Settings")
@@ -93,9 +93,3 @@ return function(Groups, PlayerObj)
     local Encode = Http:JSONEncode(PlayerData)
     return PlayerStore:SetData(tostring(PlayerId), Encode)
 end
-
---[[
-    Groups = {
-        -- insert groups here
-    }
-]]

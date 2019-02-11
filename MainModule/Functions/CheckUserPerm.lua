@@ -6,7 +6,7 @@
 		PermStr   	:	The Permission string
 --]]
 
-local DS = require(script.Parent.Parent.Services.DataStore)
+local DS = require(script.Parent.Parent.Services.DataStoreService)
 local Http = game:GetService("HttpService")
 
 local PlayerStore = DS.New("MysteryPermissions", "PlayerStore")
@@ -64,7 +64,7 @@ return function(Groups, PlayerObj, PermStr)
     -- Finally, Checks all the Groups and it's Decendants
     local Result = false
     for _, v in pairs(PlayerData.Groups) do
-        Result = Result or CheckDescendantsForPerm(Groups, v, Permission)
+        Result = Result or CheckDescendantsForPerm(Groups, v, PermStr)
         if Result == true then
             return Result
         end --quick resource helper
