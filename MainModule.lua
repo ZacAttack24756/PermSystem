@@ -72,7 +72,22 @@ end)
 return function(Settings)
     -- Minor Error Checking
     if type(Settings) ~= "table" then kill() return "Settings is not a table!" end
-    if type(Settings.Groups) ~= "table" then kill() return "" end
+    if type(Settings.Groups) ~= "table" then kill() return "Settings.Groups does not exist/cannot be found!" end
+    if type(Settings.Options) ~= "table" then kill() return "Settings.Options does not exist/cannot be found!" end
+    if type(Settings.Options.Enabled) ~= "boolean" then kill() return "Settings.Optins.Enabled does not exist/cannot be found!" end
+    if Settings.Options.Enabled == false then kill() return "Script is not enabled in settings!" en
+
+    local CheckRate = 30
+    if type(Settings.Options.CheckRate) == "number" and Settings.Options.CheckRate >= 1 and Settings.Options.CheckRate <= 600 then
+        CheckRate = Settings.Options.CheckRate
+    end
+    local CP = Instance.new("BooleanValue")
+    CP.Name = "CreaterPriviliges"
+    CP.Value = false
+    if type(Settings.Options.CreatorPriviliges) == "bool" then
+        CP.Value = Settings.Options.CreatorPriviliges
+    end
+    CP.Parent = script
 
     -- Compiles the groups
     for i, v in pairs(Settings.Groups) do
@@ -86,14 +101,14 @@ return function(Settings)
 
     -- Creates the event
     local BFunc = MakeFunc()
+    BFunc.OnInvoke:Connect(GetEvent)
 
     -- Refreshes all Users every 30 seconds
     local Loop = true
     while Loop do
         wait(30)
 
-        local Plrs = Players:GetPlayers()
-        for _, v in pairs(Plrs) do
+        for _, v in pairs(Players:GetPlayers()) do
             RefreshUser(Groups, v)
         end
     end

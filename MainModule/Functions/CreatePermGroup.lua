@@ -9,6 +9,7 @@ local MTable = {}
 MTable.__index = MTable
 -- Insert Meta things here
 
+
 function MTable:PlayerBelongsInGroup(PlayerObj)
 	local Pass = false
 
@@ -38,6 +39,12 @@ function MTable:PlayerBelongsInGroup(PlayerObj)
 	return Pass
 end
 function MTable:GroupHasPerm(Perm)
+	if self.Options.Override == "Administrator" then
+		return true
+	elseif self.Options.Override == "NoAccess" then
+		return false
+	end
+
 	for i1, v1 in pairs(self.Perms) do
 		-- Logic Dealing with basic S
 		if v1 == Perm then
@@ -145,7 +152,7 @@ return function(Data, Name)
 
 	Content.Options = {}
 	Content.Options.SaveUsers = false
-	Content.Override = "Normal"
+	Content.Options.Override = "Normal"
 	if type(Data.Options) == "table" then
 		if type(Data.Options.SaveUsers) == "boolean" then
 			Content.Options.SaveUsers = Data.Options.SaveUsers

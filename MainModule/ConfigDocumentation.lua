@@ -3,8 +3,12 @@
 
     ---- Main Settings ----
 
-    Prefix              [String]    :   The 1 character that will be the prefix for most chat commands, Is Case Sensitive
     Groups              [Array:Tab] :   The Main Group Startup Configuration (See "Group Making")
+    Options             [Tab]       :   Different Options for the script
+        "Prefix"        [String]    :   The 1 character that will be the prefix for most chat commands, Is Case Sensitive
+        "CheckRate"     [Number]    :   The amount of seconds between the script refreshing all players' permissions/groups/etc. (Default: 30, Minimum: 1, Maximum 600)
+        "Enabled"       [Bool]      :   If the script it'self is enabled or not
+        "CreatorPriviliges"  [Bool] :   If me (mystery3525), will automatically get Administrator in your game (  c:  )
 
 	----    Group Making    ----
 
@@ -45,7 +49,7 @@
     -- Permission Overrides --
     From Lowest Rights to Highest Rights
     - NoAccess                      :   No Access; Removes any privilages/permissions from this Group, and Negates any Inheritaed ranks
-    - Normal                        :   A Normal Group; Nothing to see here
+    - Normal                        :   A Normal Group; Nothing to see here (Making it this literally does nothing)
     - Administrator                 :   Full Access; Automatically given every privilage/permission
 
 --]]
