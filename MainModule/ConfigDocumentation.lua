@@ -38,6 +38,7 @@
 			"Rank"       [Num]		:	The Required Group Rank to recive this group
 		}
 		"RobloxTeam"	[Array:Obj]	:	An in-game team that would recive this Group ( Directly refer to the team, Ex: "game.Teams.Team1" (Without "") ). NOTE: The Roblox team needs to be in the game BEFORE this script is initialized
+        "Addons"        [Tab]       :   Settings for specific addons
 	}
 
     -- Permission Format
@@ -58,10 +59,16 @@
     ----    Addon Settings    ----
     {
     -- SimpleTitles: A basic titling system for games (NOT ADDED YET)
-    -- Supports: Moderate-High Configuration, Custom Team Assigns, Custon Group Assigns, Up to 4 scaled text boxes (0th: Username, 4th: Smallest Text Box)
-    -- Does not Support: More than 1 (Rank Ladder or Team) assigned to one Text Box
+    -- Has Moderate-High Configuration, Custom Team Assigns, Custon Group Assigns, Up to 4 scaled text boxes (0th: Username, 4th: Smallest Text Box)
+    -- NOTE: Cannot have more than 1 (Rank Ladder or Team) assigned to one Text Box
     ["SimpleTitles"] = {
         "Enabled"           [Bool]  :   Wether or not the addon is enabled
-    }
+        ~~ Optional ~~
+        - Box1: Username Text Box
+        "Box1:Text"         [Str]   :   The Rank Ladder to get Box1's Text (Cannot be based on Teams)
+        "Box1:Color"        [Str]   :   Where to get the color for Box1 ("TeamColor", "RankLadder")
+    },
+    -- ToolGiver: A simple addon to configure tools to be given to groups
+    -- Tools are configured on a Per-Team Basis
     }
 --]]

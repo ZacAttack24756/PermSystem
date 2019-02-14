@@ -19,6 +19,14 @@ This script is also a, **one-time-configuration** type of script, meaning that i
 
 **Developer Access:** This script uses BindableFunctions for security, and global use/ease of access. Currently, only checking if a player has a permission is supported; Arguments: ["CheckPerm"] [PlayerObject] [PermissionToCheck <str>]  ; Returns: [HasAccess <bool>]
 
+## Addons
+
+Along with the base feature for the script, there is also specialty scripts built into this one that works really well with PermSystem. __Addons have not been added yet__
+
+- **SimpleTitles:** Previously uncreatively considered "AboveHeadRanks", this addon is a simple, yet effective User Group Display system. See Configuration Documentation for the full description, and configuration.
+
+- **ToolGiver:** Another uncreatively named script, ToolGiver allows you to configure it to give players tools on a Per-Group-Basis. Note: You cannot have the same tool given out twice by default, see Configuration Documentation for more information.
+
 ## Planned Features
 - Initial Release
 - The Ability to save users' groups via DataStores
