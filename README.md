@@ -1,5 +1,6 @@
 # PermSystem
 A script I made for Roblox, now on github aswell. This script allows for setting permissable groups to be given to certian individuals, which grants them access to things in game.
+Product made by: mystery3525 (Roblox), ZacAttack24756 (github)
 
 ## Extended Description
 This script is meant to be a control module that can be applicable to almost any game. A basic example is this: Any server script sends a request to the module, asking if player "Bob" has the permission `.interact.door.house1`. The script will reference every group that the player "Bob" is in to see if any group has that permission or a better one. If he does or doesn't, the script responds back.
@@ -16,9 +17,13 @@ This script is also a, **one-time-configuration** type of script, meaning that i
 
 **Disclaimer:** This script takes preventative precautions in order to secure your game from exploitation. That being said, this script will not accept any messages or commands from any 'Local' or client script, but securing any server scripts is your responsibility. If a hacker somehow got access to a backdoor server script, and uses that server script to gain access to all permissions, its not my responsibility.
 
+**Developer Access:** This script uses BindableFunctions for security, and global use/ease of access. Currently, only checking if a player has a permission is supported; Arguments: ["CheckPerm"] [PlayerObject] [PermissionToCheck <str>]  ; Returns: [HasAccess <bool>]
+
 ## Planned Features
 - Initial Release
 - The Ability to save users' groups via DataStores
+- Fully Finished SimpleTitles Addon
+- More Addons
 
 ## Usage
 You may distribute and modify this script, but any works must be under the same license, you must disclose the source of the script, and state the changes made. You may not edit the Copyright and License notices. For more detailed, and the actual license, refer to the LICENSE document.

@@ -25,7 +25,6 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 -- Changable Script Vars
 local Groups = {}
 
-
 ---- Main Functions ----
 local function kill()
     script:Destroy()
@@ -106,7 +105,7 @@ return function(Settings)
     -- Refreshes all Users every 30 seconds
     local Loop = true
     while Loop do
-        wait(30)
+        wait(CheckRate)
 
         for _, v in pairs(Players:GetPlayers()) do
             RefreshUser(Groups, v)

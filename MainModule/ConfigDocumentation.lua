@@ -5,10 +5,13 @@
 
     Groups              [Array:Tab] :   The Main Group Startup Configuration (See "Group Making")
     Options             [Tab]       :   Different Options for the script
+    {
         "Prefix"        [String]    :   The 1 character that will be the prefix for most chat commands, Is Case Sensitive
         "CheckRate"     [Number]    :   The amount of seconds between the script refreshing all players' permissions/groups/etc. (Default: 30, Minimum: 1, Maximum 600)
         "Enabled"       [Bool]      :   If the script it'self is enabled or not
         "CreatorPriviliges"  [Bool] :   If me (mystery3525), will automatically get Administrator in your game (  c:  )
+    }
+    Addons              [Tab]       :   Addons that come with this script (See "Addon Settings")
 
 	----    Group Making    ----
 
@@ -52,4 +55,13 @@
     - Normal                        :   A Normal Group; Nothing to see here (Making it this literally does nothing)
     - Administrator                 :   Full Access; Automatically given every privilage/permission
 
+    ----    Addon Settings    ----
+    {
+    -- SimpleTitles: A basic titling system for games (NOT ADDED YET)
+    -- Supports: Moderate-High Configuration, Custom Team Assigns, Custon Group Assigns, Up to 4 scaled text boxes (0th: Username, 4th: Smallest Text Box)
+    -- Does not Support: More than 1 (Rank Ladder or Team) assigned to one Text Box
+    ["SimpleTitles"] = {
+        "Enabled"           [Bool]  :   Wether or not the addon is enabled
+    }
+    }
 --]]
