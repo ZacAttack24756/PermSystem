@@ -46,6 +46,11 @@ local function GetEvent(...)
         if type(Found) == "string" and Found ~= "" then
             return CheckUserPerm(Groups, Player, Found)
         end
+    elseif Args[1] == "AddGroup" then
+        local GroupSettings = Args[2]
+
+        local Result = CreatePermGroup(GroupSettings)
+        return Result
     end
 end
 -- Keep it in it's own function, just incase
@@ -90,7 +95,7 @@ return function(Settings)
 
     -- Compiles the groups
     for i, v in pairs(Settings.Groups) do
-        local Return = CreatePermGroup(v, i)
+        local Return = CreatePermGroup(v, i, Groups)
         if type(Return) == "string" then
             print("PermSystem Group Error: -> ".. Return)
         elseif type(Return) == "table" then

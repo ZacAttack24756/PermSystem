@@ -23,7 +23,7 @@
         ~~ Optional ~~
 		"Perms"			[Array/Str]	:	Core Permissions the group has (See "Permission Format" Below)
 		"Default"		[Bool]		:	Specifies if the player gets this rank for Free
-        "RankLadder"	[Str]		:	The Name for the Rank Ladder for the group (None means the default). A player can only be in 1 Group per Ladder
+        "RankLadder"	[Str]		:	The Name for the Rank Ladder for the group (None equals "Default"). A player can only be in 1 Group per Ladder
 		"Inheritance"	[Array/Str]	:	Group names this group 'inherits' permissions from. Specify "Rank" to inherit from any lower-ranking groups
         "Options"       [Table]     :   Options for this group
         {
@@ -39,6 +39,11 @@
 		}
 		"RobloxTeam"	[Array:Obj]	:	An in-game team that would recive this Group ( Directly refer to the team, Ex: "game.Teams.Team1" (Without "") ). NOTE: The Roblox team needs to be in the game BEFORE this script is initialized
         "Addons"        [Tab]       :   Settings for specific addons
+        {
+            ...         [Tab]       :   Specific Addon Setting Table
+            ...         [Tab]       :   Specific Addon Setting Table
+            ...         [Tab]       :   Specific Addon Setting Table
+        }
 	}
 
     -- Permission Format

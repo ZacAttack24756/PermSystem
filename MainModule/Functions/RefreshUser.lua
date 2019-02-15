@@ -70,7 +70,7 @@ return function(Groups, PlayerObj)
         end
     end
     for _, v1 in pairs(RLadders) do
-        local max = -1 * (math.huge)
+        local max = 0
         if type(v1) == "table" then
             -- First Pass idendifies the largest in the ranking ladder
             for i2, v2 in pairs(v1) do

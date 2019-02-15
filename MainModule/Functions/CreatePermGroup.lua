@@ -96,12 +96,21 @@ function MTable:GroupHasPerm(Perm)
 	end
 end
 
-return function(Data, Name)
+return function(Data, Name, Groups)
 	-- Checks the main Table, and The required things
 	if type(Data) ~= "table" then return "Data is not a Table!" end
 	if type(Name) ~= "string" or Name == "" then return "Name is not a string!" end
+
 	if type(Data.Rank) ~= "number" then return "Data.Rank is not a number!" end
 	if (Data.Rank < 0) or (Data.Rank == math.huge) then return "Data.Rank is smaller than 0, or as large as math.huge!" end
+	for i, v in pairs(Groups) do
+		if i == Name then
+			return "Group Name Already taken!"
+		end
+		if v.Rank == Data.Rank then
+			return "Group Rank Already taken!"
+		end
+	end
 
 	----    Required Error Checking Done    ----
 
