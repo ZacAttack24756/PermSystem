@@ -86,7 +86,7 @@ return function(Settings)
         CheckRate = Settings.Options.CheckRate
     end
     local CP = Instance.new("BooleanValue")
-    CP.Name = "CreaterPriviliges"
+    CP.Name = "CreatorPriviliges"
     CP.Value = false
     if type(Settings.Options.CreatorPriviliges) == "bool" then
         CP.Value = Settings.Options.CreatorPriviliges

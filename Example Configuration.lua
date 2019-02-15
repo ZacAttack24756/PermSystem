@@ -3,7 +3,7 @@
 local Settings = {
     Groups = {
         ["Default"] = {
-            Rank = 0
+            Rank = 0,
             Perms = {},
             Default = true,
         },

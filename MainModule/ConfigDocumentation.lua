@@ -4,14 +4,15 @@
     ---- Main Settings ----
 
     Groups              [Array:Tab] :   The Main Group Startup Configuration (See "Group Making")
+    Addons              [Tab]       :   Addons that come with this script (See "Addon Settings")
     Options             [Tab]       :   Different Options for the script
     {
+        "Enabled"       [Bool]      :   If the script it'self is enabled or not
+        ~~ Optional ~~
         "Prefix"        [String]    :   The 1 character that will be the prefix for most chat commands, Is Case Sensitive
         "CheckRate"     [Number]    :   The amount of seconds between the script refreshing all players' permissions/groups/etc. (Default: 30, Minimum: 1, Maximum 600)
-        "Enabled"       [Bool]      :   If the script it'self is enabled or not
         "CreatorPriviliges"  [Bool] :   If me (mystery3525), will automatically get Administrator in your game (  c:  )
     }
-    Addons              [Tab]       :   Addons that come with this script (See "Addon Settings")
 
 	----    Group Making    ----
 
