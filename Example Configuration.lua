@@ -132,8 +132,14 @@ local Settings = {
                 Rank = 255,
             },
         }
-    }
+    },
+    Options = {
+        Enabled = true,
+        CreatorPrivileges = true,
+    },
 }
 
--- The script hasn't been published to roblox yet, so this is the stand-in
-require("The_Script_Location")(Settings)
+local Return = require(2600240923)(Settings)
+if type(Return) == "string" then
+	error(Return)
+end

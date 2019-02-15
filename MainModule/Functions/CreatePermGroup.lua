@@ -148,7 +148,7 @@ return function(Data, Name, Groups)
 		Content.RankLadder = Data.RankLadder
 	end
 
-	Contet.Inheritance = {}
+	Content.Inheritance = {}
 	if type(Data.Inheritance) == "string" then
 		Content.Inheritance = {Data.Inheritance}
 	elseif type(Data.Inheritance) == "table" then

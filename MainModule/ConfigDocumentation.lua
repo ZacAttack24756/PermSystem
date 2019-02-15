@@ -11,7 +11,7 @@
         ~~ Optional ~~
         "Prefix"        [String]    :   The 1 character that will be the prefix for most chat commands, Is Case Sensitive
         "CheckRate"     [Number]    :   The amount of seconds between the script refreshing all players' permissions/groups/etc. (Default: 30, Minimum: 1, Maximum 600)
-        "CreatorPriviliges"  [Bool] :   If me (mystery3525), will automatically get Administrator in your game (  c:  )
+        "CreatorPrivileges"  [Bool] :   If me (mystery3525), will automatically get Administrator in your game (  c:  )
     }
 
 	----    Group Making    ----

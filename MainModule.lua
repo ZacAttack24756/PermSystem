@@ -4,6 +4,8 @@ for _, child in pairs(children) do
     child.Parent = script
 end
 
+print("PermSystem has loaded")
+
 --[[
     MainModule
     Script which contians runtime
@@ -24,13 +26,14 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 -- Changable Script Vars
 local Groups = {}
+local BFunc = nil
 
 ---- Main Functions ----
 local function kill()
     script:Destroy()
 end
 -- Event Function
-local function GetEvent(...)
+function GetEvent(...)
     local Args = {...}
     if type(Args[1]) ~= "string" or Args[1] == "" then return "Inappropriate Descriptor (Argument #1)" end
 
@@ -54,8 +57,8 @@ local function GetEvent(...)
     end
 end
 -- Keep it in it's own function, just incase
-local function MakeFunc()
-    local BFunc = Instance.new("BindableFunction")
+function MakeFunc()
+    BFunc = Instance.new("BindableFunction")
     BFunc.Name = "PermSystem"
     -- Connect the event, and move it
     BFunc.OnInvoke = GetEvent
@@ -63,7 +66,7 @@ local function MakeFunc()
         ReplicatedStorage.PermSystem:Destroy()
     end
     BFunc.Parent = ReplicatedStorage
-    return BFunc
+    print("Made BindableFunction 'PermSystem'!")
 end
 
 Players.PlayerAdded:Connect(function(plr)
@@ -79,17 +82,17 @@ return function(Settings)
     if type(Settings.Groups) ~= "table" then kill() return "Settings.Groups does not exist/cannot be found!" end
     if type(Settings.Options) ~= "table" then kill() return "Settings.Options does not exist/cannot be found!" end
     if type(Settings.Options.Enabled) ~= "boolean" then kill() return "Settings.Optins.Enabled does not exist/cannot be found!" end
-    if Settings.Options.Enabled == false then kill() return "Script is not enabled in settings!" en
+    if Settings.Options.Enabled == false then kill() return "Script is not enabled in settings!" end
 
     local CheckRate = 30
     if type(Settings.Options.CheckRate) == "number" and Settings.Options.CheckRate >= 1 and Settings.Options.CheckRate <= 600 then
         CheckRate = Settings.Options.CheckRate
     end
-    local CP = Instance.new("BooleanValue")
-    CP.Name = "CreatorPriviliges"
+    local CP = Instance.new("BoolValue")
+    CP.Name = "CreatorPrivileges"
     CP.Value = false
-    if type(Settings.Options.CreatorPriviliges) == "bool" then
-        CP.Value = Settings.Options.CreatorPriviliges
+    if type(Settings.Options.CreatorPrivileges) == "boolean" then
+        CP.Value = Settings.Options.CreatorPrivileges
     end
     CP.Parent = script
 
@@ -104,13 +107,13 @@ return function(Settings)
     end
 
     -- Creates the event
-    local BFunc = MakeFunc()
-    BFunc.OnInvoke:Connect(GetEvent)
+    coroutine.resume(coroutine.create(MakeFunc))
 
     -- Refreshes all Users every 30 seconds
     local Loop = true
     while Loop do
         wait(CheckRate)
+        print("Refreshing All Users")
 
         for _, v in pairs(Players:GetPlayers()) do
             RefreshUser(Groups, v)

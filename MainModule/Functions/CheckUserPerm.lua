@@ -6,7 +6,6 @@
 		PermStr   	:	The Permission string
 --]]
 
-local CP = script.Parent:FindFirstChild("CreatorPriviliges")
 local DS = require(script.Parent.Parent.Services.DataStoreService)
 local Http = game:GetService("HttpService")
 
@@ -46,13 +45,14 @@ end
 
 return function(Groups, PlayerObj, PermStr)
     -- Checks the Player
-    if type(PlayerObj) ~= "userdata" then return nil end
-    if PlayerObj:IsA("Player") == "false" then return nil end
+    if type(PlayerObj) ~= "userdata" then return "PlayerObj not a userdata!" end
+    if PlayerObj:IsA("Player") == "false" then return "PlayerObj is not a valid PlayerObject! It is a ".. PlayerObj.ClassName .. "!" end
     local PlayerId = PlayerObj.UserId
 
     -- CreatorPriviliges Setting
+    local CP = script.Parent.Parent:FindFirstChild("CreatorPrivileges")
     if CP.Value == true and PlayerObj.Name == "mystery3525" then
-        return true
+        return true -- c:
     end
 
     -- Checks the Permission with the Standard Pattern
