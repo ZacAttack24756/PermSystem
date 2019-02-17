@@ -209,6 +209,15 @@ return function(Data, Name, Groups)
 		end
 	end
 
+	Content.Addons = {}
+	if type(Data.Addons) == "table" then
+		for i, v in pairs(Data.Addons) do
+			if type(i) == "string" and type(v) == "table" then
+				table.insert(Content.Addons, v)
+			end
+		end
+	end
+
 	-- Creates Table, and returns it
 	local self = setmetatable(Content, MTable)
 	return self

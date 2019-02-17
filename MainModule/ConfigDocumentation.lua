@@ -67,12 +67,22 @@
     -- SimpleTitles: A basic titling system for games (NOT ADDED YET)
     -- Has Moderate-High Configuration, Custom Team Assigns, Custon Group Assigns, Up to 4 scaled text boxes (0th: Username, 4th: Smallest Text Box)
     -- NOTE: Cannot have more than 1 (Rank Ladder or Team) assigned to one Text Box
+    -- If the Box is assigned to a RankLadder, and the user is not in any group in that RankLadder, the box will be empty
     ["SimpleTitles"] = {
         "Enabled"           [Bool]  :   Wether or not the addon is enabled
         ~~ Optional ~~
+        "FillEmptyBoxes"    [Bool]  :   Should the script fill in boxes that are empty with the smaller ones, while keeping the size (True by default)
         - Box1: Username Text Box
+        "Box1:Enabled"      [Bool]  :   Enable the Username Text Box?
         "Box1:Text"         [Str]   :   The Rank Ladder to get Box1's Text (Cannot be based on Teams)
         "Box1:Color"        [Str]   :   Where to get the color for Box1 ("TeamColor", "RankLadder")
+        - Box2, Box3, Box4: Smaller Incrementing Box Sizes
+        "Box2:Text"         [Str]   :   The Rank Ladder or Team to base this text on (Example "Team:<TeamName>", "RankLadder:<RankLadder/Empty for Default>")
+        "Box2:Color"        [Str]   :   The Rank Ladder or Team to get this color from (Example "Team:<TeamName>", "RankLadder:<RankLadder/Empty for Default>")
+        "Box3:Text"         [Str]   :   The Rank Ladder or Team to base this text on (Example "Team:<TeamName>", "RankLadder:<RankLadder/Empty for Default>")
+        "Box3:Color"        [Str]   :   The Rank Ladder or Team to get this color from (Example "Team:<TeamName>", "RankLadder:<RankLadder/Empty for Default>")
+        "Box4:Text"         [Str]   :   The Rank Ladder or Team to base this text on (Example "Team:<TeamName>", "RankLadder:<RankLadder/Empty for Default>")
+        "Box4:Color"        [Str]   :   The Rank Ladder or Team to get this color from (Example "Team:<TeamName>", "RankLadder:<RankLadder/Empty for Default>")
     },
     -- ToolGiver: A simple addon to configure tools to be given to groups
     -- Tools are configured on a Per-Team Basis

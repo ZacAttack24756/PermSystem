@@ -16,6 +16,7 @@ print("PermSystem has loaded")
 -- Script Vars
 local Services = script.Services
 local Functions = script.Functions
+local Addons = script.Addons
 local CreatePermGroup = require(Functions.CreatePermGroup)
 local RefreshUser = require(Functions.RefreshUser)
 local CheckUserPerm = require(Functions.CheckUserPerm)
@@ -26,6 +27,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 -- Changable Script Vars
 local Groups = {}
+local AddonTab = {}
 local BFunc = nil
 
 ---- Main Functions ----
@@ -68,7 +70,7 @@ function MakeFunc()
     BFunc.Parent = ReplicatedStorage
     print("Made BindableFunction 'PermSystem'!")
 end
-
+-
 Players.PlayerAdded:Connect(function(plr)
     RefreshUser(Groups, plr)
 end)
@@ -100,7 +102,7 @@ return function(Settings)
     for i, v in pairs(Settings.Groups) do
         local Return = CreatePermGroup(v, i, Groups)
         if type(Return) == "string" then
-            print("PermSystem Group Error: -> ".. Return)
+            print("PermSystem Group Error: ".. Return)
         elseif type(Return) == "table" then
             table.insert(Groups, Return)
         end
@@ -108,6 +110,18 @@ return function(Settings)
 
     -- Creates the event
     coroutine.resume(coroutine.create(MakeFunc))
+
+    -- Load In Addons
+    if type(Settings.Addons) == "string" then
+        for i, v in pairs(Settings.Addons) do
+            if type(i) == "string" and Addons:FindFirstChild(i) ~= nil then
+                Return = require(Addons:FindFirstChild(i))(v)
+                if type(Return) == "string" then
+                    print("PermSystem Addon Error: ".. Return)
+                end
+            end
+        end
+    end
 
     -- Refreshes all Users every 30 seconds
     local Loop = true
