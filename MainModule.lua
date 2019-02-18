@@ -20,6 +20,7 @@ local Addons = script.Addons
 local CreatePermGroup = require(Functions.CreatePermGroup)
 local RefreshUser = require(Functions.RefreshUser)
 local CheckUserPerm = require(Functions.CheckUserPerm)
+local CheckDescendantsForPerm = require(Functions.CheckDescendantsForPerm)
 
 -- Services
 local Players = game:GetService("Players")
@@ -28,7 +29,9 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 -- Changable Script Vars
 local Groups = {}
 local AddonTab = {}
+local PlayerTable = {}
 local BFunc = nil
+local IFunc = nil
 
 ---- Main Functions ----
 local function kill()
@@ -51,11 +54,47 @@ function GetEvent(...)
         if type(Found) == "string" and Found ~= "" then
             return CheckUserPerm(Groups, Player, Found)
         end
-    elseif Args[1] == "AddGroup" then
+    --[[elseif Args[1] == "AddGroup" then
         local GroupSettings = Args[2]
 
         local Result = CreatePermGroup(GroupSettings)
-        return Result
+        return Result]]--   Yeah no lets not do that just yet -mystery
+    end
+end
+function GetEventI(...)
+    local Args = {...}
+    if type(Args[1]) ~= "string" or Args[1] == "" then return "Inappropriate Descriptor (Argument #1)" end
+
+    if Args[1] == "GetGroupInfo" then
+        local GroupName = Args[2]
+
+        if type(Args[2]) ~= "string" or Args[2] == "" then return "Given Group Argument is not a string" end
+
+        local Found = Groups[GroupName]
+        if Found then
+            return Found
+        else
+            return "Group not Found"
+        end
+    elseif Args[1] == "GetPlrData" then
+        local PlayerObj = Args[2]
+
+        if type(PlayerObj) ~= "userdata" or PlayerObj:IsA("Player") == false then return "Invalid Player Object" end
+
+        return PlayerData[PlayerObj]
+    elseif Args[1] == "GetRankLadderGroups" then
+        local Ladder = Args[2]
+
+        if type(Ladder) ~= "string" or Ladder == "" then return "Given RankLadder Argument is not a string" end
+
+        local Found = {}
+        for GroupName, GroupInfo in pairs(Groups) do
+            if rawget(GroupInfo.RankLadder) == Ladder then
+                table.insert(Found, GroupName)
+            end
+        end
+
+        return Found
     end
 end
 -- Keep it in it's own function, just incase
@@ -68,14 +107,22 @@ function MakeFunc()
         ReplicatedStorage.PermSystem:Destroy()
     end
     BFunc.Parent = ReplicatedStorage
-    print("Made BindableFunction 'PermSystem'!")
+
+    IFunc = Instance.new("BindableFunction")
+    IFunc.Name = "API_Call"
+    IFunc.OnInvoke = GetEventI
+    if script:FindFirstChild("API_Call") then
+        script.API_Call:Destroy()
+    end
+    IFunc.Parent = script
 end
--
+
 Players.PlayerAdded:Connect(function(plr)
-    RefreshUser(Groups, plr)
+    PlayerTable[plr] = RefreshUser(Groups, plr)
 end)
 Players.PlayerRemoving:Connect(function(plr)
     RefreshUser(Groups, plr)
+    PlayerTable[plr] = nil
 end)
 
 return function(Settings)
@@ -109,7 +156,7 @@ return function(Settings)
     end
 
     -- Creates the event
-    coroutine.resume(coroutine.create(MakeFunc))
+    spawn(MakeFunc, 5)
 
     -- Load In Addons
     if type(Settings.Addons) == "string" then
@@ -130,7 +177,7 @@ return function(Settings)
         print("Refreshing All Users")
 
         for _, v in pairs(Players:GetPlayers()) do
-            RefreshUser(Groups, v)
+            PlayerTable[v] = RefreshUser(Groups, v)
         end
     end
 end

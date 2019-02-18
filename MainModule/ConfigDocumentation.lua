@@ -71,18 +71,24 @@
     ["SimpleTitles"] = {
         "Enabled"           [Bool]  :   Wether or not the addon is enabled
         ~~ Optional ~~
+        "GuiViewDistance"   [Num]   :   The Maximum Distance that this GUI can be view from
         "FillEmptyBoxes"    [Bool]  :   Should the script fill in boxes that are empty with the smaller ones, while keeping the size (True by default)
-        - Box1: Username Text Box
+
+        -- Global: Applies to all boxes
+        "Global:Font"       [Str]   :   The Global Font to be used in the script, (Found in Enum.Font) [Defaults to "SourceSans"]
+        "Global:Color"      [Str]   :   Where to get the color for all the boxes ("TeamColor", "RankLadder:<RankLadder/Empty for Default>") [Defaults to being the TeamColor, if not then its set to ]
+
+        -- Box1: Username Text Box
         "Box1:Enabled"      [Bool]  :   Enable the Username Text Box?
-        "Box1:Text"         [Str]   :   The Rank Ladder to get Box1's Text (Cannot be based on Teams)
-        "Box1:Color"        [Str]   :   Where to get the color for Box1 ("TeamColor", "RankLadder")
-        - Box2, Box3, Box4: Smaller Incrementing Box Sizes
-        "Box2:Text"         [Str]   :   The Rank Ladder or Team to base this text on (Example "Team:<TeamName>", "RankLadder:<RankLadder/Empty for Default>")
-        "Box2:Color"        [Str]   :   The Rank Ladder or Team to get this color from (Example "Team:<TeamName>", "RankLadder:<RankLadder/Empty for Default>")
-        "Box3:Text"         [Str]   :   The Rank Ladder or Team to base this text on (Example "Team:<TeamName>", "RankLadder:<RankLadder/Empty for Default>")
-        "Box3:Color"        [Str]   :   The Rank Ladder or Team to get this color from (Example "Team:<TeamName>", "RankLadder:<RankLadder/Empty for Default>")
-        "Box4:Text"         [Str]   :   The Rank Ladder or Team to base this text on (Example "Team:<TeamName>", "RankLadder:<RankLadder/Empty for Default>")
-        "Box4:Color"        [Str]   :   The Rank Ladder or Team to get this color from (Example "Team:<TeamName>", "RankLadder:<RankLadder/Empty for Default>")
+        "Box1:Text"         [Str]   :   The Rank Ladder or Username to get Box1's Text (Example: "Username", "RankLadder:<RankLadder/Empty for Default>")
+
+        -- Box2, Box3, Box4: Smaller Incrementing Box Sizes
+        -- The Rank Ladder or Team or GroupRankName to base this text on
+        -- (Example: "Team", "RankLadder:<RankLadder/Empty for Default>", "RblxGroupID:<GroupID>")
+        -- [Note: For Groups, it takes what ever the player's rank's Name is (Also known as Role)]
+        "Box2:Text"         [Str]   :   See Above
+        "Box4:Text"         [Str]   :   See Above
+        "Box3:Text"         [Str]   :   See Above
     },
     -- ToolGiver: A simple addon to configure tools to be given to groups
     -- Tools are configured on a Per-Team Basis
