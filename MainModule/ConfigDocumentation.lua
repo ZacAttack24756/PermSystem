@@ -84,12 +84,20 @@
 
         -- Box2, Box3, Box4: Smaller Incrementing Box Sizes
         -- The Rank Ladder or Team or GroupRankName to base this text on
-        -- (Example: "Team", "RankLadder:<RankLadder/Empty for Default>", "RblxGroupID:<GroupID>")
+        -- (Example: "TeamName", "RankLadder:<RankLadder/Empty for Default>", "RblxGroupID:<GroupID>")
         -- [Note: For Groups, it takes what ever the player's rank's Name is (Also known as Role)]
         "Box2:Text"         [Str]   :   See Above
         "Box4:Text"         [Str]   :   See Above
         "Box3:Text"         [Str]   :   See Above
     },
+    --- SimpleTitles Group Addon Setting Format ---
+    {
+        "Global:Color"   [Col3/Str] :   A Color3, OR a BrickColor name to set the color as
+        "Box1:Text"         [Str]   :   Examples: "Disabled", "Username", "SetText:<Text>" (Box1 Cannot be based off TeamNames)
+        "Box2:Text"         [Str]   :   Examples: "Disabled", "TeamName", "SetText:<Text>"
+        "Box3:Text"         [Str]   :   Examples: "Disabled", "TeamName", "SetText:<Text>"
+        "Box3:Text"         [Str]   :   Examples: "Disabled", "TeamName", "SetText:<Text>"
+    }
     -- ToolGiver: A simple addon to configure tools to be given to groups
     -- Tools are configured on a Per-Team Basis
     }

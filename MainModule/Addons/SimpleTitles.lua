@@ -129,11 +129,188 @@ function Run(Player, Character)
             if type(AddonInfo) == "table" then
                 if type(AddonInfo["Color"]) == "userdata" then
                     Color = AddonInfo["Color"]
+                elseif type(AddonInfo["Color"]) == "string" then
+                    Color = BrickColor.new(AddonInfo["Color"]).Color
                 end
             end
         end
     end
-    -- All that work just to get the color, not including functions and exterior functions; wow
+    -- All that work just to get the color, not including functions and exterior functions;
+    -- this is going to take a while
+
+    local Box1Text = Player.Name
+    if Settings["Box1:Text"] then
+        if Settings["Box1:Text"] == "Username" then
+            Box1Text = Player.Name
+        elseif string.sub(Settings["Box1:Text"], 1, 12) == "RblxGroupID:" then
+            local ID = tonumber(string.sub(Settings["Box1:Text"], 13))
+            if type(ID) == "number" then
+                local ProperlyRan, Return = pcall(function()
+                    return Player:GetRoleInGroup(ID)
+                end)
+                if ProperlyRan then
+                    Box1Text = Return
+                else
+                    warn("PermSystem SimpleTitles Addon GetRoleInGroup Error: ".. Return)
+                end
+            end
+        elseif string.sub(Settings["Box1:Text"], 1, 11) == "RankLadder:" and type(Data) == "table" then
+            local Ladder = string.sub(Settings["Box1:Text"], 12)
+            if Ladder == "" then Ladder = "Default" end
+            local AddonInfo = LocateGroupAddonInfo(Player, Data, Ladder)
+
+            if type(AddonInfo) == "table" then
+                if type(AddonInfo["Box1:Text"]) then
+                    local Set = AddonInfo["Box1:Text"]
+                    if Set == "Disabled" then
+                        Box1Text = ""
+                    elseif Set == "Username" then
+                        Box1Text = Player.Name
+                    elseif string.sub(Set, 1, 8) == "SetText:" then
+                        Box1Text = string.sub(Set, 9)
+                    end
+                end
+            end
+        end
+    end
+
+    local Box2Text = ""
+    if Settings["Box2:Text"] then
+        if Settings["Box2:Text"] == "TeamName" then
+            Box1Text = Team.Name
+        elseif string.sub(Settings["Box2:Text"], 1, 12) == "RblxGroupID:" then
+            local ID = tonumber(string.sub(Settings["Box2:Text"], 13))
+            if type(ID) == "number" then
+                local ProperlyRan, Return = pcall(function()
+                    return Player:GetRoleInGroup(ID)
+                end)
+                if ProperlyRan then
+                    Box1Text = Return
+                else
+                    warn("PermSystem SimpleTitles Addon GetRoleInGroup Error: ".. Return)
+                end
+            end
+        elseif string.sub(Settings["Box2:Text"], 1, 11) == "RankLadder:" and type(Data) == "table" then
+            local Ladder = string.sub(Settings["Box2:Text"], 12)
+            if Ladder == "" then Ladder = "Default" end
+            local AddonInfo = LocateGroupAddonInfo(Player, Data, Ladder)
+
+            if type(AddonInfo) == "table" then
+                if type(AddonInfo["Box2:Text"]) then
+                    local Set = AddonInfo["Box2:Text"]
+                    if Set == "Disabled" then
+                        Box1Text = ""
+                    elseif Set == "TeamName" then
+                        Box1Text = Team.Name
+                    elseif Set == ""
+                    elseif string.sub(Set, 1, 8) == "SetText:" then
+                        Box1Text = string.sub(Set, 9)
+                    end
+                end
+            end
+        end
+    end
+
+    local Box3Text = ""
+    if Settings["Box3:Text"] then
+        if Settings["Box3:Text"] == "TeamName" then
+            Box1Text = Team.Name
+        elseif string.sub(Settings["Box3:Text"], 1, 12) == "RblxGroupID:" then
+            local ID = tonumber(string.sub(Settings["Box3:Text"], 13))
+            if type(ID) == "number" then
+                local ProperlyRan, Return = pcall(function()
+                    return Player:GetRoleInGroup(ID)
+                end)
+                if ProperlyRan then
+                    Box1Text = Return
+                else
+                    warn("PermSystem SimpleTitles Addon GetRoleInGroup Error: ".. Return)
+                end
+            end
+        elseif string.sub(Settings["Box3:Text"], 1, 11) == "RankLadder:" and type(Data) == "table" then
+            local Ladder = string.sub(Settings["Box3:Text"], 12)
+            if Ladder == "" then Ladder = "Default" end
+            local AddonInfo = LocateGroupAddonInfo(Player, Data, Ladder)
+
+            if type(AddonInfo) == "table" then
+                if type(AddonInfo["Box3:Text"]) then
+                    local Set = AddonInfo["Box3:Text"]
+                    if Set == "Disabled" then
+                        Box1Text = ""
+                    elseif Set == "TeamName" then
+                        Box1Text = Team.Name
+                    elseif Set == ""
+                    elseif string.sub(Set, 1, 8) == "SetText:" then
+                        Box1Text = string.sub(Set, 9)
+                    end
+                end
+            end
+        end
+
+        local Box4Text = ""
+        if Settings["Box4:Text"] then
+            if Settings["Box4:Text"] == "TeamName" then
+                Box1Text = Team.Name
+            elseif string.sub(Settings["Box4:Text"], 1, 12) == "RblxGroupID:" then
+                local ID = tonumber(string.sub(Settings["Box4:Text"], 13))
+                if type(ID) == "number" then
+                    local ProperlyRan, Return = pcall(function()
+                        return Player:GetRoleInGroup(ID)
+                    end)
+                    if ProperlyRan then
+                        Box1Text = Return
+                    else
+                        warn("PermSystem SimpleTitles Addon GetRoleInGroup Error: ".. Return)
+                    end
+                end
+            elseif string.sub(Settings["Box2:Text"], 1, 11) == "RankLadder:" and type(Data) == "table" then
+                local Ladder = string.sub(Settings["Box4:Text"], 12)
+                if Ladder == "" then Ladder = "Default" end
+                local AddonInfo = LocateGroupAddonInfo(Player, Data, Ladder)
+
+                if type(AddonInfo) == "table" then
+                    if type(AddonInfo["Box4:Text"]) then
+                        local Set = AddonInfo["Box4:Text"]
+                        if Set == "Disabled" then
+                            Box1Text = ""
+                        elseif Set == "TeamName" then
+                            Box1Text = Team.Name
+                        elseif Set == ""
+                        elseif string.sub(Set, 1, 8) == "SetText:" then
+                            Box1Text = string.sub(Set, 9)
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    if Box1Text == "" then
+        Box1Text = Box2Text
+        Box2Text = Box3Text
+        Box3Text = Box4Text
+        Box4Text = ""
+    end
+    if Box2Text == "" then
+        Box2Text = Box3Text
+        Box3Text = Box4Text
+        Box4Text = ""
+    end
+    if Box3Text = "" then
+        Box3Text = Box4Text
+        Box4Text = ""
+    end
+
+    local DidItWork, Result = pcall(function()
+        return CreateGui(Box1Text, Box2Text, Box3Text, Box4Text, Color)
+    end)
+    if DidItWork then
+        Result.Parent = Character:FindFirstChild("Head")
+		local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+		if Humanoid then
+			Humanoid.NameDisplayDistance = 0
+		end
+    end
 end
 
 return function(Config)
