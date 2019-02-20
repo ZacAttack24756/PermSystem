@@ -7,7 +7,7 @@
     Addons              [Tab]       :   Addons that come with this script (See "Addon Settings")
     Options             [Tab]       :   Different Options for the script
     {
-        "Enabled"       [Bool]      :   If the script it'self is enabled or not
+        "Enabled"       [Bool]      :   If the script it'self iis enabled or not
         ~~ Optional ~~
         "Prefix"        [String]    :   The 1 character that will be the prefix for most chat commands, Is Case Sensitive
         "CheckRate"     [Number]    :   The amount of seconds between the script refreshing all players' permissions/groups/etc. (Default: 30, Minimum: 1, Maximum 600)
@@ -78,25 +78,23 @@
         "Global:Font"       [Str]   :   The Global Font to be used in the script, (Found in Enum.Font) [Defaults to "SourceSans"]
         "Global:Color"      [Str]   :   Where to get the color for all the boxes ("TeamColor", "RankLadder:<RankLadder/Empty for Default>") [Defaults to being the TeamColor, if not then its set to ]
 
-        -- Box1: Username Text Box
-        "Box1:Enabled"      [Bool]  :   Enable the Username Text Box?
-        "Box1:Text"         [Str]   :   The Rank Ladder or Username to get Box1's Text (Example: "Username", "RankLadder:<RankLadder/Empty for Default>")
-
-        -- Box2, Box3, Box4: Smaller Incrementing Box Sizes
+        -- Box1, Box2, Box3, Box4: Smaller Incrementing Box Sizes
         -- The Rank Ladder or Team or GroupRankName to base this text on
-        -- (Example: "TeamName", "RankLadder:<RankLadder/Empty for Default>", "RblxGroupID:<GroupID>")
+        -- (Example: "Disabled", "Username", "SetText:", "TeamName", "RblxGroupID:<GroupID>", "RankLadder:<RankLadder/Empty for Default>")
         -- [Note: For Groups, it takes what ever the player's rank's Name is (Also known as Role)]
-        "Box2:Text"         [Str]   :   See Above
-        "Box4:Text"         [Str]   :   See Above
-        "Box3:Text"         [Str]   :   See Above
+        -- NOTE: You can also have it as a table, but the index has to be a Team, so that that setting would apply only if the player is in THAT team.
+        "Box1:Text"      [Str/Tab]   :   See Above
+        "Box2:Text"      [Str/Tab]   :   See Above
+        "Box4:Text"      [Str/Tab]   :   See Above
+        "Box3:Text"      [Str/Tab]   :   See Above
     },
     --- SimpleTitles Group Addon Setting Format ---
     {
         "Global:Color"   [Col3/Str] :   A Color3, OR a BrickColor name to set the color as
         "Box1:Text"         [Str]   :   Examples: "Disabled", "Username", "SetText:<Text>" (Box1 Cannot be based off TeamNames)
-        "Box2:Text"         [Str]   :   Examples: "Disabled", "TeamName", "SetText:<Text>"
-        "Box3:Text"         [Str]   :   Examples: "Disabled", "TeamName", "SetText:<Text>"
-        "Box3:Text"         [Str]   :   Examples: "Disabled", "TeamName", "SetText:<Text>"
+        "Box2:Text"         [Str]   :   Examples: "Disabled", "TeamName", "SetText:<Text>", "RblxGroupID:<GroupID>"
+        "Box3:Text"         [Str]   :   Examples: "Disabled", "TeamName", "SetText:<Text>", "RblxGroupID:<GroupID>"
+        "Box3:Text"         [Str]   :   Examples: "Disabled", "TeamName", "SetText:<Text>", "RblxGroupID:<GroupID>"
     }
     -- ToolGiver: A simple addon to configure tools to be given to groups
     -- Tools are configured on a Per-Team Basis
