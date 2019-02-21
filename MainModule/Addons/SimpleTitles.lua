@@ -265,20 +265,22 @@ function Run(Player, Character)
         end
     end
 
-    if Box1Text == "" then
-        Box1Text = Box3Text
-        Box2Text = Box3Text
-        Box3Text = Box4Text
-        Box4Text = ""
-    end
-    if Box2Text == "" then
-        Box2Text = Box3Text
-        Box3Text = Box4Text
-        Box4Text = ""
-    end
-    if Box3Text = "" then
-        Box3Text = Box4Text
-        Box4Text = ""
+    if Settings["FillEmptyBoxes"] == true
+        if Box1Text == "" then
+            Box1Text = Box3Text
+            Box2Text = Box3Text
+            Box3Text = Box4Text
+            Box4Text = ""
+        end
+        if Box2Text == "" then
+            Box2Text = Box3Text
+            Box3Text = Box4Text
+            Box4Text = ""
+        end
+        if Box3Text = "" then
+            Box3Text = Box4Text
+            Box4Text = ""
+        end
     end
 
     local DidItWork, Result = pcall(function()
@@ -290,6 +292,8 @@ function Run(Player, Character)
 		if Humanoid then
 			Humanoid.NameDisplayDistance = 0
 		end
+    else
+        warn("PermSystem SimpleTitles GUI Error: ".. Result)
     end
 end
 

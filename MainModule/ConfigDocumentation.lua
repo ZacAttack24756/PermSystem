@@ -21,7 +21,7 @@
     --> NOTE: If any part of the group is incorrectly made, the group would be voided.
 	[""] = {
 		"Rank"			[Num]		:	The Ranking Number of the group (Higher number means Higher Priority) (This number can't be lower than zero, or above 2^30)
-        ~~ Optional ~~
+        ~~ Optional Settings ~~
 		"Perms"			[Array/Str]	:	Core Permissions the group has (See "Permission Format" Below)
 		"Default"		[Bool]		:	Specifies if the player gets this rank for Free
         "RankLadder"	[Str]		:	The Name for the Rank Ladder for the group (None equals "Default"). A player can only be in 1 Group per Ladder
@@ -70,7 +70,7 @@
     -- If the Box is assigned to a RankLadder, and the user is not in any group in that RankLadder, the box will be empty
     ["SimpleTitles"] = {
         "Enabled"           [Bool]  :   Wether or not the addon is enabled
-        ~~ Optional ~~
+        ~~ Optional Settings ~~
         "GuiViewDistance"   [Num]   :   The Maximum Distance that this GUI can be view from
         "FillEmptyBoxes"    [Bool]  :   Should the script fill in boxes that are empty with the smaller ones, while keeping the size (True by default)
 
@@ -98,5 +98,21 @@
     }
     -- ToolGiver: A simple addon to configure tools to be given to groups
     -- Tools are configured on a Per-Team Basis
+    {
+        "Enabled            [Bool]  :   Wether or not the addon is enabled
+        ~~ Optional Settings ~~
+        "ToolStorage" [Obj/Arr:Obj] :   A location to get the tools from in Roblox, OR an array of Objects to get the tools from (Example "  = {game.ServerStorage.Tools, game.Workspace.Tools}")
+
+        "GroupBlackList"  [Tab:Str] :   Groups that are blacklisted from reciving any tools
+        "TeamBlackList"   [Tab:Obj] :   Teams that are blacklisted from reciving any tools
+
+        "AllowMultipleTools" [Bool] :   Wether or not a player can get more than one of each tool (Disabled by default)
+        "MultiToolTable"  [Arr:Str] :   An array of tool names that is allowed to give multiple of (All of them allowed if this table doesn't exist)
+
+        "AllowTeamGive"     [Bool]  :   Wether or not TeamGiving is allowed (Tools inside the Teams)
+        "TeamToolGive"    [Tab:Str] :   A Table with an index of teams, and a value of arrays which contains Tools (Example: "  [game.Teams.BlaBla] = {"Tool1", "Tool2", "Tool3"}  ")
+
+        "GlobalToolGive"  [Arr:Str] :   An array of tools given to anyone
+    }
     }
 --]]
