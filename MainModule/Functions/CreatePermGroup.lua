@@ -103,14 +103,6 @@ return function(Data, Name, Groups)
 
 	if type(Data.Rank) ~= "number" then return "Data.Rank is not a number!" end
 	if (Data.Rank < 0) or (Data.Rank == math.huge) then return "Data.Rank is smaller than 0, or as large as math.huge!" end
-	for i, v in pairs(Groups) do
-		if i == Name then
-			return "Group Name Already taken!"
-		end
-		if v.Rank == Data.Rank then
-			return "Group Rank Already taken!"
-		end
-	end
 
 	----    Required Error Checking Done    ----
 
@@ -146,6 +138,14 @@ return function(Data, Name, Groups)
 	Content.RankLadder = "Default"
 	if type(Data.RankLadder) == "string" then
 		Content.RankLadder = Data.RankLadder
+	end
+	for i, v in pairs(Groups) do
+		if i == Name then
+			return "Group Name Already taken!"
+		end
+		if v.Rank == Data.Rank and v.RankLadder == Data.RankLadder then
+			return "Group Rank Already taken! Taken by: '".. i .."' with a rank of '".. v.Rank .."'."
+		end
 	end
 
 	Content.Inheritance = {}

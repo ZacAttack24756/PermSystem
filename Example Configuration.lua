@@ -17,6 +17,11 @@ local Settings = {
                 Cond = "==",
                 Rank = 1,
             },
+            Addons = {
+                ["SimpleTitles"] = {
+                    ["Box3:Text"] = "SetText:Class D"
+                }
+            },
         },
         ["ClassE"] = {
             Rank = 2,
@@ -26,6 +31,11 @@ local Settings = {
                 ID = 3519516,
                 Cond = "==",
                 Rank = 2,
+            },
+            Addons = {
+                ["SimpleTitles"] = {
+                    ["Box3:Text"] = "SetText:Class E"
+                }
             },
         },
         --------------------
@@ -38,6 +48,11 @@ local Settings = {
                 Cond = "==",
                 Rank = 4,
             },
+            Addons = {
+                ["SimpleTitles"] = {
+                    ["Box3:Text"] = "SetText:Class A"
+                }
+            },
         },
         ["Level0"] = {
             Rank = 5,
@@ -47,6 +62,11 @@ local Settings = {
                 ID = 3519516,
                 Cond = "==",
                 Rank = 5,
+            },
+            Addons = {
+                ["SimpleTitles"] = {
+                    ["Box3:Text"] = "SetText:Level 0"
+                }
             },
         },
         ["Level1"] = {
@@ -58,6 +78,11 @@ local Settings = {
                 Cond = "==",
                 Rank = 6,
             },
+            Addons = {
+                ["SimpleTitles"] = {
+                    ["Box3:Text"] = "SetText:Level 1"
+                }
+            },
         },
         ["Level2"] = {
             Rank = 7,
@@ -68,6 +93,11 @@ local Settings = {
                 Cond = "==",
                 Rank = 7,
             },
+            Addons = {
+                ["SimpleTitles"] = {
+                    ["Box3:Text"] = "SetText:Level 2"
+                }
+            },
         },
         ["Level3"] = {
             Rank = 8,
@@ -77,6 +107,11 @@ local Settings = {
                 ID = 3519516,
                 Cond = "==",
                 Rank = 8,
+            },
+            Addons = {
+                ["SimpleTitles"] = {
+                    ["Box3:Text"] = "SetText:Level 3"
+                }
             },
         },
         --------------------
@@ -89,6 +124,11 @@ local Settings = {
                 Cond = "==",
                 Rank = 10,
             },
+            Addons = {
+                ["SimpleTitles"] = {
+                    ["Box3:Text"] = "SetText:Level 4"
+                }
+            },
         },
         ["SiteDirector"] = {
             Rank = 11,
@@ -98,6 +138,11 @@ local Settings = {
                 ID = 3519516,
                 Cond = "==",
                 Rank = 11,
+            },
+            Addons = {
+                ["SimpleTitles"] = {
+                    ["Box3:Text"] = "SetText:Site Director"
+                }
             },
         },
         --------------------
@@ -110,6 +155,11 @@ local Settings = {
                 Cond = "==",
                 Rank = 13,
             },
+            Addons = {
+                ["SimpleTitles"] = {
+                    ["Box3:Text"] = "SetText:[REDACTED]"
+                }
+            },
         },
         ["O5X"] = {
             Rank = 14,
@@ -119,6 +169,11 @@ local Settings = {
                 ID = 3519516,
                 Cond = "==",
                 Rank = 14,
+            },
+            Addons = {
+                ["SimpleTitles"] = {
+                    ["Box3:Text"] = "SetText:[REDACTED]"
+                }
             },
         },
         ["Admini"] = {
@@ -131,6 +186,11 @@ local Settings = {
                 ID = 3519516,
                 Cond = "==",
                 Rank = 255,
+            },
+            Addons = {
+                ["SimpleTitles"] = {
+                    ["Box3:Text"] = "SetText:The Administrator"
+                }
             },
         },
         -------------------
@@ -242,25 +302,31 @@ local Settings = {
     Addons = {
         ["SimpleTitles"] = {
             ["Enabled"] = true,
+            ["Global:Font"] = "Highway",
             ["Global:Color"] = "TeamColor",
-            ["Box1:Text"] = "RankLadder:Default",
-            ["Box2:Text"] = {
-                [Teams["AD"]]  = "RblxGroup:3534520",-- AD
-                [Teams["DEA"]] = "RblxGroup:3736895",-- DEA
-                [Teams["OOA"]] = "RblxGroup:3703115",-- OOA
-                [Teams["MaD"]] = "RblxGroup:3660200",-- MaD
-                [Teams["MD"]]  = "RblxGroup:3610184",-- MD
-                [Teams["IA"]]  = "RblxGroup:3602927",-- IA
-                [Teams["SD"]]  = "RblxGroup:3545062",-- SD
-                [Teams["ScD"]] = "RblxGroup:3540272",-- ScD
-                [Teams["EC"]]  = "RblxGroup:3540241",-- EC
-                [Teams["MTF"]] = "RblxGroup:3534520",-- MTF
+            ["Box1:Text"] = {
+                ["IA"] = "SetText:[REDACTED]",
+                ["Default"] = "Username",
             },
+            ["Box2:Text"] = {
+                ["AD"]  = "SetText:Sample Text",-- AD
+                ["DEA"] = "RblxGroupID:3736895",-- DEA
+                ["OOA"] = "RblxGroupID:3703115",-- OOA
+                ["MaD"] = "RblxGroupID:3660200",-- MaD
+                ["MD"]  = "RblxGroupID:3610184",-- MD
+                ["IA"]  = "RblxGroupID:3602927",-- IA
+                ["SD"]  = "RblxGroupID:3545062",-- SD
+                ["ScD"] = "RblxGroupID:3540272",-- ScD
+                ["EC"]  = "RblxGroupID:3540241",-- EC
+                ["MTF"] = "RblxGroupID:3534520",-- MTF
+            },
+            ["Box3:Text"] = "RankLadder:Default",
         }
-    }
+    },
     Options = {
         Enabled = true,
         CreatorPrivileges = true,
+        CheckRate = 300,
     },
 }
 

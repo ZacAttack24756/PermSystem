@@ -16,11 +16,10 @@ print("PermSystem has loaded")
 -- Script Vars
 local Services = script.Services
 local Functions = script.Functions
-local Addons = script.Addons
+local AddonFolder = script.Addons
 local CreatePermGroup = require(Functions.CreatePermGroup)
 local RefreshUser = require(Functions.RefreshUser)
 local CheckUserPerm = require(Functions.CheckUserPerm)
-local CheckDescendantsForPerm = require(Functions.CheckDescendantsForPerm)
 
 -- Services
 local Players = game:GetService("Players")
@@ -70,27 +69,28 @@ function GetEventI(...)
 
         if type(Args[2]) ~= "string" or Args[2] == "" then return "Given Group Argument is not a string" end
 
-        local Found = Groups[GroupName]
-        if Found then
-            return Found
-        else
-            return "Group not Found"
+        for _, GroupObj in pairs(Groups) do
+            if GroupObj.Name == GroupName then
+                return GroupObj
+            end
         end
+        return "Group not Found"
     elseif Args[1] == "GetPlrData" then
         local PlayerObj = Args[2]
 
         if type(PlayerObj) ~= "userdata" or PlayerObj:IsA("Player") == false then return "Invalid Player Object" end
 
-        return PlayerData[PlayerObj]
+        print(PlayerTable[PlayerObj])
+        return PlayerTable[PlayerObj]
     elseif Args[1] == "GetRankLadderGroups" then
         local Ladder = Args[2]
 
         if type(Ladder) ~= "string" or Ladder == "" then return "Given RankLadder Argument is not a string" end
 
         local Found = {}
-        for GroupName, GroupInfo in pairs(Groups) do
-            if rawget(GroupInfo.RankLadder) == Ladder then
-                table.insert(Found, GroupName)
+        for _, GroupInfo in pairs(Groups) do
+            if rawget(GroupInfo, "RankLadder") == Ladder then
+                table.insert(Found, rawget(GroupInfo, Name))
             end
         end
 
@@ -151,20 +151,22 @@ return function(Settings)
         if type(Return) == "string" then
             print("PermSystem Group Error: ".. Return)
         elseif type(Return) == "table" then
-            table.insert(Groups, Return)
+            Groups[Return.Name] = Return
         end
     end
 
     -- Creates the event
-    spawn(MakeFunc, 5)
+    MakeFunc()
 
     -- Load In Addons
-    if type(Settings.Addons) == "string" then
+    if type(Settings.Addons) == "table" then
         for i, v in pairs(Settings.Addons) do
-            if type(i) == "string" and Addons:FindFirstChild(i) ~= nil then
-                Return = require(Addons:FindFirstChild(i))(v)
+            if type(i) == "string" and AddonFolder:FindFirstChild(i) ~= nil then
+                local Return = require(AddonFolder:FindFirstChild(i))(v)
                 if type(Return) == "string" then
-                    print("PermSystem Addon Error: ".. Return)
+                    print(i.. " Addon Error: ".. Return)
+                elseif type(Return) == "boolean" and Return == true then
+                    print(i.. " Addon loaded and executed successfully")
                 end
             end
         end

@@ -82,7 +82,7 @@
         -- The Rank Ladder or Team or GroupRankName to base this text on
         -- (Example: "Disabled", "Username", "SetText:", "TeamName", "RblxGroupID:<GroupID>", "RankLadder:<RankLadder/Empty for Default>")
         -- [Note: For Groups, it takes what ever the player's rank's Name is (Also known as Role)]
-        -- NOTE: You can also have it as a table, but the index has to be a Team, so that that setting would apply only if the player is in THAT team.
+        -- NOTE: You can also have it as a table, but the index has to be a name of a team in the Teams Service, so that that setting would apply only if the player is in THAT team.
         "Box1:Text"      [Str/Tab]   :   See Above
         "Box2:Text"      [Str/Tab]   :   See Above
         "Box4:Text"      [Str/Tab]   :   See Above

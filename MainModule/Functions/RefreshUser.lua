@@ -91,5 +91,7 @@ return function(Groups, PlayerObj)
 
     -- Finally, Publish it
     local Encode = Http:JSONEncode(PlayerData)
-    return PlayerStore:SetData(tostring(PlayerId), Encode)
+    PlayerStore:SetData(tostring(PlayerId), Encode)
+
+    return PlayerData
 end
