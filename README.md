@@ -7,6 +7,10 @@ Place a Script, Along with your Settings, into ServerScriptService, and add the 
 ```
 require(2600240923)(Settings)
 ```
+Or, you can opt to use the Developer branch, but it is **Highly not recommended** for use in normal games, as it typically has bugs that haven't been fixed for new updates.
+```
+require(2892139643)(Settings) --Don't use in regular games!
+```
 
 #### How to access:
 This script uses BindableFunctions for security, and global use/ease of access. Currently, only checking if a player has a permission is supported;
