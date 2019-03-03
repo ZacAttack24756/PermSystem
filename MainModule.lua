@@ -31,7 +31,7 @@ local AddonTab = {}
 local PlayerTable = {}
 local BFunc = nil
 local ApiKey = nil
-local ApiKeyRand = Random.New()
+local ApiKeyRand = Random.new()
 _G.PermSystem = {}
 
 ---- Main Functions ----
@@ -66,7 +66,7 @@ function GetEventI(...)
     local Args = {...}
     if type(Args[2]) ~= "string" or Args[1] == "" then return "Inappropriate Descriptor (Argument #1)" end
 
-    if Args[2] == "GetGroupInfo" then
+    if Args[2] == "GetGroupData" then
         local GroupName = Args[3]
 
         if type(GroupName) ~= "string" or GroupName == "" then return "Given Group Argument is not a string" end
@@ -91,8 +91,8 @@ function GetEventI(...)
 
         local Found = {}
         for _, GroupInfo in pairs(Groups) do
-            if rawget(GroupInfo, "RankLadder") == Ladder then
-                table.insert(Found, rawget(GroupInfo, Name))
+            if GroupInfo.RankLadder == Ladder then
+                table.insert(Found, GroupInfo.Name)
             end
         end
 
@@ -164,12 +164,32 @@ return function(Settings)
         end
     end
 
+    -- Halt for a sec
+    wait()
+
     -- Creates the event & Adds a function to refresh the ApiKey
     MakeFunc()
     spawn(function()
         while true do
             wait(30)
             ApiKey.Value = ApiKeyRand:NextNumber()
+        end
+    end)
+    
+    for _, v in pairs(Players:GetPlayers()) do
+        PlayerTable[v] = RefreshUser(Groups, v)
+    end
+
+    -- Refreshes all Users every 30 seconds
+    local Loop = true
+    spawn(function()
+        while Loop do
+            print("Refreshing All Users")
+
+            for _, v in pairs(Players:GetPlayers()) do
+                PlayerTable[v] = RefreshUser(Groups, v)
+            end
+            wait(CheckRate)
         end
     end)
 
@@ -188,17 +208,4 @@ return function(Settings)
             end
         end
     end
-
-    -- Refreshes all Users every 30 seconds
-    local Loop = true
-    spawn(function()
-        while Loop do
-            wait(CheckRate)
-            print("Refreshing All Users")
-
-            for _, v in pairs(Players:GetPlayers()) do
-                PlayerTable[v] = RefreshUser(Groups, v)
-            end
-        end
-    end)
 end

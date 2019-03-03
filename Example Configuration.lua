@@ -12,11 +12,11 @@ local Settings = {
             Rank = 1,
             Perms = {},
             Inheritance = "Default",
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3519516,
                 Cond = "==",
                 Rank = 1,
-            },
+            }},
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:Class D"
@@ -27,11 +27,11 @@ local Settings = {
             Rank = 2,
             Perms = {},
             Inheritance = "ClassD",
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3519516,
                 Cond = "==",
                 Rank = 2,
-            },
+            }},
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:Class E"
@@ -43,11 +43,11 @@ local Settings = {
             Rank = 4,
             Perms = {},
             Inheritance = "Level1", -- ClassA deserve, at-most, Level 1
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3519516,
                 Cond = "==",
                 Rank = 4,
-            },
+            }},
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:Class A"
@@ -58,11 +58,11 @@ local Settings = {
             Rank = 5,
             Perms = {},
             Inheritance = "ClassD",
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3519516,
                 Cond = "==",
                 Rank = 5,
-            },
+            }},
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:Level 0"
@@ -73,11 +73,11 @@ local Settings = {
             Rank = 6,
             Perms = {},
             Inheritance = "Level0",
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3519516,
                 Cond = "==",
                 Rank = 6,
-            },
+            }},
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:Level 1"
@@ -88,11 +88,11 @@ local Settings = {
             Rank = 7,
             Perms = {},
             Inheritance = "Level1",
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3519516,
                 Cond = "==",
                 Rank = 7,
-            },
+            }},
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:Level 2"
@@ -103,11 +103,11 @@ local Settings = {
             Rank = 8,
             Perms = {},
             Inheritance = "Level2",
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3519516,
                 Cond = "==",
                 Rank = 8,
-            },
+            }},
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:Level 3"
@@ -119,11 +119,11 @@ local Settings = {
             Rank = 10,
             Perms = {},
             Inheritance = "Level3",
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3519516,
                 Cond = "==",
                 Rank = 10,
-            },
+            }},
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:Level 4"
@@ -134,11 +134,11 @@ local Settings = {
             Rank = 11,
             Perms = {},
             Inheritance = "Level4",
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3519516,
                 Cond = "==",
                 Rank = 11,
-            },
+            }},
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:Site Director"
@@ -150,11 +150,11 @@ local Settings = {
             Rank = 13,
             Perms = {},
             Inheritance = "SiteDirector",
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3519516,
                 Cond = "==",
                 Rank = 13,
-            },
+            }},
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:[REDACTED]"
@@ -165,11 +165,11 @@ local Settings = {
             Rank = 14,
             Perms = {},
             Inheritance = "O5Council",
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3519516,
                 Cond = "==",
                 Rank = 14,
-            },
+            }},
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:[REDACTED]"
@@ -182,11 +182,11 @@ local Settings = {
             Options = {
                 Override = "Administrator"
             },
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3519516,
                 Cond = "==",
                 Rank = 255,
-            },
+            }},
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:The Administrator"
@@ -199,104 +199,104 @@ local Settings = {
         ["AD_Member"] = {
             Rank = 0,
             RankLadder = "AD",
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3534520,
                 Cond = ">=",
                 Rank = 1,
-            },
+            }},
         },
         ["DEA_Member"] = {
             Rank = 0,
             RankLadder = "DEA",
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3736895,
                 Cond = ">=",
                 Rank = 1,
-            },
+            }},
         },
         ["ISD_Member"] = {
             Rank = 0,
             RankLadder = "ISD",
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3736895,
                 Cond = ">=",
                 Rank = 1,
-            },
+            }},
         },
         ["OOA_Member"] = {
             Rank = 0,
             RankLadder = "OOA",
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3703115,
                 Cond = ">=",
                 Rank = 1,
-            },
+            }},
         },
         ["MaD_Member"] = {
             -- the mad boys
             Rank = 0,
             RankLadder = "MaD",
             Inheritance = "AD_Member",
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3660200,
                 Cond = ">=",
                 Rank = 1,
-            },
+            }},
         },
         ["MD_Member"] = {
             Rank = 0,
             RankLadder = "MD",
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3610184,
                 Cond = ">=",
                 Rank = 1,
-            },
+            }},
         },
         ["IA_Member"] = {
             Rank = 0,
             RankLadder = "IA",
             Inheritance = "AD_Member",
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3602927,
                 Cond = ">=",
                 Rank = 1,
-            },
+            }},
         },
         ["SD_Member"] = {
             Rank = 0,
             RankLadder = "SD",
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3545062,
                 Cond = ">=",
                 Rank = 1,
-            },
+            }},
         },
         ["ScD_Member"] = {
             Rank = 0,
             RankLadder = "ScD",
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3540272,
                 Cond = ">=",
                 Rank = 1,
-            },
+            }},
         },
         ["EC_Member"] = {
             Rank = 0,
             RankLadder = "EC",
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3540241,
                 Cond = ">=",
                 Rank = 1,
-            },
+            }},
         },
         ["MTF_Member"] = {
             Rank = 0,
             RankLadder = "MTF",
-            RobloxGroup = {
+            RobloxGroup = {{
                 ID = 3534520,
                 Cond = ">=",
                 Rank = 1,
-            },
+            }},
         },
     },
     Addons = {
@@ -319,6 +319,7 @@ local Settings = {
                 ["ScD"] = "RblxGroupID:3540272",-- ScD
                 ["EC"]  = "RblxGroupID:3540241",-- EC
                 ["MTF"] = "RblxGroupID:3534520",-- MTF
+                ["FP"]  = "Disabled" -- Do nothing
             },
             ["Box3:Text"] = "RankLadder:Default",
         }
@@ -330,7 +331,7 @@ local Settings = {
     },
 }
 
-local Return = require(2600240923)(Settings)
+local Return = require(2892139643)(Settings)
 if type(Return) == "string" then
 	error(Return)
 end

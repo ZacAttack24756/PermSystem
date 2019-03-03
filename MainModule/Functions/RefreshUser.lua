@@ -40,8 +40,7 @@ return function(Groups, PlayerObj)
     end
 
     -- Adds/Removes Groups Based on Conditions
-    for _, v in pairs(PlayerData.Groups) do
-        local G = Groups[v]
+    for _, G in pairs(Groups) do
         if type(G) == "table" then
             local Result = G:PlayerBelongsInGroup(PlayerObj)
             if Result == false then

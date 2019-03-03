@@ -181,7 +181,7 @@ return function(Data, Name, Groups)
 			if type(v) == "table" then
 				if type(v.ID) == "number" then
 					if type(v.Cond) == "string" and (v.Cond == ">=" or v.Cond == "<=" or v.Cond == "==" or v.Cond == "~=") then
-						if type(v.Rank) == "number" and v.Rank >= 0 and v.Rank <= 0 then
+						if type(v.Rank) == "number" and (v.Rank >= 0 and v.Rank < 10^30) then
 							-- Make the Obj
 							local Tab = {}
 							Tab.ID = v.ID
@@ -190,8 +190,15 @@ return function(Data, Name, Groups)
 
 							table.insert(Content.RblxGroup, Tab)
 							Content.Options.SaveUsers = false
+							print("Successful Group Make Name: '".. Content.Name .."', ID: '".. v.ID .."', Cond: '".. v.Cond .."', Rank: '".. v.Rank .."'")
+						else
+							print("Can't Make RblxGroup '".. Content.Name .."', Rank: '".. type(v.Rank))
 						end
+					else
+						print("Can't Make RblxGroup '".. Content.Name .."', Cond: '".. type(v.Cond))
 					end
+				else
+					print("Can't Make RblxGroup '".. Content.Name .."', ID: '".. type(v.ID))
 				end
 			end
 		end
