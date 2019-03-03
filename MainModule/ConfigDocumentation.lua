@@ -106,11 +106,11 @@
         "GroupBlackList"  [Tab:Str] :   Groups that are blacklisted from reciving any tools
         "TeamBlackList"   [Tab:Obj] :   Teams that are blacklisted from reciving any tools
 
-        "AllowMultipleTools" [Bool] :   Wether or not a player can get more than one of each tool (Disabled by default)
-        "MultiToolTable"  [Arr:Str] :   An array of tool names that is allowed to give multiple of (All of them allowed if this table doesn't exist)
+        "AllowDupeTools" [B/Arr:St] :   Wether or not a player can get more than one of each tool (Disabled by default)
+        -- Note: If its a boolean, its applied globally. If it is an Array, the specific tool names in the array are allowed
 
-        "AllowTeamGive"     [Bool]  :   Wether or not TeamGiving is allowed (Tools inside the Teams)
-        "TeamToolGive"    [Tab:Str] :   A Table with an index of teams, and a value of arrays which contains Tools (Example: "  [game.Teams.BlaBla] = {"Tool1", "Tool2", "Tool3"}  ")
+        "AllowTeamGive"  [B/Tab:St] :   Wether or not TeamGiving is allowed (Tools inside the Teams)
+        -- Note: If this is Table then: Table with an index of TeamNames, and a value of arrays which contains Tools (Example: "  ["BlaBla"] = {"Tool1", "Tool2", "Tool3"}  ")
 
         "GlobalToolGive"  [Arr:Str] :   An array of tools given to anyone
     }

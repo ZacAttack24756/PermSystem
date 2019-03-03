@@ -30,7 +30,9 @@ local Groups = {}
 local AddonTab = {}
 local PlayerTable = {}
 local BFunc = nil
-local IFunc = nil
+local ApiKey = nil
+local ApiKeyRand = Random.New()
+_G.PermSystem = {}
 
 ---- Main Functions ----
 local function kill()
@@ -62,12 +64,12 @@ function GetEvent(...)
 end
 function GetEventI(...)
     local Args = {...}
-    if type(Args[1]) ~= "string" or Args[1] == "" then return "Inappropriate Descriptor (Argument #1)" end
+    if type(Args[2]) ~= "string" or Args[1] == "" then return "Inappropriate Descriptor (Argument #1)" end
 
-    if Args[1] == "GetGroupInfo" then
-        local GroupName = Args[2]
+    if Args[2] == "GetGroupInfo" then
+        local GroupName = Args[3]
 
-        if type(Args[2]) ~= "string" or Args[2] == "" then return "Given Group Argument is not a string" end
+        if type(GroupName) ~= "string" or GroupName == "" then return "Given Group Argument is not a string" end
 
         for _, GroupObj in pairs(Groups) do
             if GroupObj.Name == GroupName then
@@ -75,15 +77,15 @@ function GetEventI(...)
             end
         end
         return "Group not Found"
-    elseif Args[1] == "GetPlrData" then
-        local PlayerObj = Args[2]
+    elseif Args[2] == "GetPlrData" then
+        local PlayerObj = Args[3]
 
         if type(PlayerObj) ~= "userdata" or PlayerObj:IsA("Player") == false then return "Invalid Player Object" end
 
         print(PlayerTable[PlayerObj])
         return PlayerTable[PlayerObj]
-    elseif Args[1] == "GetRankLadderGroups" then
-        local Ladder = Args[2]
+    elseif Args[2] == "GetRankLadderGroups" then
+        local Ladder = Args[3]
 
         if type(Ladder) ~= "string" or Ladder == "" then return "Given RankLadder Argument is not a string" end
 
@@ -108,13 +110,20 @@ function MakeFunc()
     end
     BFunc.Parent = ReplicatedStorage
 
-    IFunc = Instance.new("BindableFunction")
-    IFunc.Name = "API_Call"
-    IFunc.OnInvoke = GetEventI
-    if script:FindFirstChild("API_Call") then
-        script.API_Call:Destroy()
+    -- We gotta secure it from anyone trying to get it
+    ApiKey = Instance.new("NumberValue")
+    ApiKey.Name = "API_KEY"
+    ApiKey.Value = ApiKeyRand:NextNumber()
+    ApiKey.Parent = script
+
+    _G.PermSystem.Api = function(...)
+        local Args = {...}
+
+        if type(Args[1]) ~= "number" then return "API Key Missing" end
+        if Args[1] ~= ApiKey.Value then return nil end
+
+        return GetEventI(...)
     end
-    IFunc.Parent = script
 end
 
 Players.PlayerAdded:Connect(function(plr)
@@ -155,8 +164,14 @@ return function(Settings)
         end
     end
 
-    -- Creates the event
+    -- Creates the event & Adds a function to refresh the ApiKey
     MakeFunc()
+    spawn(function()
+        while true do
+            wait(30)
+            ApiKey.Value = ApiKeyRand:NextNumber()
+        end
+    end)
 
     -- Load In Addons
     if type(Settings.Addons) == "table" then
@@ -165,6 +180,8 @@ return function(Settings)
                 local Return = require(AddonFolder:FindFirstChild(i))(v)
                 if type(Return) == "string" then
                     print(i.. " Addon Error: ".. Return)
+                elseif type(Return) == "boolean" and Return == false then
+                    print(i.. " Addon Error: Error Unknown")
                 elseif type(Return) == "boolean" and Return == true then
                     print(i.. " Addon loaded and executed successfully")
                 end
@@ -174,12 +191,14 @@ return function(Settings)
 
     -- Refreshes all Users every 30 seconds
     local Loop = true
-    while Loop do
-        wait(CheckRate)
-        print("Refreshing All Users")
+    spawn(function()
+        while Loop do
+            wait(CheckRate)
+            print("Refreshing All Users")
 
-        for _, v in pairs(Players:GetPlayers()) do
-            PlayerTable[v] = RefreshUser(Groups, v)
+            for _, v in pairs(Players:GetPlayers()) do
+                PlayerTable[v] = RefreshUser(Groups, v)
+            end
         end
-    end
+    end)
 end
