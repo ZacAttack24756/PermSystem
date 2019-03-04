@@ -17,6 +17,24 @@ function MTable:PlayerBelongsInGroup(PlayerObj)
 		Pass = true
 	end
 
+	for _, v in pairs(self.AccessList) do
+		if string.sub(v, 1, 7) == "UserId:" then
+			local Num = tonumber(string.sub(v, 8))
+			if type(Num) == "number" then
+				if PlayerObj.UserId == Num then
+					Pass = true
+				end
+			end
+		elseif string.sub(v, 1, 9) == "Username:" then
+			local Name = string.sub(v, 10)
+			if type(Name) == "string" then
+				if PlayerObj.Name == Name then
+					Pass = true
+				end
+			end
+		end
+	end
+
 	for _, v in pairs(self.RblxGroup) do
 		local GroupRank = PlayerObj:GetRankInGroup(v.ID)
 		if     v.Cond == ">=" and GroupRank >= v.Rank then
@@ -171,6 +189,15 @@ return function(Data, Name, Groups)
 			local Override = Data.Options.Override
 			if (Override == "NoAccess" or Override == "Normal" or Override == "Administrator") then
 				Data.Options.Override = Override
+			end
+		end
+	end
+
+	Content.AccessList = {}
+	if type(Data.AccessList) == "table" then
+		for _, v in pairs(Data.AccessList) do
+			if type(v) == "string" and (string.sub(v, 1, 7) == "UserId:" or string.sub(v, 1, 9) == "Username:") then
+				table.insert(Content.AccessList, v)
 			end
 		end
 	end

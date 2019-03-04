@@ -31,6 +31,7 @@
             "SaveUsers"     [Bool]  :   Specify whether any users added to this group is saved. (Automatically set to false if "RobloxGroup" or "RobloxTeam" is enabled)
             "Override"      [Str]   :   Define a specific Permission Override (See "Permission Overrides")
         }
+        "AccessList"    [Array:Str] :   An array of people who are allowed into this (FORMAT: "UserId:<The Player's ID>", "Username:<The Player's Roblox Username")
         "RobloxGroup"   [Array:Tab]	:	Array of Tables which specify what roblox group and rank can get this group. (Refer Below)
 		{
 			~ All Required ~
