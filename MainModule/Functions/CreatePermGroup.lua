@@ -8,7 +8,7 @@
 local MTable = {}
 MTable.__index = MTable
 -- Insert Meta things here
-
+local Debug = false
 
 function MTable:PlayerBelongsInGroup(PlayerObj)
 	local Pass = false
@@ -217,7 +217,7 @@ return function(Data, Name, Groups)
 
 							table.insert(Content.RblxGroup, Tab)
 							Content.Options.SaveUsers = false
-							print("Successful Group Make Name: '".. Content.Name .."', ID: '".. v.ID .."', Cond: '".. v.Cond .."', Rank: '".. v.Rank .."'")
+							if Debug==true then print("Successful Group Make Name: '".. Content.Name .."', ID: '".. v.ID .."', Cond: '".. v.Cond .."', Rank: '".. v.Rank .."'") end
 						else
 							print("Can't Make RblxGroup '".. Content.Name .."', Rank: '".. type(v.Rank))
 						end

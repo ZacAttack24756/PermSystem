@@ -1,6 +1,7 @@
 local ApiKey = script.Parent.Parent:FindFirstChild("API_KEY")
 local TS = game:GetService("Teams")
 local Settings = {}
+local Debug = false
 
 function CreateGui(Box1Text, Box2Text, Box3Text, Box4Text, Color)
     -- Main GUI
@@ -91,29 +92,29 @@ end
 function LocateGroupAddonInfo(PlayerData, RankLadder)
     local RankLadderGroups = _G.PermSystem.Api(ApiKey.Value, "GetRankLadderGroups", RankLadder)
 
-    print("PlayerData")
-    print(PlayerData)
-    print("PlayerData.Groups")
-    for i, v in pairs(PlayerData.Groups) do print(i) print(v) end
-    print("RankLadder")
-    print(RankLadder)
+    if Debug==true then print("PlayerData")
+                        print(PlayerData)
+                        print("PlayerData.Groups")
+                        for i, v in pairs(PlayerData.Groups) do print(i) print(v) end
+                        print("RankLadder")
+                        print(RankLadder)
 
-    print("RankLadderGroups")
-    for i, v in pairs(RankLadderGroups) do print(i) print(v) end
-    print("----------------")
-    print("PlayerData.Groups Start")
+                        print("RankLadderGroups")
+                        for i, v in pairs(RankLadderGroups) do print(i) print(v) end
+                        print("----------------")
+                        print("PlayerData.Groups Start") end
     for _, v1 in pairs(PlayerData.Groups) do
-        print("PlayerGroup Check")
-        print(" ".. v1)
+        if Debug==true then print("PlayerGroup Check")
+                            print(" ".. v1) end
         for _, v2 in pairs(RankLadderGroups) do
-            print("  ".. v2)
+            if Debug== true then print("  ".. v2) end
             if v1 == v2 then
-                print("   Success! '".. v1 .."' and '".. v2 .."'")
+                if Debug==true then print("   Success! '".. v1 .."' and '".. v2 .."'") end
                 local Info = _G.PermSystem.Api(ApiKey.Value, "GetGroupData", v1)
-                print("   GroupData")
-                print(Info)
-                print(Info.Addons)
-                print(Info.Addons["SimpleTitles"])
+                if Debug==true then print("   GroupData")
+                                    print(Info)
+                                    print(Info.Addons)
+                                    print(Info.Addons["SimpleTitles"]) end
                 if type(Info) == "table" and type(Info.Addons) == "table" then
                     if type(Info.Addons["SimpleTitles"]) == "table" then
                         return Info.Addons["SimpleTitles"]
@@ -127,7 +128,7 @@ end
 
 function BoxText(Player, Data, Set, Identifier)
     local Return = nil
-    print("BoxText Call on '".. Set .."' for '".. Identifier .."'")
+    if Debug==true then print("BoxText Call on '".. Set .."' for '".. Identifier .."'") end
     if type(Set) == "string" then
         if Set == "Disabled" then
             Return = ""
@@ -159,13 +160,12 @@ function BoxText(Player, Data, Set, Identifier)
             local Ladder = string.sub(Set, 12)
             if Ladder == "" then Ladder = "Default" end
             local AddonInfo = LocateGroupAddonInfo(Data, Ladder)
-            print("AddonInfo")
-            print(AddonInfo)
+            if Debug==true then print("AddonInfo")
+                                print(AddonInfo) end
 
             if type(AddonInfo) == "table" then
                 if type(AddonInfo[Identifier]) then
                     local Set1234 = AddonInfo[Identifier]
-                    print(Set1234)
                     if Set1234 == "Disabled" then
                         Return = ""
                     elseif Set1234 == "Username" then
@@ -178,7 +178,7 @@ function BoxText(Player, Data, Set, Identifier)
         end
     end
 
-    if type(Return) == "string" then
+    if type(Return) == "string" and Debug==true then
         print("BoxText '".. Set .."'; Returning '".. Return .."'")
     end
 
@@ -190,8 +190,8 @@ function Run(Player, Character)
     local Team = Player.Team
     local Data = _G.PermSystem.Api(ApiKey.Value, "GetPlrData", Player)
 
-    print("PlayerData")
-    print(Data)
+    if Debug==true then print("PlayerData")
+                        print(Data) end
     if type(Data) == "nil" then
         wait(0.5)
         Data = _G.PermSystem.Api(ApiKey.Value, "GetPlrData", Player)
@@ -223,10 +223,10 @@ function Run(Player, Character)
     end
     -- All that work just to get the color, not including functions and exterior functions;
     -- this is going to take a while
-    print("Settings Box1:Text")
+    if Debug==true then print("Settings Box1:Text") end
     local Box1Text = Player.Name
     if type(Settings["Box1:Text"]) == "string" then
-        print(Settings["Box1:Text"])
+        if Debug==true then print(Settings["Box1:Text"]) end
         local Box1Return = BoxText(Player, Data, Settings["Box1:Text"], "Box1:Text")
         if Box1Return then
             Box1Text = Box1Return
@@ -235,10 +235,10 @@ function Run(Player, Character)
         local Default = true
         for i, v in pairs(Settings["Box1:Text"]) do
             if type(i) == "string" and TS:FindFirstChild(i) and type(v) == "string" then
-                print("  ".. i)
-                print("   ".. Player.Team.Name)
+                if Debug==true then print("  ".. i)
+                                    print("   ".. Player.Team.Name) end
                 if i == Player.Team.Name then
-                    print("    >".. v)
+                    if Debug==true then print("    >".. v) end
                     local Box1Return = BoxText(Player, Data, v, "Box1:Text")
                     if Box1Return then
                         Box1Text = Box1Return
@@ -258,9 +258,9 @@ function Run(Player, Character)
     end
 
     local Box2Text = ""
-    print("Settings Box2:Text")
+    if Debug==true then print("Settings Box2:Text") end
     if type(Settings["Box2:Text"]) == "string" then
-        print(Settings["Box2:Text"])
+        if Debug==true then print(Settings["Box2:Text"]) end
         local Box2Return = BoxText(Player, Data, Settings["Box2:Text"], "Box2:Text")
         if Box2Return then
             Box2Text = Box2Return
@@ -269,10 +269,10 @@ function Run(Player, Character)
         local Default = true
         for i, v in pairs(Settings["Box2:Text"]) do
             if type(i) == "string" and TS:FindFirstChild(i) and type(v) == "string" then
-                print("  ".. i)
-                print("   ".. Player.Team.Name)
+                if Debug==true then print("  ".. i)
+                                    print("   ".. Player.Team.Name) end
                 if i == Player.Team.Name then
-                    print("    >".. v)
+                    if Debug==true then print("    >".. v) end
                     local Box2Return = BoxText(Player, Data, v, "Box2:Text")
                     if Box2Return then
                         Box2Text = Box2Return
@@ -292,9 +292,9 @@ function Run(Player, Character)
     end
 
     local Box3Text = ""
-    print("Settings Box3:Text")
+    if Debug==true then print("Settings Box3:Text") end
     if type(Settings["Box3:Text"]) == "string" then
-        print(Settings["Box3:Text"])
+        if Debug==true then print(Settings["Box3:Text"]) end
         local Box3Return = BoxText(Player, Data, Settings["Box3:Text"], "Box3:Text")
         if Box3Return then
             Box3Text = Box3Return
@@ -303,9 +303,9 @@ function Run(Player, Character)
         local Default = true
         for i, v in pairs(Settings["Box3:Text"]) do
             if type(i) == "string" and TS:FindFirstChild(i) and type(v) == "string" then
-                print(Player.Team.Name)
+                if Debug==true then print(Player.Team.Name) end
                 if i == Player.Team.Name then
-                    print(v)
+                    if Debug==true then print(v) end
                     local Box3Return = BoxText(Player, Data, v, "Box3:Text")
                     if Box3Return then
                         Box3Text = Box3Return
@@ -334,7 +334,7 @@ function Run(Player, Character)
         local Default = true
         for i, v in pairs(Settings["Box4:Text"]) do
             if type(i) == "string" and TS:FindFirstChild(i) and type(v) == "string" then
-                print(Player.Team.Name)
+                if Debug==true then print(Player.Team.Name) end
                 if i == Player.Team.Name then
                     local Box4Return = BoxText(Player, Data, v, "Box4:Text")
                     if Box4Return then
@@ -354,12 +354,11 @@ function Run(Player, Character)
         end
     end
 
-    print("~ Final ~")
-
-    print(Box1Text)
-    print(Box2Text)
-    print(Box3Text)
-    print(Box4Text)
+    if Debug==true then print("~ Final ~")
+                        print(Box1Text)
+                        print(Box2Text)
+                        print(Box3Text)
+                        print(Box4Text) end
 
     if Settings["FillEmptyBoxes"] == true then
         if Box1Text == "" then
