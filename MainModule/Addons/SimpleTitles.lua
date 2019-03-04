@@ -100,14 +100,20 @@ function LocateGroupAddonInfo(PlayerData, RankLadder)
 
     print("RankLadderGroups")
     for i, v in pairs(RankLadderGroups) do print(i) print(v) end
+    print("----------------")
+    print("PlayerData.Groups Start")
     for _, v1 in pairs(PlayerData.Groups) do
-        print(v1)
+        print("PlayerGroup Check")
+        print(" ".. v1)
         for _, v2 in pairs(RankLadderGroups) do
-            print(v2)
+            print("  ".. v2)
             if v1 == v2 then
-                local Info = _G.PermSystem.Api(ApiKey.Value, "GetGroupGetGroupData", v1)
-                print("GroupData")
+                print("   Success! '".. v1 .."' and '".. v2 .."'")
+                local Info = _G.PermSystem.Api(ApiKey.Value, "GetGroupData", v1)
+                print("   GroupData")
                 print(Info)
+                print(Info.Addons)
+                print(Info.Addons["SimpleTitles"])
                 if type(Info) == "table" and type(Info.Addons) == "table" then
                     if type(Info.Addons["SimpleTitles"]) == "table" then
                         return Info.Addons["SimpleTitles"]
@@ -119,9 +125,9 @@ function LocateGroupAddonInfo(PlayerData, RankLadder)
     return "No Matches"
 end
 
-function BoxText(Player, Data, Set)
+function BoxText(Player, Data, Set, Identifier)
     local Return = nil
-    print("BoxText Call on '".. Set .."'")
+    print("BoxText Call on '".. Set .."' for '".. Identifier .."'")
     if type(Set) == "string" then
         if Set == "Disabled" then
             Return = ""
@@ -129,10 +135,6 @@ function BoxText(Player, Data, Set)
             Return = Player.Name
         elseif string.sub(Set, 1, 8) == "SetText:" then
             Return = string.sub(Set, 9)
-        elseif string.sub(Set, 1, 4) == "Set:" then
-            Return = string.sub(Set, 5)
-        elseif string.sub(Set, 1, 1) == ":" then
-            Return = string.sub(Set, 2)
         elseif Set == "TeamName" then
             if Player.Team then
                 Return = Player.Team.Name
@@ -146,7 +148,9 @@ function BoxText(Player, Data, Set)
                     return Player:GetRoleInGroup(ID)
                 end)
                 if ProperlyRan then
-                    Return = PcallReturn
+                    if PcallReturn ~= "Guest" then
+                        Return = PcallReturn
+                    end
                 else
                     warn("PermSystem SimpleTitles Addon GetRoleInGroup Error: ".. PcallReturn)
                 end
@@ -159,15 +163,15 @@ function BoxText(Player, Data, Set)
             print(AddonInfo)
 
             if type(AddonInfo) == "table" then
-                if type(AddonInfo["Box1:Text"]) then
-                    local Set1234 = AddonInfo["Box1:Text"]
+                if type(AddonInfo[Identifier]) then
+                    local Set1234 = AddonInfo[Identifier]
                     print(Set1234)
                     if Set1234 == "Disabled" then
                         Return = ""
                     elseif Set1234 == "Username" then
                         Return = Player.Name
                     elseif string.sub(Set1234, 1, 8) == "SetText:" then
-                        Return = string.sub(Set, 9)
+                        Return = string.sub(Set1234, 9)
                     end
                 end
             end
@@ -223,7 +227,7 @@ function Run(Player, Character)
     local Box1Text = Player.Name
     if type(Settings["Box1:Text"]) == "string" then
         print(Settings["Box1:Text"])
-        local Box1Return = BoxText(Player, Data, Settings["Box1:Text"])
+        local Box1Return = BoxText(Player, Data, Settings["Box1:Text"], "Box1:Text")
         if Box1Return then
             Box1Text = Box1Return
         end
@@ -235,7 +239,7 @@ function Run(Player, Character)
                 print("   ".. Player.Team.Name)
                 if i == Player.Team.Name then
                     print("    >".. v)
-                    local Box1Return = BoxText(Player, Data, v)
+                    local Box1Return = BoxText(Player, Data, v, "Box1:Text")
                     if Box1Return then
                         Box1Text = Box1Return
                         Default = false
@@ -245,7 +249,7 @@ function Run(Player, Character)
         end
         if Default == true then
             if type(Settings["Box1:Text"]["Default"]) == "string" then
-                local Box1Return = BoxText(Player, Data, Settings["Box1:Text"]["Default"])
+                local Box1Return = BoxText(Player, Data, Settings["Box1:Text"]["Default"], "Box1:Text")
                 if Box1Return then
                     Box1Text = Box1Return
                 end
@@ -257,9 +261,9 @@ function Run(Player, Character)
     print("Settings Box2:Text")
     if type(Settings["Box2:Text"]) == "string" then
         print(Settings["Box2:Text"])
-        local Box1Return = BoxText(Player, Data, Settings["Box2:Text"])
-        if Box1Return then
-            Box1Text = Box1Return
+        local Box2Return = BoxText(Player, Data, Settings["Box2:Text"], "Box2:Text")
+        if Box2Return then
+            Box2Text = Box2Return
         end
     elseif type(Settings["Box2:Text"]) == "table" then
         local Default = true
@@ -269,7 +273,7 @@ function Run(Player, Character)
                 print("   ".. Player.Team.Name)
                 if i == Player.Team.Name then
                     print("    >".. v)
-                    local Box2Return = BoxText(Player, Data, v)
+                    local Box2Return = BoxText(Player, Data, v, "Box2:Text")
                     if Box2Return then
                         Box2Text = Box2Return
                         Default = false
@@ -279,7 +283,7 @@ function Run(Player, Character)
         end
         if Default == true then
             if type(Settings["Box2:Text"]["Default"]) == "string" then
-                local Box2Return = BoxText(Player, Data, Settings["Box2:Text"]["Default"])
+                local Box2Return = BoxText(Player, Data, Settings["Box2:Text"]["Default"], "Box2:Text")
                 if Box2Return then
                     Box2Text = Box2Return
                 end
@@ -291,9 +295,9 @@ function Run(Player, Character)
     print("Settings Box3:Text")
     if type(Settings["Box3:Text"]) == "string" then
         print(Settings["Box3:Text"])
-        local Box1Return = BoxText(Player, Data, Settings["Box3:Text"])
-        if Box1Return then
-            Box1Text = Box1Return
+        local Box3Return = BoxText(Player, Data, Settings["Box3:Text"], "Box3:Text")
+        if Box3Return then
+            Box3Text = Box3Return
         end
     elseif type(Settings["Box3:Text"]) == "table" then
         local Default = true
@@ -302,7 +306,7 @@ function Run(Player, Character)
                 print(Player.Team.Name)
                 if i == Player.Team.Name then
                     print(v)
-                    local Box3Return = BoxText(Player, Data, v)
+                    local Box3Return = BoxText(Player, Data, v, "Box3:Text")
                     if Box3Return then
                         Box3Text = Box3Return
                         Default = false
@@ -312,7 +316,7 @@ function Run(Player, Character)
         end
         if Default == true then
             if type(Settings["Box3:Text"]["Default"]) == "string" then
-                local Box3Return = BoxText(Player, Data, Settings["Box3:Text"]["Default"])
+                local Box3Return = BoxText(Player, Data, Settings["Box3:Text"]["Default"], "Box3:Text")
                 if Box3Return then
                     Box3Text = Box3Return
                 end
@@ -322,9 +326,9 @@ function Run(Player, Character)
 
     local Box4Text = ""
     if type(Settings["Box4:Text"]) == "string" then
-        local Box1Return = BoxText(Player, Data, Settings["Box4:Text"])
-        if Box1Return then
-            Box1Text = Box1Return
+        local Box4Return = BoxText(Player, Data, Settings["Box4:Text"], "Box4:Text")
+        if Box4Return then
+            Box4Text = Box4Return
         end
     elseif type(Settings["Box4:Text"]) == "table" then
         local Default = true
@@ -332,7 +336,7 @@ function Run(Player, Character)
             if type(i) == "string" and TS:FindFirstChild(i) and type(v) == "string" then
                 print(Player.Team.Name)
                 if i == Player.Team.Name then
-                    local Box4Return = BoxText(Player, Data, v)
+                    local Box4Return = BoxText(Player, Data, v, "Box4:Text")
                     if Box4Return then
                         Box4Text = Box4Return
                         Default = false
@@ -342,7 +346,7 @@ function Run(Player, Character)
         end
         if Default == true then
             if type(Settings["Box4:Text"]["Default"]) == "string" then
-                local Box4Return = BoxText(Player, Data, Settings["Box4:Text"]["Default"])
+                local Box4Return = BoxText(Player, Data, Settings["Box4:Text"]["Default"], "Box4:Text")
                 if Box4Return then
                     Box4Text = Box4Return
                 end
@@ -417,16 +421,25 @@ return function(Config)
         end
     end
 
+    local function Verify(A)
+        if type(A) == "string" and (A == "Disabled" or A == "Username" or string.sub(A, 1, 8) == "SetText:" or string.sub(A, 1, 11) == "RankLadder:" or string.sub(A, 1, 12) == "RblxGroupID:") then
+            return true
+        end
+        return false
+    end
+
     Settings["Box1:Text"] = "Username"
     if type(Config["Box1:Text"]) == "string" then
         local B1T = Config["Box1:Text"]
-        if B1T == "Disabled" or B1T == "Username" or string.sub(B1T, 1, 8) == "SetText:" or string.sub(B1T, 1, 11) == "RankLadder:" then
+        if Verify(B1T) then
             Settings["Box1:Text"] = B1T
         end
     elseif type(Config["Box1:Text"]) == "table" then
         local Tab = {}
         for Team, B1T in pairs(Config["Box1:Text"]) do
-            if type(Team) == "string" and TS:FindFirstChild(Team) and type(B1T) == "string" and (B1T == "Disabled" or B1T == "Username" or string.sub(B1T, 1, 8) == "SetText:" or string.sub(B1T, 1, 11) == "RankLadder:" or string.sub(B1T, 1, 12) == "RblxGroupID:") then
+            if type(Team) == "string" and TS:FindFirstChild(Team) and Verify(B1T) then
+                Tab[Team] = B1T
+            elseif type(Team) == "string" and Team == "Default" and Verify(B1T) then
                 Tab[Team] = B1T
             end
         end
@@ -436,13 +449,15 @@ return function(Config)
     Settings["Box2:Text"] = ""
     if type(Config["Box2:Text"]) == "string" then
         local B2T = Config["Box2:Text"]
-        if B2T == "Disabled" or B2T == "Username" or string.sub(B2T, 1, 8) == "SetText:" or string.sub(B2T, 1, 11) == "RankLadder:" then
+        if Verify(B2T) then
             Settings["Box2:Text"] = B2T
         end
     elseif type(Config["Box2:Text"]) == "table" then
         local Tab = {}
         for Team, B2T in pairs(Config["Box2:Text"]) do
-            if type(Team) == "string" and TS:FindFirstChild(Team) and type(B2T) == "string" and (B2T == "Disabled" or B2T == "Username" or string.sub(B2T, 1, 8) == "SetText:" or string.sub(B2T, 1, 11) == "RankLadder:" or string.sub(B2T, 1, 12) == "RblxGroupID:") then
+            if type(Team) == "string" and TS:FindFirstChild(Team) and Verify(B2T) then
+                Tab[Team] = B2T
+            elseif type(Team) == "string" and Team == "Default" and Verify(B2T) then
                 Tab[Team] = B2T
             end
         end
@@ -452,13 +467,15 @@ return function(Config)
     Settings["Box3:Text"] = ""
     if type(Config["Box3:Text"]) == "string" then
         local B3T = Config["Box3:Text"]
-        if B3T == "Disabled" or B3T == "Username" or string.sub(B3T, 1, 8) == "SetText:" or string.sub(B3T, 1, 11) == "RankLadder:" then
+        if Verify(B3T) then
             Settings["Box3:Text"] = B3T
         end
     elseif type(Config["Box3:Text"]) == "table" then
         local Tab = {}
         for Team, B3T in pairs(Config["Box3:Text"]) do
-            if type(Team) == "string" and TS:FindFirstChild(Team) and type(B3T) == "string" and (B3T == "Disabled" or B3T == "Username" or string.sub(B3T, 1, 8) == "SetText:" or string.sub(B3T, 1, 11) == "RankLadder:" or string.sub(B3T, 1, 12) == "RblxGroupID:") then
+            if type(Team) == "string" and TS:FindFirstChild(Team) and Verify(B3T) then
+                Tab[Team] = B3T
+            elseif type(Team) == "string" and Team == "Default" and Verify(B3T) then
                 Tab[Team] = B3T
             end
         end
@@ -468,13 +485,15 @@ return function(Config)
     Settings["Box4:Text"] = ""
     if type(Config["Box4:Text"]) == "string" then
         local B4T = Config["Box4:Text"]
-        if B4T == "Disabled" or B4T == "Username" or string.sub(B4T, 1, 8) == "SetText:" or string.sub(B4T, 1, 11) == "RankLadder:" then
+        if Verify(B4T) then
             Settings["Box4:Text"] = B4T
         end
     elseif type(Config["Box4:Text"]) == "table" then
         local Tab = {}
         for Team, B4T in pairs(Config["Box4:Text"]) do
-            if type(Team) == "string" and TS:FindFirstChild(Team) and type(B4T) == "string" and (B4T == "Disabled" or B4T == "Username" or string.sub(B4T, 1, 8) == "SetText:" or string.sub(B4T, 1, 11) == "RankLadder:" or string.sub(B4T, 1, 12) == "RblxGroupID:") then
+            if type(Team) == "string" and TS:FindFirstChild(Team) and Verify(B4T) then
+                Tab[Team] = B4T
+            elseif type(Team) == "string" and Team == "Default" and Verify(B4T) then
                 Tab[Team] = B4T
             end
         end

@@ -30,7 +30,7 @@ function MTable:PlayerBelongsInGroup(PlayerObj)
 		end
 	end
 
-	for _, v in pairs(G.RblxTeams) do
+	for _, v in pairs(self.RblxTeams) do
 		if PlayerObj.Neutral == false and type(PlayerObj.Team) == "userdata" and type(v) == "userdata" and PlayerObj.Team == v then
 			Pass = true
 		end
@@ -204,7 +204,7 @@ return function(Data, Name, Groups)
 		end
 	end
 
-	Content.RblxTeam = nil
+	Content.RblxTeams = {}
 	if type(Data.RobloxTeam) == "table"	then
 		for _, v in pairs(Data.RobloxTeam) do
 			if type(v) == "userdata" then
@@ -214,13 +214,18 @@ return function(Data, Name, Groups)
 				end
 			end
 		end
+	elseif type(Data.RobloxTeam) == "userdata" then
+		if Data.RobloxTeam:IsA("Team") and Data.RobloxTeam.Parent == game:GetService("Teams") then
+			table.insert(Content.RblxTeams, tostring(Data.RobloxTeam.Name))
+			Content.Options.SaveUsers = false
+		end
 	end
 
 	Content.Addons = {}
 	if type(Data.Addons) == "table" then
 		for i, v in pairs(Data.Addons) do
 			if type(i) == "string" and type(v) == "table" then
-				table.insert(Content.Addons, v)
+				Content.Addons[i] = v
 			end
 		end
 	end

@@ -164,6 +164,11 @@ return function(Settings)
         end
     end
 
+    -- Make all Player's stuff
+    for _, v in pairs(Players:GetPlayers()) do
+        PlayerTable[v] = RefreshUser(Groups, v)
+    end
+
     -- Halt for a sec
     wait()
 
@@ -175,12 +180,8 @@ return function(Settings)
             ApiKey.Value = ApiKeyRand:NextNumber()
         end
     end)
-    
-    for _, v in pairs(Players:GetPlayers()) do
-        PlayerTable[v] = RefreshUser(Groups, v)
-    end
 
-    -- Refreshes all Users every 30 seconds
+    -- Stars the refresh loop
     local Loop = true
     spawn(function()
         while Loop do
