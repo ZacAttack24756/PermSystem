@@ -1,6 +1,25 @@
+-- Utils
+local Utils = require(script.Parent.Parent.Services.Utils)
+
 -- sample
 local Teams = game:GetService("Teams")
 local Settings = {}
+local Cache = {}
+local CacheRefreshTime = 120
+
+function RefreshCache(plr)
+
+end
+
+function LoopRefCache(plr)
+    local Name = plr.Name
+    while game:GetService("Players"):FindFirstChild(Name) ~= nil do
+        RefreshCache(plr)
+        for _, v in pairs()
+        wait(CacheRefreshTime)
+    end
+    Cache[Name] = nil
+end
 
 return function(Config)
     if type(Config.Enabled) ~= "boolean" or Config.Enabled == false then return "ToolGiver not enabled!" end
@@ -77,6 +96,13 @@ return function(Config)
             end
         end
     end
+
+    for _, v in pairs(game:GetService("Players"):GetPlayers()) do
+        LoopRefCache(plr)
+    end
+    game:GetService("Players").PlayerAdded:Connect(function(plr)
+        LoopRefCache(plr)
+    end)
 
     return true
 end

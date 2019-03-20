@@ -6,28 +6,13 @@
 		PlayerObj	:	The Player in question (The Object)
 --]]
 
+-- Required Stuff
+local Utils = require(script.Parent.Parent.Services.Utils)
 local DS = require(script.Parent.Parent.Services.DataStoreService)
 local Http = game:GetService("HttpService")
 
 --local Settings = DS.New("MysteryPermissions", "Settings")
 local PlayerStore = DS.New("MysteryPermissions", "PlayerStore")
-
-function ObjInArray(Array, Obj)
-    for _, v in pairs(Array) do
-        if v == Obj then
-            return true
-        end
-    end
-    return false
-end
-function GetArrayIndex(Array, Obj)
-    for i, v in pairs(Array) do
-        if v == Obj then
-            return i
-        end
-    end
-    return nil
-end
 
 return function(Groups, PlayerObj)
     local PlayerId = PlayerObj.UserId
@@ -44,10 +29,10 @@ return function(Groups, PlayerObj)
         if type(G) == "table" then
             local Result = G:PlayerBelongsInGroup(PlayerObj)
             if Result == false then
-                local Index = GetArrayIndex(PlayerData.Groups, rawget(G, "Name"))
+                local Index = Utils.GetArrayIndex(PlayerData.Groups, rawget(G, "Name"))
                 if Index then table.remove(PlayerData.Groups, Index) end
             elseif Result == true then
-                if ObjInArray(PlayerData.Groups, rawget(G, "Name")) == false then
+                if Utils.ObjInArray(PlayerData.Groups, rawget(G, "Name")) == false then
                     table.insert(PlayerData.Groups, rawget(G, "Name"))
                 end
             end
@@ -79,7 +64,7 @@ return function(Groups, PlayerObj)
             end
             -- Second Pass Flags any ones that isn't the maximum
             for i2, v2 in pairs(v1) do
-                local TabIndex = GetArrayIndex(PlayerData)
+                local TabIndex = Utils.GetArrayIndex(PlayerData)
                 if i2 ~= max and type(TabIndex) == "number" then
                     table.remove(PlayerData.Groups, TabIndex)
                 end

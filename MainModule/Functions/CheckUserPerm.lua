@@ -6,19 +6,13 @@
 		PermStr   	:	The Permission string
 --]]
 
+-- Required Stuff
+local Utils = require(script.Parent.Parent.Services.Utils)
 local DS = require(script.Parent.Parent.Services.DataStoreService)
 local Http = game:GetService("HttpService")
 
 local PlayerStore = DS.New("MysteryPermissions", "PlayerStore")
 
-function ObjInArray(Array, Obj)
-    for _, v in pairs(Array) do
-        if v == Obj then
-            return true
-        end
-    end
-    return false
-end
 function CheckDescendantsForPerm(Groups, GroupName, Permission)
     local Previous = {}
     local function Loop(GN, P)
@@ -30,7 +24,7 @@ function CheckDescendantsForPerm(Groups, GroupName, Permission)
             else
                 local Result = false
                 for _, v in pairs(rawget(TargetGroup, "Inheritance")) do
-                    if ObjInArray(Previous, v) == false and type(Groups[v]) == "table" then
+                    if Utils.ObjInArray(Previous, v) == false and type(Groups[v]) == "table" then
                         table.insert(Previous, v)
                         Result = Result or Loop()
                     end
