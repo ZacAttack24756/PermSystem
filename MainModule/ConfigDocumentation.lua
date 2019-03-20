@@ -1,7 +1,11 @@
 --[[
     Documentation for the Startup Configuration File
 
+
+    -----------------------
     ---- Main Settings ----
+    -----------------------
+
 
     Groups              [Array:Tab] :   The Main Group Startup Configuration (See "Group Making")
     Addons              [Tab]       :   Addons that come with this script (See "Addon Settings")
@@ -14,7 +18,11 @@
         "CreatorPrivileges"  [Bool] :   If me (mystery3525), will automatically get Administrator in your game (  c:  )
     }
 
+
+    ----------------------------
 	----    Group Making    ----
+    ----------------------------
+
 
 	Text in '[""]' is the group's name
 	--> NOTE: Any "Non-Optional" items missing would delete the group through error checking
@@ -63,7 +71,12 @@
     - Normal                        :   A Normal Group; Nothing to see here (Making it this literally does nothing)
     - Administrator                 :   Full Access; Automatically given every privilage/permission
 
+
+    ------------------------------
     ----    Addon Settings    ----
+    ------------------------------
+
+
     {
     -- SimpleTitles: A basic titling system for games (NOT ADDED YET)
     -- Has Moderate-High Configuration, Custom Team Assigns, Custon Group Assigns, Up to 4 scaled text boxes (0th: Username, 4th: Smallest Text Box)
@@ -104,16 +117,21 @@
         ~~ Optional Settings ~~
         "ToolStorage" [Obj/Arr:Obj] :   A location to get the tools from in Roblox, OR an array of Objects to get the tools from (Example "  = {game.ServerStorage.Tools, game.Workspace.Tools}")
 
-        "GroupBlackList"  [Tab:Str] :   Groups that are blacklisted from reciving any tools
-        "TeamBlackList"   [Tab:Obj] :   Teams that are blacklisted from reciving any tools
+        "TeamBlackList"       [...] :   Teams that are blacklisted from reciving any tools, or specific tools; FORMAT:
+        {[game.Teams.<TeamObject>] = {"<Tool>", "<Tool>"}, [game.Teams.<AnotherTeam>] = {"<Tool>", "<Tool>"}, [game.Teams.<AThirdTeam>] = "ALL"}
 
         "AllowDupeTools" [B/Arr:St] :   Wether or not a player can get more than one of each tool (Disabled by default)
         -- Note: If its a boolean, its applied globally. If it is an Array, the specific tool names in the array are allowed
 
-        "AllowTeamGive"  [B/Tab:St] :   Wether or not TeamGiving is allowed (Tools inside the Teams)
-        -- Note: If this is Table then: Table with an index of TeamNames, and a value of arrays which contains Tools (Example: "  ["BlaBla"] = {"Tool1", "Tool2", "Tool3"}  ")
+        "TeamGive"     [Tab:Tab:St]  :   Wether or not TeamGiving is allowed (Tools Inside of Teams is insecure, Don't do that kids)
+        -- Note: If this is Table then: Table with an index of TeamObjects, and a value of arrays which contains Tools
+        -- (Example: "  [game.Teams.BlaBla] = {"Tool1", "Tool2", "Tool3"}  ")
 
         "GlobalToolGive"  [Arr:Str] :   An array of tools given to anyone
     }
+    --- ToolGiver Group Addon Setting Format ---
+    {
+        "ToolBlackList" [Str/A:Str] :   An Array of Tools that are blacklsited for this group, or "ALL" for every tool
+        "ToolGiveList"    [Arr:Str] :   An Array of Tools that are given to members of this group, cannot give blacklisted tools
     }
---]]
+]]--

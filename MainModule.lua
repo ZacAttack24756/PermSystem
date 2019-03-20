@@ -82,7 +82,7 @@ function GetEventI(...)
 
         if type(PlayerObj) ~= "userdata" or PlayerObj:IsA("Player") == false then return "Invalid Player Object" end
 
-        print(PlayerTable[PlayerObj])
+        --print(PlayerTable[PlayerObj])
         return PlayerTable[PlayerObj]
     elseif Args[2] == "GetRankLadderGroups" then
         local Ladder = Args[3]
@@ -97,6 +97,19 @@ function GetEventI(...)
         end
 
         return Found
+    elseif Args[2] == "GetAllAddonGroups" then
+        local TargetAddon = Args[3]
+        if type(TargetAddon) ~= "string" or script.Addons:FindFirstChild(TargetAddon) == nil then return "Invalid Addon" end
+
+        local Found = {}
+        for _, v in pairs(Groups) do
+            local Name = v.Name
+            local vAddons = v.Addons
+
+            if vAddons[TargetAddon] then
+                table.insert(Found, Name)
+            end
+        end
     end
 end
 -- Keep it in it's own function, just incase
