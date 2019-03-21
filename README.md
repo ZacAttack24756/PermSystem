@@ -33,7 +33,7 @@ This script is also a, **one-time-configuration** type of script, meaning that i
 
 ## Addons
 
-Along with the base feature for the script, there is also specialty scripts built into this one that works really well with PermSystem. *Addons __have not been added yet__*
+Along with the base feature for the script, there is also specialty scripts built into this one that works really well with PermSystem. *Addons __have been added, but not fully tested yet__*
 
 - **SimpleTitles:** Previously uncreatively considered "AboveHeadRanks", this addon is a simple, yet effective User Group Display system. See Configuration Documentation for the full description, and configuration.
 
