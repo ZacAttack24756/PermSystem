@@ -110,6 +110,8 @@ function GetEventI(...)
                 table.insert(Found, Name)
             end
         end
+
+        return Found
     end
 end
 -- Keep it in it's own function, just incase
@@ -208,18 +210,34 @@ return function(Settings)
     end)
 
     -- Load In Addons
-    if type(Settings.Addons) == "table" then
-        for i, v in pairs(Settings.Addons) do
-            if type(i) == "string" and AddonFolder:FindFirstChild(i) ~= nil then
-                local Return = require(AddonFolder:FindFirstChild(i))(v)
-                if type(Return) == "string" then
-                    print(i.. " Addon Error: ".. Return)
-                elseif type(Return) == "boolean" and Return == false then
-                    print(i.. " Addon Error: Error Unknown")
-                elseif type(Return) == "boolean" and Return == true then
-                    print(i.. " Addon loaded and executed successfully")
+    spawn(function()
+        if type(Settings.Addons) == "table" then
+            for i, v in pairs(Settings.Addons) do
+                if type(i) == "string" and AddonFolder:FindFirstChild(i) ~= nil then
+                    local Return = require(AddonFolder:FindFirstChild(i))(v)
+                    if type(Return) == "string" then
+                        print(i.. " Addon Error: ".. Return)
+                    elseif type(Return) == "boolean" and Return == false then
+                        print(i.. " Addon Error: Error Unknown")
+                    elseif type(Return) == "boolean" and Return == true then
+                        print(i.. " Addon loaded and executed successfully")
+                    end
                 end
             end
         end
-    end
+    end)
+
+    -- We have to respawn all the players, to ensure that all the addons are properly loaded in
+    delay(1.5, function()
+        for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
+            local Char = plr.Character
+            if Char and Char:FindFirstChild("Humanoid") then
+                local Hum = Char:FindFirstChild("Humanoid")
+                if Hum:IsA("Humanoid") then
+                    Hum.Health = 0
+                    plr:LoadCharacter()
+                end
+            end
+        end
+    end)
 end

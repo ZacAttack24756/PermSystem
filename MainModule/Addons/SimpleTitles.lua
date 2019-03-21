@@ -511,6 +511,10 @@ return function(Config)
             Run(plr, char)
         end)
     end)
+    wait(0.5)
+    for _, v in pairs(game:GetService("Players"):GetPlayers()) do
+        v:LoadCharacter()
+    end
 
     -- Addon has loaded sucessfully
     return true

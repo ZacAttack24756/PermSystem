@@ -41,8 +41,7 @@ Along with the base feature for the script, there is also specialty scripts buil
 
 ## Planned Features
 - Initial Release
-- The Ability to save users' groups via DataStores
-- Fully Finished SimpleTitles Addon
+- **In-Game Testing** -> (Talk to me if you want to do participate ;)  )
 - More Addons
 
 ## Usage

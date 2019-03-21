@@ -111,6 +111,10 @@ local Settings = {
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:Level 3"
+                },
+                ["ToolGiver"] = {
+                    ToolBlackList = {"Pistol"},
+                    ToolGiveList = {"[SCP] Card-L5"}
                 }
             },
         },
@@ -301,7 +305,7 @@ local Settings = {
     },
     Addons = {
         ["SimpleTitles"] = {
-            ["Enabled"] = true,
+            Enabled = true,
             ["Global:Font"] = "Highway",
             ["Global:Color"] = "TeamColor",
             ["Box1:Text"] = {
@@ -322,6 +326,17 @@ local Settings = {
                 ["FP"]  = "Disabled" -- Do nothing
             },
             ["Box3:Text"] = "RankLadder:Default",
+        },
+        ["ToolGiver"] = {
+            Enabled = true,
+            -- (For this example, I used free modeled tools. You can use your own)
+            ToolStorage = game:GetService("ServerStorage").ToolStorage,
+            AllowDupeTools = false, -- nobody likes having 10 of the same tool
+            TeamGive = {
+                [game.Teams.FP] = {"BlueKatana",},
+                [game.Teams.IA] = {"RocketLauncher",},
+            },
+            GlobalToolGive = {"Pistol",},
         }
     },
     Options = {

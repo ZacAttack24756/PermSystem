@@ -1,39 +1,49 @@
 -- Required stuff
-local ApiKey = script.Parent.Parent:FindFirstChild("API_KEY")
+local API_KEY = script.Parent.Parent:FindFirstChild("API_KEY")
 local Utl = require(script.Parent.Parent.Services.Utils)
-local AddonName = script.Name
+local AddonName = "ToolGiver"
 
 -- sample
 local TeamServ = game:GetService("Teams")
 local Settings = {}
-local Cache = {Tools = {}, Groups = {}}
+local Cache = {Tools = {}, Groups = {}, IndexTools = {}}
 local CachePRefTime = 120 -- We really only need to refresh all the tools infrequently
 local CacheGRefTime = 300 -- Groups Even less, as they usually only are created at the beginning
 
 --------------------------------------------------------------------------------
 
-function GiveTool(plr)
-    local Name = plr.Name
-    if TStorage and Cache.Tools[plr.Name] then
-        local GivenTools = {}
-        for _, v1 in pairs(Cache.Tools[Name]) do
-            if Utl.ObjInArray(GivenTools, v1) == true and Settings.ADTools == true then
-                for _, v2 in pairs(v1) do
-                    local TargetTool = TStorage:FindFirstChild(v)
-                    if plr.Backpack and TargetTool then
-                        local Clone = TargetTool:Clone()
+function GiveActualTool(plr, Tool)
+    local Given = false
+    if plr.Backpack then
+        for _, v1 in pairs(Settings.ToolStorage) do
+            if Given == true then break end
+            for _, v2 in pairs(v1:GetChildren()) do
+                if v2.Name == Tool and v2:IsA("Tool") then
+                    if plr.Backpack and v2 then
+                        local Clone = v2:Clone()
                         Clone.Parent = plr.Backpack
+                        Given = true
+                        break
                     end
-                    table.insert(GivenTools, v)
                 end
-            elseif Utl.ObjInArray(GivenTools, v1) == false then
-                local TargetTool = TStorage:FindFirstChild(v)
-                if plr.Backpack and TargetTool then
-                    local Clone = TargetTool:Clone()
-                    Clone.Parent = plr.Backpack
-                end
-                table.insert(GivenTools, v)
             end
+        end
+    end
+end
+function ProcessTools(plr)
+    if Settings.ToolStorage and Cache.Tools[plr.Name] then
+        local GivenTools = {}
+        for _, v1 in pairs(Cache.Tools[plr.Name]) do
+            --------------------------------------------------------------------
+            if Utl.ObjInArray(GivenTools, v1) == true and Settings.ADTools == true then
+                GiveActualTool(plr, v1)
+                table.insert(GivenTools, v1)
+            --------------------------------------------------------------------
+            elseif Utl.ObjInArray(GivenTools, v1) == false then
+                GiveActualTool(plr, v1)
+                table.insert(GivenTools, v1)
+            end
+            --------------------------------------------------------------------
         end
     end
 end
@@ -110,6 +120,16 @@ function RefreshCache(plr)
         end
     end
 
+    print("Banned Tools type: ".. type(BannedTools))
+    if type(BannedTools) == "table" then
+        for _, v in pairs(BannedTools) do
+            print("BannedTool: ".. v)
+        end
+    end
+    for _, v in pairs(ToolTable) do
+        print("Tool ".. v)
+    end
+
     Cache.Tools[plr.Name] = ToolTable
 end
 
@@ -117,9 +137,11 @@ end
 
 function LoopRefPCache(plr)
     local Name = plr.Name
+    delay(2, function() if plr.Character and plr.Character.Humanoid then plr.Character.Humanoid.Health = 0  plr:LoadCharacter() end end)
     plr.CharacterAdded:Connect(function()
-        GiveToolHook(plr)
-    end
+        RefreshCache(plr)
+        ProcessTools(plr)
+    end)
     while game:GetService("Players"):FindFirstChild(Name) ~= nil do
         RefreshCache(plr)
         wait(CachePRefTime)
@@ -131,13 +153,13 @@ end
 
 function LoopRefGCache()
     while true do
-        local AddonGroups = _G.PermSystem.ApiCall(API_KEY.Value, "GetAllAddonGroups", AddonName)
+        local AddonGroups = _G.PermSystem.Api(API_KEY.Value, "GetAllAddonGroups", AddonName)
 
         for _, v in pairs(AddonGroups) do
-            local GroupInfo = _G.PermSystem.ApiCall(API_KEY.Value, "GetGroupData", v)
+            local GroupInfo = _G.PermSystem.Api(API_KEY.Value, "GetGroupData", v)
             if GroupInfo then
                 local AddonInfo = GroupInfo.Addons[AddonName]
-                Cache.Groups[v.Name] = v
+                Cache.Groups[v] = AddonInfo
             end
         end
         wait(CacheGRefTime)
@@ -150,7 +172,7 @@ return function(Config)
     if type(Config.Enabled) ~= "boolean" or Config.Enabled == false then return AddonName.. " not enabled!" end
 
     Settings.ToolStorage = {}
-    if type(Config.ToolStorage) == "userdata" and Config.ToolStorage:IsA("Tool") then
+    if type(Config.ToolStorage) == "userdata" then
         Settings.ToolStorage = {Config.ToolStorage}
     elseif type(Config.ToolStorage) == "table" then
         for _, v in pairs(Config.ToolStorage) do
@@ -219,7 +241,7 @@ return function(Config)
                     end
                 end
 
-                Config.AllowTeamGive[TeamName] = Format
+                Settings.TeamGive[TeamObj] = Format
             end
         end
     end
@@ -234,7 +256,7 @@ return function(Config)
     end
 
     spawn(LoopRefGCache)
-    for _, v in pairs(game:GetService("Players"):GetPlayers()) do
+    for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
         LoopRefPCache(plr)
     end
     game:GetService("Players").PlayerAdded:Connect(LoopRefPCache)
