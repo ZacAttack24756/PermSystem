@@ -8,11 +8,30 @@
 local Utils = {}
 
 -- This Function is hella handy when dealing with advanced tables
-Utils.ObjInArray = function(Array, Obj)
-    for _, v in pairs(Array) do
+Utils.ObjInArray = function(Array, Obj, Debug)
+    if Debug == nil then Debug = false end
+    if Debug == true then
+        print("Begin ObjectInArray Stacktrace")
+        print("Object is a: '".. type(Obj) .."', Object:")
+        print(Obj)
+    end
+    for i, v in pairs(Array) do
+        if Debug == true then
+            print("Index of '".. i .."', with a value type of '".. type(v) .."', Value:")
+            print(v)
+            print(v == Obj)
+        end
         if v == Obj then
+            if Debug == true then
+                print("End ObjectInArray Stacktrace. Returning true")
+                print("")
+            end
             return true
         end
+    end
+    if Debug == true then
+        print("End ObjectInArray Stacktrace, Returning false")
+        print("")
     end
     return false
 end

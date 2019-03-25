@@ -47,7 +47,8 @@
 			"Cond"       [Str]		:	The LUA Condition for rank. Structured as follows: ( GroupRank __Cond__ ReqRank ) ; ( Ex: 30 >= 25 )
 			"Rank"       [Num]		:	The Required Group Rank to recive this group
 		}
-		"RobloxTeam"	[Array:Obj]	:	An in-game team that would recive this Group ( Directly refer to the team, Ex: "game.Teams.Team1" (Without "") ). NOTE: The Roblox team needs to be in the game BEFORE this script is initialized
+		"RobloxTeam"	[Array:Obj]	:	An in-game team or teams that would recive this Group ( Directly refer to the team, Ex: "game.Teams.Team1" (Without "") ). NOTE: The Roblox team needs to be in the game BEFORE this script is initialized
+        "RobloxGamepass"  [Arr:Num] :   An ID for a gamepass, or an array of gamepasses, that will get the player this group (Ex: "   {<Gamepass1>, <Gamepass2>, <Gamepass3>}   ")
         "Addons"        [Tab]       :   Settings for specific addons
         {
             ...         [Tab]       :   Specific Addon Setting Table
@@ -123,9 +124,13 @@
         "AllowDupeTools" [B/Arr:St] :   Wether or not a player can get more than one of each tool (Disabled by default)
         -- Note: If its a boolean, its applied globally. If it is an Array, the specific tool names in the array are allowed
 
-        "TeamGive"     [Tab:Tab:St]  :   Wether or not TeamGiving is allowed (Tools Inside of Teams is insecure, Don't do that kids)
+        "TeamGive"     [Tab:Tab:St] :   Wether or not TeamGiving is allowed (Tools Inside of Teams is insecure, Don't do that kids)
         -- Note: If this is Table then: Table with an index of TeamObjects, and a value of arrays which contains Tools
         -- (Example: "  [game.Teams.BlaBla] = {"Tool1", "Tool2", "Tool3"}  ")
+
+        -- Note: It is more recommended that if you are already using Gamepasses for adding players to groups, to use that group's settings instead of setting this
+        "GamepassGive" [Arr:Tab:Str]:   Tools that are given via Roblox's Gamepass System
+        {[<GamepassId>] = {"<Tool1>", "<Tool2>"}, [<AnotherGamepass>] = {"<Tool1>", "<Tool2>"}}
 
         "GlobalToolGive"  [Arr:Str] :   An array of tools given to anyone
     }

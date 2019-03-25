@@ -10,8 +10,11 @@ MTable.__index = MTable
 -- Insert Meta things here
 local Debug = false
 
+local MPS = game:GetService("MarketPlaceService")
+
 function MTable:PlayerBelongsInGroup(PlayerObj)
 	local Pass = false
+	local PlrId = PlayerObj.UserId
 
 	if self.Default == true then
 		Pass = true
@@ -23,6 +26,7 @@ function MTable:PlayerBelongsInGroup(PlayerObj)
 			if type(Num) == "number" then
 				if PlayerObj.UserId == Num then
 					Pass = true
+					break
 				end
 			end
 		elseif string.sub(v, 1, 9) == "Username:" then
@@ -30,6 +34,7 @@ function MTable:PlayerBelongsInGroup(PlayerObj)
 			if type(Name) == "string" then
 				if PlayerObj.Name == Name then
 					Pass = true
+					break
 				end
 			end
 		end
@@ -39,18 +44,37 @@ function MTable:PlayerBelongsInGroup(PlayerObj)
 		local GroupRank = PlayerObj:GetRankInGroup(v.ID)
 		if     v.Cond == ">=" and GroupRank >= v.Rank then
 			Pass = true
+			break
 		elseif v.Cond == "<=" and GroupRank <= v.Rank then
 			Pass = true
+			break
 		elseif v.Cond == "==" and GroupRank == v.Rank then
 			Pass = true
+			break
 		elseif v.Cond == "~=" and GroupRank ~= v.Rank then
 			Pass = true
+			break
+		end
+	end
+
+	for _, v in pairs(self.Gamepasses) do
+		if type(v) == "number" then
+			local Passed, Return = pcall(function()
+				return MarketPlaceService:UserOwnsGamePassAsync(PlrId, v)
+			end)
+			if Passed then
+				if Return == true then
+					Pass = true
+					break
+				end
+			end
 		end
 	end
 
 	for _, v in pairs(self.RblxTeams) do
 		if PlayerObj.Neutral == false and type(PlayerObj.Team) == "userdata" and type(v) == "userdata" and PlayerObj.Team == v then
 			Pass = true
+			break
 		end
 	end
 
@@ -245,6 +269,17 @@ return function(Data, Name, Groups)
 		if Data.RobloxTeam:IsA("Team") and Data.RobloxTeam.Parent == game:GetService("Teams") then
 			table.insert(Content.RblxTeams, tostring(Data.RobloxTeam.Name))
 			Content.Options.SaveUsers = false
+		end
+	end
+
+	Content.Gamepasses = {}
+	if type(Data.RobloxGamepass) == "number" and 0 < Data.Gamepasses and Data.Gamepasses < math.huge then
+		Content.Gamepasses = {Data.RobloxGamepass}
+	elseif type(Data.RobloxGamepass) == "table" then
+		for _, v in pairs(Data.RobloxGamepass) do
+			if type(v) == "number" and 0 < v and v < math.huge then
+				table.insert(Content.Gamepasses, v)
+			end
 		end
 	end
 

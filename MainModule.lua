@@ -38,30 +38,57 @@ _G.PermSystem = {}
 local function kill()
     script:Destroy()
 end
--- Event Function
+-- Event Function --------------------------------------------------------------
 function GetEvent(...)
     local Args = {...}
     if type(Args[1]) ~= "string" or Args[1] == "" then return "Inappropriate Descriptor (Argument #1)" end
 
     if Args[1] == "CheckPerm" then
+        if typeof(Args[2]) ~= "Instance" or Args[2]:IsA("Player") == false then return end
+        if type(Args[3]) ~= "string" or Args[3] == "" then return end
+
         local Player = Args[2]
         local Permission = Args[3]
-
-        if type(Args[2]) ~= "userdata" or Args[2]:IsA("Player") == false then return end
-        if type(Args[3]) ~= "string" or Args[3] == "" then return end
 
         local Found = string.match(Permission, "[\.%P|\*]*")
 
         if type(Found) == "string" and Found ~= "" then
             return CheckUserPerm(Groups, Player, Found)
         end
-    --[[elseif Args[1] == "AddGroup" then
-        local GroupSettings = Args[2]
+        return
+    elseif Args[1] == "CheckGroup" then
+        if typeof(Args[2]) ~= "Instance" or Args[2]:IsA("Player") == false then return end
+        if type(Args[3]) ~= "string" or Args[3] == "" then return end
 
-        local Result = CreatePermGroup(GroupSettings)
-        return Result]]--   Yeah no lets not do that just yet -mystery
+        local Player = Args[2]
+        local TargetGroup = Args[3]
+
+        local GroupExists = false
+        for _, v in pairs(Groups) do
+            if v.Name == TargetGroup then
+                GroupExists = true
+            end
+        end
+        if GroupExists == false then
+            return "GroupEqualsNil"
+        end
+
+        if PlayerTable[Player] then
+            local PlrInfo = PlayerTable[Player]
+            if PlrInfo.Groups then
+                for _, GroupName in pairs(PlrInfo.Groups) do
+                    if TargetGroup == GroupName then
+                        return true
+                    end
+                end
+                return false
+            end
+        end
+
+        return
     end
 end
+-- Internal Api ----------------------------------------------------------------
 function GetEventI(...)
     local Args = {...}
     if type(Args[2]) ~= "string" or Args[1] == "" then return "Inappropriate Descriptor (Argument #1)" end
@@ -80,7 +107,7 @@ function GetEventI(...)
     elseif Args[2] == "GetPlrData" then
         local PlayerObj = Args[3]
 
-        if type(PlayerObj) ~= "userdata" or PlayerObj:IsA("Player") == false then return "Invalid Player Object" end
+        if typeof(PlayerObj) ~= "Instance" or PlayerObj:IsA("Player") == false then return "Invalid Player Object" end
 
         --print(PlayerTable[PlayerObj])
         return PlayerTable[PlayerObj]

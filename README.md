@@ -33,16 +33,45 @@ This script is also a, **one-time-configuration** type of script, meaning that i
 
 ## Addons
 
-Along with the base feature for the script, there is also specialty scripts built into this one that works really well with PermSystem. *Addons __have been added, but not fully tested yet__*
+Along with the base feature for the script, there is also specialty scripts built into this one that works really well with PermSystem. Addons may or may not be primarily focused on PermSystem, but are included with the script and configuration. *Addons __have been added, but not fully tested yet__*
 
-- **SimpleTitles:** Previously uncreatively considered "AboveHeadRanks", this addon is a simple, yet effective User Group Display system. See Configuration Documentation for the full description, and configuration.
+- **SimpleTitles**: Previously uncreatively considered "AboveHeadRanks", this addon is a simple, yet effective User Group Display system. See Configuration Documentation for the full description, and configuration.
 
-- **ToolGiver:** Another uncreatively named script, ToolGiver allows you to configure it to give players tools on a Per-Group-Basis. Note: You cannot have the same tool given out twice by default, see Configuration Documentation for more information.
+- **ToolGiver**: Another uncreatively named script, ToolGiver allows you to configure it to give players tools on a Per-Group-Basis. Note: You cannot have the same tool given out twice by default, see Configuration Documentation for more information.
+
+- **Cards**: Need Intelligent Cards and Identification for your Group? Never fear, This Addon Offers Cards with Built-In support for PermSystem. See Configuration Documentation for more information.
+
+- **CamSystem**: *__Idea / Not created yet__* Built In Camera Features, Can be paired with "DoorControl" Addon for Remote Door Control
+
+- **MorphGui**: *__Idea / Not created yet__* A Gui that can include morphs for certain Teams/Groups/Ranks
+
+- **DoorControl**: *__Idea / Not created yet__* A simple, centralized script for controlling doors in-game. Does not have direct connections to PermSystem, but can be used in conjunction with "Cards" Addon and some others.
 
 ## Planned Features
 - Initial Release
 - **In-Game Testing** -> (Talk to me if you want to do participate ;)  )
-- More Addons
+- More Addons (Built In Cards, Possibly my old Camera GUI, DoorControlSystem)
+
+## FAQ
+1. How do I configure this mess?
+
+  See [this document](https://github.com/ZacAttack24756/PermSystem/blob/master/MainModule/ConfigDocumentation.lua) for this information.
+
+2. How can I use this properly with my own scripts?
+
+  See [this document](https://github.com/ZacAttack24756/PermSystem/blob/master/MainModule/ApiUsage.lua) for this information.
+
+3. I want ____
+
+  You can submit a feature request under [the issues page](https://github.com/ZacAttack24756/PermSystem/issues). Keep in mind, I am the only person maintaining this script, and I do not pour my entire life into it.
+
+4. There's a bug when ____
+
+  There are a couple scenarios in which different things can happen. If you are:
+
+  - Just casually find a bug on the **Main Branch** of development, you can submit a [bug report here](https://github.com/ZacAttack24756/PermSystem/issues).
+
+  - A bug tester / Person testing on the **Development Branch**, and you have my contact information, you can contact me on the proper sources. Or you can submit an [issue here](https://github.com/ZacAttack24756/PermSystem/issues), with the tag "dev branch".
 
 ## Usage
 You may distribute and modify this script, but any works must be under the same license, you must disclose the source of the script, and state the changes made. You may not edit the Copyright and License notices. For more detailed, and the actual license, refer to the LICENSE document.

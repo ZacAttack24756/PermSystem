@@ -1,12 +1,16 @@
 -- Required stuff
 local API_KEY = script.Parent.Parent:FindFirstChild("API_KEY")
 local Utl = require(script.Parent.Parent.Services.Utils)
+local MarketPlaceService = game:GetService("MarketPlaceService")
+
+-- Settings
 local AddonName = "ToolGiver"
+local Debug = false
 
 -- sample
 local TeamServ = game:GetService("Teams")
 local Settings = {}
-local Cache = {Tools = {}, Groups = {}, IndexTools = {}}
+local Cache = {Tools = {}, Groups = {}}
 local CachePRefTime = 120 -- We really only need to refresh all the tools infrequently
 local CacheGRefTime = 300 -- Groups Even less, as they usually only are created at the beginning
 
@@ -53,6 +57,7 @@ end
 function RefreshCache(plr)
     Cache.Tools[plr.Name] = {}
     local ToolTable = {}
+    local PlrId = plr.UserId
     wait()
 
     local BannedTools = {}
@@ -89,7 +94,7 @@ function RefreshCache(plr)
                 -- Now to Group Give Data
                 if BannedTools ~= "ALL" and type(GvData) == "table" then
                     for _, v in pairs(GvData) do
-                        if type(v) == "string" and Utl.ObjInArray(BannedTools, v) == false then
+                        if type(v) == "string" and (Utl.ObjInArray(BannedTools, v, Debug) == false) then
                             table.insert(ToolTable, v)
                         end
                     end
@@ -103,7 +108,7 @@ function RefreshCache(plr)
     if BannedTools ~= "ALL" then
         -- Global Tools
         for _, v in pairs(Settings.GTools) do
-            if not Utl.ObjInArray(BannedTools, v) == false then
+            if (Utl.ObjInArray(BannedTools, v, Debug) == false) then
                 table.insert(ToolTable, v)
             end
         end
@@ -112,22 +117,37 @@ function RefreshCache(plr)
         if type(Settings.TeamGive) == "table" and plr.Team then
             if type(Settings.TeamGive[plr.Team]) == "table" then
                 for _, v in pairs(Settings.TeamGive[plr.Team]) do
-                    if type(v) == "string" and Utl.ObjInArray(BannedTools, v) == false then
+                    if type(v) == "string" and (Utl.ObjInArray(BannedTools, v, Debug) == false) then
                         table.insert(ToolTable, v)
+                    end
+                end
+            end
+        end
+
+        -- Gamepass Giving
+        if type(Settings.Gamepasses) == "table" then
+            for _, v in pairs(Settings.Gamepasses) do
+                local Passed, Return = pcall(function()
+                    return MarketPlaceService:UserOwnsGamePassAsync(PlrId, v)
+                end)
+                if Passed then
+                    if Return == true then
                     end
                 end
             end
         end
     end
 
-    print("Banned Tools type: ".. type(BannedTools))
-    if type(BannedTools) == "table" then
-        for _, v in pairs(BannedTools) do
-            print("BannedTool: ".. v)
+    if Debug == true then
+        print("Banned Tools type: '".. type(BannedTools) .."'")
+        if type(BannedTools) == "table" then
+            for _, v in pairs(BannedTools) do
+                print("BannedTool: '".. v .."'")
+            end
         end
-    end
-    for _, v in pairs(ToolTable) do
-        print("Tool ".. v)
+        for _, v in pairs(ToolTable) do
+            print("Tool '".. v .."'")
+        end
     end
 
     Cache.Tools[plr.Name] = ToolTable
@@ -137,7 +157,6 @@ end
 
 function LoopRefPCache(plr)
     local Name = plr.Name
-    delay(2, function() if plr.Character and plr.Character.Humanoid then plr.Character.Humanoid.Health = 0  plr:LoadCharacter() end end)
     plr.CharacterAdded:Connect(function()
         RefreshCache(plr)
         ProcessTools(plr)
@@ -242,6 +261,19 @@ return function(Config)
                 end
 
                 Settings.TeamGive[TeamObj] = Format
+            end
+        end
+    end
+
+    Settings.Gamepasses = {}
+    if type(Config.GamepassGive) == "number" then
+        if 0 < Config.GamepassGive and Config.GamepassGive < math.huge then
+            Settings.Gamepasses = {Config.GamepassGive}
+        end
+    elseif type(Config.GamepassGive) == "table" then
+        for _, v in pairs(Config.GamepassGive) do
+            if type(v) == "number" and 0 < v and v < math.huge then
+                table.insert(Settings.Gamepasses, v)
             end
         end
     end
