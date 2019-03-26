@@ -47,6 +47,8 @@ Along with the base feature for the script, there is also specialty scripts buil
 
 - **DoorControl**: *__Idea / Not created yet__* A simple, centralized script for controlling doors in-game. Does not have direct connections to PermSystem, but can be used in conjunction with "Cards" Addon and some others.
 
+- **RPSystem**: *__Idea / Not created yet__* A Gui-based script that installs Graphical User Interfaces, similar to that of a Role Playing game. Features include Mouse Point-and-Click text, Player Profiles, and more. An extension to "SimpleTitles" addon.
+
 ## Planned Features
 - Initial Release
 - **In-Game Testing** -> (Talk to me if you want to do participate ;)  )
