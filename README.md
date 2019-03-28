@@ -1,5 +1,5 @@
 # PermSystem
-A script I made for Roblox, now on github aswell. This script allows for setting permissable groups to be given to certian individuals, which grants them access to things in game.
+A script I made for Roblox, now on github as well. This script allows for setting permissible groups to be given to certain individuals, which grants them access to things in game.
 Product made by: mystery3525 (Roblox), ZacAttack24756 (github)
 
 ### How to use in your game
@@ -35,7 +35,7 @@ This script is also a, **one-time-configuration** type of script, meaning that i
 
 Along with the base feature for the script, there is also specialty scripts built into this one that works really well with PermSystem. Addons may or may not be primarily focused on PermSystem, but are included with the script and configuration. *Addons __have been added, but not fully tested yet__*
 
-- **SimpleTitles**: Previously uncreatively considered "AboveHeadRanks", this addon is a simple, yet effective User Group Display system. See Configuration Documentation for the full description, and configuration.
+- **SimpleTitles**: Previously uncreatively considered "AboveHeadRanks", this Addon is a simple, yet effective User Group Display system. See Configuration Documentation for the full description, and configuration.
 
 - **ToolGiver**: Another uncreatively named script, ToolGiver allows you to configure it to give players tools on a Per-Group-Basis. Note: You cannot have the same tool given out twice by default, see Configuration Documentation for more information.
 
