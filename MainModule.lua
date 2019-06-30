@@ -19,7 +19,7 @@ local Functions = script.Functions
 local AddonFolder = script.Addons
 local CreatePermGroup = require(Functions.CreatePermGroup)
 local RefreshUser = require(Functions.RefreshUser)
-local CheckUserPerm = require(Functions.CheckUserPerm)
+local CheckPermModule = require(Functions.CheckPerm)
 
 -- Services
 local Players = game:GetService("Players")
@@ -27,7 +27,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 -- Changable Script Vars
 local Groups = {}
-local AddonTab = {}
+local FunctionSave = {}
 local PlayerTable = {}
 local BFunc = nil
 local ApiKey = nil
@@ -53,9 +53,33 @@ function GetEvent(...)
         local Found = string.match(Permission, "[\.%P|\*]*")
 
         if type(Found) == "string" and Found ~= "" then
-            return CheckUserPerm(Groups, Player, Found)
+            return CheckPermModule(Groups, "User", Player, Found)
         end
         return
+    elseif Args[1] == "CheckPermGroup" then
+        if type(Args[2]) ~= "string" or Args[3] == "" then return "Argument 2 is not a string!" end
+        if type(Args[3]) ~= "string" or Args[3] == "" then return "Argument 3 is not a string!" end
+
+        local TargetGroup = Args[2]
+        local Permission = Args[3]
+
+        local GroupExists = false
+        for _, v in pairs(Groups) do
+            if v.Name == TargetGroup then
+                GroupExists = true
+            end
+        end
+        if GroupExists == false then return "Group does not Exist!" end
+        GroupExists = nil
+
+        local Found = string.match(Permission, "[\.%P|\*]*")
+
+        if type(Found) == "string" and Found ~= "" then
+            return CheckPermModule(Groups, "Group", TargetGroup, Found)
+        else
+            return "Misformed Permission String!"
+        end
+        return "Unknown Error"
     elseif Args[1] == "CheckGroup" then
         if typeof(Args[2]) ~= "Instance" or Args[2]:IsA("Player") == false then return end
         if type(Args[3]) ~= "string" or Args[3] == "" then return end
@@ -86,7 +110,11 @@ function GetEvent(...)
         end
 
         return
+    elseif type(FunctionSave[Args[1]]) == "function" then
+        return FunctionSave[Args[1]]
     end
+
+    return nil
 end
 -- Internal Api ----------------------------------------------------------------
 function GetEventI(...)
@@ -139,7 +167,28 @@ function GetEventI(...)
         end
 
         return Found
+    elseif Args[2] == "CreateGroup" then
+        local SettingsObject = Args[3]
+        if type(SettingsObject) ~= "table" then return "Settings Object not a table!" end
+        if type(SettingsObject.Name) ~= "string" or type(Groups[SettingsObject.Name]) == "table" then return "Name inside the SettingsObject not a string, or is already in use!" end
+
+        local Return = CreatePermGroup(SettingsObject, SettingsObject.Name, Groups)
+        if type(Return) == "string" then
+            print("PermSystem Internal Group Creation Error: ".. Return)
+        elseif type(Return) == "table" then
+            Groups[Return.Name] = Return
+            return true
+        end
+        return false
+    elseif Args[2] == "RegisterFunction" then
+        local Name = Args[3]
+        if type(Name) ~= "string" or type(FunctionSave[Name]) ~= "nil" or Name == "CheckPerm" or Name == "CheckGroup" then return "Function Name Already Exists" end
+
+        FunctionSave[Name] = Args[4]
+        return true
     end
+
+    return GetEvent(...)
 end
 -- Keep it in it's own function, just incase
 function MakeFunc()

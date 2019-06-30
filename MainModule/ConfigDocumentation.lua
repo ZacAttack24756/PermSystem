@@ -77,14 +77,58 @@
     ----    Addon Settings    ----
     ------------------------------
 
+    -- Cards: A built-in solution for having basic cards in your games
+    -- Typically, Cards are assigned to an individual, and can contain all the Group Data an permissions of that individual
+    -- Anonymous Cards can be created by Server Scripts, along with the Group Data of it's choosing.
+    ["Cards"] = {
+        "Enabled"           [Bool]  :   Wether or not this addon is enabled
+        ~~ Optional Settings ~~
 
-    {
+        "Card:Color1"       [...]   :   Examples: <BrickColor>, "TeamColor", "RankLadder:<RankLadder>"
+        "Card:Color2"       [...]   :   Examples: <BrickColor>, "TeamColor", "RankLadder:<RankLadder>"
+        "Card:Material1"    [...]   :   Examples: <MaterialName>, "RankLadder:<RankLadder>"
+        "Card:Material2"    [...]   :   Examples: <MaterialName>, "RankLadder:<RankLadder>"
+        "Card:Font"         [...]   :   Examples: <FontName>, "RankLadder:<RankLadder>"
+        "Card:Text"         [...]   :   Examples: "Disabled", "<Username>", "RankLadder:<RankLadder>", "RblxGroupID:<GroupId>", "SetText:<Text>"
+        "Card:TextColor"    [...]   :   Examples: <Color3>
+
+        "GlobalCardGive"    [Bool]  :   Wether or not cards are just given to every player
+
+        "TeamCardGive"      [...]   :   Teams that are given Cards
+        -- {[game.Teams.<TeamObj>] = <true/false>, [game.Teams.<TeamObj>] = <true/false>}
+
+        "TeamCardBlacklist"  [...]  :   Teams that are BLACKLISTED in getting Cards (Ignores if the Team is allowed)
+        -- {[game.Teams.<TeamObj>] = <true/false>, [game.Teams.<TeamObj>] = <true/false>}
+    }
+    --- Cards Group Addon Format ---
+    ["Cards"] = {
+        ~~ Card Settings (ALL OPTIONAL) ~~
+        "CardGive"          [Bool]  :   Wether or not Cards are enabled for this Group
+        "CardBlacklist"     [Bool]  :   Wether or not Cards are blacklisted for this Group
+
+        "Card:Color1"  [BrickColor] :   The BrickColor of the Main Card
+        "Card:Color2"  [BrickColor] :   The BrickColor of the Text Part of the Card
+
+        "Card:Material1"    [Str]   :   The Enum Name of the Main Card's Material
+        "Card:Material2"    [Str]   :   The Enum Name of the Text Part of the Card's Material
+
+        "Card:Font"         [Str]   :   The Enum Name of the Card's Text Font
+        "Card:Text"         [Str]   :   The Text on the Card (See Below)
+        -- Examples: "Disabled", "<Username>", "SetText:<Text>"
+        -- Examples: "RblxGroupID:<GroupId>" (Takes the name of whatever the player is in that group)
+
+        "Card:TextColor" [Str/Col3] :   The Color3 of the Text
+        -- Examples: "TeamColor", <Color3>
+    }
+
+    --------------------------------------------------------------------------------------------------------------------------------------------------------
+
     -- SimpleTitles: A basic titling system for games (NOT ADDED YET)
     -- Has Moderate-High Configuration, Custom Team Assigns, Custon Group Assigns, Up to 4 scaled text boxes (0th: Username, 4th: Smallest Text Box)
     -- NOTE: Cannot have more than 1 (Rank Ladder or Team) assigned to one Text Box
     -- If the Box is assigned to a RankLadder, and the user is not in any group in that RankLadder, the box will be empty
     ["SimpleTitles"] = {
-        "Enabled"           [Bool]  :   Wether or not the addon is enabled
+        "Enabled"           [Bool]  :   Wether or not this addon is enabled
         ~~ Optional Settings ~~
         "GuiViewDistance"   [Num]   :   The Maximum Distance that this GUI can be view from
         "FillEmptyBoxes"    [Bool]  :   Should the script fill in boxes that are empty with the smaller ones, while keeping the size (True by default)
@@ -105,21 +149,25 @@
     },
     --- SimpleTitles Group Addon Setting Format ---
     {
+        ~~ Optional Settings ~~
         "Global:Color"   [Col3/Str] :   A Color3, OR a BrickColor name to set the color as
         "Box1:Text"         [Str]   :   Examples: "Disabled", "Username", "SetText:<Text>" (Box1 Cannot be based off TeamNames)
         "Box2:Text"         [Str]   :   Examples: "Disabled", "TeamName", "SetText:<Text>", "RblxGroupID:<GroupID>"
         "Box3:Text"         [Str]   :   Examples: "Disabled", "TeamName", "SetText:<Text>", "RblxGroupID:<GroupID>"
         "Box3:Text"         [Str]   :   Examples: "Disabled", "TeamName", "SetText:<Text>", "RblxGroupID:<GroupID>"
     }
+
+    --------------------------------------------------------------------------------------------------------------------------------------------------------
+
     -- ToolGiver: A simple addon to configure tools to be given to groups
     -- Tools are configured on a Per-Team Basis
-    {
-        "Enabled            [Bool]  :   Wether or not the addon is enabled
+    ["ToolGiver"] = {
+        "Enabled"           [Bool]  :   Wether or not this addon is enabled
         ~~ Optional Settings ~~
         "ToolStorage" [Obj/Arr:Obj] :   A location to get the tools from in Roblox, OR an array of Objects to get the tools from (Example "  = {game.ServerStorage.Tools, game.Workspace.Tools}")
 
         "TeamBlackList"       [...] :   Teams that are blacklisted from reciving any tools, or specific tools; FORMAT:
-        {[game.Teams.<TeamObject>] = {"<Tool>", "<Tool>"}, [game.Teams.<AnotherTeam>] = {"<Tool>", "<Tool>"}, [game.Teams.<AThirdTeam>] = "ALL"}
+        -- {[game.Teams.<TeamObject>] = {"<Tool>", "<Tool>"}, [game.Teams.<AnotherTeam>] = {"<Tool>", "<Tool>"}, [game.Teams.<AThirdTeam>] = "ALL"}
 
         "AllowDupeTools" [B/Arr:St] :   Wether or not a player can get more than one of each tool (Disabled by default)
         -- Note: If its a boolean, its applied globally. If it is an Array, the specific tool names in the array are allowed
@@ -130,12 +178,13 @@
 
         -- Note: It is more recommended that if you are already using Gamepasses for adding players to groups, to use that group's settings instead of setting this
         "GamepassGive" [Arr:Tab:Str]:   Tools that are given via Roblox's Gamepass System
-        {[<GamepassId>] = {"<Tool1>", "<Tool2>"}, [<AnotherGamepass>] = {"<Tool1>", "<Tool2>"}}
+        -- {[<GamepassId>] = {"<Tool1>", "<Tool2>"}, [<AnotherGamepass>] = {"<Tool1>", "<Tool2>"}}
 
         "GlobalToolGive"  [Arr:Str] :   An array of tools given to anyone
     }
     --- ToolGiver Group Addon Setting Format ---
     {
+        ~~ Optional Settings ~~
         "ToolBlackList" [Str/A:Str] :   An Array of Tools that are blacklsited for this group, or "ALL" for every tool
         "ToolGiveList"    [Arr:Str] :   An Array of Tools that are given to members of this group, cannot give blacklisted tools
     }

@@ -61,5 +61,10 @@ Utils.TableMerge = function(...)
 
     return MergedTable
 end
+-- Round Function
+Utils.Round = function(Number, PowerOf10)
+    local Mult = 10 ^ (PowerOf10 or 0)
+    return (math.floor((Number * Mult) + 0.5) / Mult)
+end
 
 return Utils
