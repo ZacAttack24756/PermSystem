@@ -10,8 +10,6 @@ MTable.__index = MTable
 -- Insert Meta things here
 local Debug = false
 
-local MPS = game:GetService("MarketPlaceService")
-
 function MTable:PlayerBelongsInGroup(PlayerObj)
 	local Pass = false
 	local PlrId = PlayerObj.UserId
@@ -226,7 +224,7 @@ return function(Data, Name, Groups)
 			Content.Options.SubGroup = Data.Options.SubGroup
 		end
 
-		if type(Data.Options.Priority) == "number" and (-1 * math.huge < Data.Options.Priority) and (Data.Options.Priority < math.huge) then
+		if type(Data.Options.Priority) == "number" and (-1 * math.huge <= Data.Options.Priority) and (Data.Options.Priority <= math.huge) then
 			Content.Options.Priority = Data.Options.Priority
 		end
 	end

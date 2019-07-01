@@ -30,8 +30,8 @@ local Groups = {}
 local FunctionSave = {}
 local PlayerTable = {}
 local BFunc = nil
-local ApiKey = nil
-local ApiKeyRand = Random.new()
+local API_KEY = nil
+local API_KEY_Rand = Random.new()
 _G.PermSystem = {}
 
 ---- Main Functions ----
@@ -202,16 +202,16 @@ function MakeFunc()
     BFunc.Parent = ReplicatedStorage
 
     -- We gotta secure it from anyone trying to get it
-    ApiKey = Instance.new("NumberValue")
-    ApiKey.Name = "API_KEY"
-    ApiKey.Value = ApiKeyRand:NextNumber()
-    ApiKey.Parent = script
+    API_KEY = Instance.new("NumberValue")
+    API_KEY.Name = "API_KEY"
+    API_KEY.Value = API_KEY_Rand:NextNumber()
+    API_KEY.Parent = script
 
     _G.PermSystem.Api = function(...)
         local Args = {...}
 
         if type(Args[1]) ~= "number" then return "API Key Missing" end
-        if Args[1] ~= ApiKey.Value then return nil end
+        if Args[1] ~= API_KEY.Value then return nil end
 
         return GetEventI(...)
     end
@@ -263,12 +263,12 @@ return function(Settings)
     -- Halt for a sec
     wait()
 
-    -- Creates the event & Adds a function to refresh the ApiKey
+    -- Creates the event & Adds a function to refresh the API_KEY
     MakeFunc()
     spawn(function()
         while true do
             wait(30)
-            ApiKey.Value = ApiKeyRand:NextNumber()
+            API_KEY.Value = API_KEY_Rand:NextNumber()
         end
     end)
 

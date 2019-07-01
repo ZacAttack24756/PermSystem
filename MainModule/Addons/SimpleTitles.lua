@@ -1,4 +1,4 @@
-local ApiKey = script.Parent.Parent:FindFirstChild("API_KEY")
+local API_KEY = script.Parent.Parent:FindFirstChild("API_KEY")
 local TS = game:GetService("Teams")
 local Settings = {}
 local Debug = false
@@ -90,7 +90,7 @@ end
 
 -- Locates the Addon Configuration for a specific RankLadder
 function LocateGroupAddonInfo(PlayerData, RankLadder)
-    local RankLadderGroups = _G.PermSystem.Api(ApiKey.Value, "GetRankLadderGroups", RankLadder)
+    local RankLadderGroups = _G.PermSystem.Api(API_KEY.Value, "GetRankLadderGroups", RankLadder)
 
     if Debug==true then print("PlayerData")
                         print(PlayerData)
@@ -110,7 +110,7 @@ function LocateGroupAddonInfo(PlayerData, RankLadder)
             if Debug== true then print("  ".. v2) end
             if v1 == v2 then
                 if Debug==true then print("   Success! '".. v1 .."' and '".. v2 .."'") end
-                local Info = _G.PermSystem.Api(ApiKey.Value, "GetGroupData", v1)
+                local Info = _G.PermSystem.Api(API_KEY.Value, "GetGroupData", v1)
                 if Debug==true then print("   GroupData")
                                     print(Info)
                                     print(Info.Addons)
@@ -188,13 +188,13 @@ end
 function Run(Player, Character)
     local Username = Player.Name
     local Team = Player.Team
-    local Data = _G.PermSystem.Api(ApiKey.Value, "GetPlrData", Player)
+    local Data = _G.PermSystem.Api(API_KEY.Value, "GetPlrData", Player)
 
     if Debug==true then print("PlayerData")
                         print(Data) end
     if type(Data) == "nil" then
         wait(0.5)
-        Data = _G.PermSystem.Api(ApiKey.Value, "GetPlrData", Player)
+        Data = _G.PermSystem.Api(API_KEY.Value, "GetPlrData", Player)
     end
     if type(Data) == "string" then
         warn("SimpleTitles GetPlrData Error for ".. Username ..", :".. Data)

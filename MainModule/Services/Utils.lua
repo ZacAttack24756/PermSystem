@@ -71,7 +71,7 @@ local function deepCopy(original)
     local copy = {}
     for k, v in pairs(original) do
         -- as before, but if we find a table, make sure we copy that too
-        if type(v) == **table** then
+        if type(v) == "table" then
             v = deepCopy(v)
         end
         copy[k] = v

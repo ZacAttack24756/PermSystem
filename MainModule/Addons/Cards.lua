@@ -16,7 +16,7 @@ local CardBase = script:FindFirstChild("CardBase")
 
 -- Tweaked from SimpleTitles
 function LocateGroupAddonInfo(PlayerData, RankLadder)
-    local RankLadderGroups = _G.PermSystem.Api(ApiKey.Value, "GetRankLadderGroups", RankLadder)
+    local RankLadderGroups = _G.PermSystem.Api(API_KEY.Value, "GetRankLadderGroups", RankLadder)
 
     if Debug==true then print("PlayerData")
                         print(PlayerData)
@@ -36,7 +36,7 @@ function LocateGroupAddonInfo(PlayerData, RankLadder)
             if Debug== true then print("  ".. v2) end
             if v1 == v2 then
                 if Debug==true then print("   Success! '".. v1 .."' and '".. v2 .."'") end
-                local Info = _G.PermSystem.Api(ApiKey.Value, "GetGroupData", v1)
+                local Info = _G.PermSystem.Api(API_KEY.Value, "GetGroupData", v1)
                 if Debug==true then print("   GroupData")
                                     print(Info)
                                     print(Info.Addons)
@@ -99,24 +99,27 @@ function CreateCard(Args)
     end
     if type(Args[7]) == "string" then
         local Part = CardClone:FindFirstChild("TextPart")
-        local Gui = Part:FindFirstChild("SurfaceGui")
-        local Label = Gui:FindFirstChild("TextLabel")
-        TextLabel.Font = Args[7]
+        local FrontLabel = Part.FrontGui.TextLabel
+        local BackLabel = Part.BackGui.TextLabel
+        FrontLabel.Font = Args[7]
+        BackLabel.Font = Args[7]
     end
     if type(Args[8]) == "string" then
         local Part = CardClone:FindFirstChild("TextPart")
-        local Gui = Part:FindFirstChild("SurfaceGui")
-        local Label = Gui:FindFirstChild("TextLabel")
-        TextLabel.Text = Args[8]
+        local FrontLabel = Part.FrontGui.TextLabel
+        local BackLabel = Part.BackGui.TextLabel
+        FrontLabel.Text = Args[8]
+        BackLabel.Text = Args[8]
     end
     if type(Args[9]) == "string" then
         CardClone.Name = Args[9]
     end
-    if type(Args[10]) == "string" then
+    if typeof(Args[10]) == "Color3" then
         local Part = CardClone:FindFirstChild("TextPart")
-        local Gui = Part:FindFirstChild("SurfaceGui")
-        local Label = Gui:FindFirstChild("TextLabel")
-        TextLabel.Text = Args[10]
+        local FrontLabel = Part.FrontGui.TextLabel
+        local BackLabel = Part.BackGui.TextLabel
+        FrontLabel.TextColor3 = Args[10]
+        BackLabel.TextColor3 = Args[10]
     end
 
     -- Registers that Card
@@ -137,14 +140,14 @@ return function(Config)
     elseif type(Config["Card:Color1"]) == "string" and (Config["Card:Color1"] == "TeamColor" or string.sub(Config["Card:Color1"], 1, 10) == "RankLadder:") then
     else Config["Card:Color1"] = BrickColor.new("Smokey grey") end]]
 
-    _G.PermSystem.Api(ApiKey.Value, "RegisterFunction", AddonName .."_Create", function(...)
+    _G.PermSystem.Api(API_KEY.Value, "RegisterFunction", AddonName .."_Create", function(...)
         local Args = {...}
         if type(Args[1]) ~= "string" or Args[1] == "" then return "Argument 1 is not a string!" end
 
         if Args[1] == "UserCard" then
             if type(Args[2]) ~= "string" or type(game.Players[Args[2]]) ~= "userdata" then return "Function 'UserCard' error: Argument 2 is not a string nor a Name of a connected Player." end
         elseif Args[1] == "GroupCard" then
-            if type(Args[2]) ~= "string" or type(_G.ApiKey.Value, "GetGroupData", Args[2]) ~= "table" then return "Group Invalid/Doesn't Exist" end
+            if type(Args[2]) ~= "string" or type(_G.PermSystem.Api(API_KEY.Value, "GetGroupData", Args[2])) ~= "table" then return "Group Invalid/Doesn't Exist" end
         else
             return "Invalid Type: '".. Args[1] .."'"
         end
@@ -181,18 +184,18 @@ return function(Config)
 
         return CreateCard(Args)
     end)
-    _G.PermSystem.Api(ApiKey.Value, "RegisterFunction", AddonName .."_Remove", function(...)
+    _G.PermSystem.Api(API_KEY.Value, "RegisterFunction", AddonName .."_Remove", function(...)
         local Args = {...}
         if type(Args[1]) ~= "userdata" or typeof(Args[1]) ~= "Tool" then return "Given Argument 1 is not a Card Object" end
 
         if type(CardTable[Args[1]]) ~= "table" then return "Invalid Card" end
 
-        CardData[Args[1]] = nil
+        CardTable[Args[1]] = nil
         Args[1]:Destroy()
 
         return true
     end)
-    _G.PermSystem.Api(ApiKey.Value, "RegisterFunction", AddonName .."_Check", function(...)
+    _G.PermSystem.Api(API_KEY.Value, "RegisterFunction", AddonName .."_Check", function(...)
         local Args = {...}
         if type(Args[1]) ~= "userdata" or typeof(Args[1]) ~= "Tool" then return "Given Argument 1 is not a Card Object" end
 
@@ -201,6 +204,6 @@ return function(Config)
         local CardData = CardTable[Args[1]]
         if CardData.Created > tick() then return "Unknown Time Error" end
 
-        return {Result = true, Type = CardData.Type, DataValue = CardData.DataName, CardData.Data}
+        return {Result = true, Type = CardData.Type, DataValue = CardData.DataName, Data = CardData.Data}
     end)
 end

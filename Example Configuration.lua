@@ -336,7 +336,7 @@ local Settings = {
                 [game.Teams.FP] = {"BlueKatana",},
                 [game.Teams.IA] = {"RocketLauncher",},
             },
-            GlobalToolGive = {"Pistol",},
+            GlobalToolGive = {},
         }
     },
     Options = {
@@ -346,7 +346,7 @@ local Settings = {
     },
 }
 
-local Return = require(2892139643)(Settings)
+local Return = require(2892139643)(Settings) --Don't use in regular games!
 if type(Return) == "string" then
 	error(Return)
 end

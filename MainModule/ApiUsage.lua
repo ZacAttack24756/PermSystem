@@ -40,5 +40,13 @@ local PermSystem = game:GetService("ReplicatedStorage"):WaitForChild("PermSystem
                 TextColor = <Color3>    :   The Color3 of the Text
             }                       :   Settings about the Card's Asthetics (Supports Variables)
     RETURNS ->  <Variant>               :   The Final Card Tool, Completely made and registered
+
+    "Cards_Remove"              :   Removes a Valid Card
+    ->      <Card>                  :   The Card to remove
+    RETURNS ->  <Variant>               :   Returns true if it was successful, String if error
+
+    "Cards_Check"               :   Checks the Validity of a Card
+    ->      <Card>                  :   The Card to Check (The actual TOOL)
+    RETURNS ->  <Table>               :   Returns a table (__.Result = true, __.Type = "<UserCard/GroupCard>", __.DataValue = "<Username/Group>")
 ]]--
 local Result = PermSystem:Invoke("<Function>", ...<Arguments>...)

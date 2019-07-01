@@ -75,7 +75,7 @@ return function(Groups, PlayerObj)
 
     local Max = -1 * math.huge
     local MaxGroup = ""
-    for _, v in pairs(PlayerData.Groups) then
+    for _, v in pairs(PlayerData.Groups) do
         local TargetGroup = Groups[v]
         if TargetGroup.Options.Priority > Max then
             Max = TargetGroup.Options.Priority

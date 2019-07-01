@@ -1,7 +1,7 @@
 -- Required stuff
 local API_KEY = script.Parent.Parent:FindFirstChild("API_KEY")
 local Utl = require(script.Parent.Parent.Services.Utils)
-local MarketPlaceService = game:GetService("MarketPlaceService")
+local MarketplaceService = game:GetService("MarketplaceService")
 
 -- Settings
 local AddonName = "ToolGiver"
@@ -128,7 +128,7 @@ function RefreshCache(plr)
         if type(Settings.Gamepasses) == "table" then
             for _, v in pairs(Settings.Gamepasses) do
                 local Passed, Return = pcall(function()
-                    return MarketPlaceService:UserOwnsGamePassAsync(PlrId, v)
+                    return MarketplaceService:UserOwnsGamePassAsync(PlrId, v)
                 end)
                 if Passed then
                     if Return == true then
