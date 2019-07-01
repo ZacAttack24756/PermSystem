@@ -40,7 +40,7 @@ function CheckDescendantsForPerm(Groups, GroupName, Permission)
 end
 
 return function(Groups, Type, ...)
-    if Type == "Player" then
+    if Type == "User" then
         local Args = {...}
 
         local PlayerObj = Args[1]
@@ -58,7 +58,7 @@ return function(Groups, Type, ...)
 
         -- Checks the Permission with the Standard Pattern
         local Found = string.match(PermStr, "[\.%P|\*]*")
-        if type(Found) ~= "string" or Found == "" then return nil end
+        if type(Found) ~= "string" or Found == "" then return "No Permission String Found" end
 
         -- Gets Player Data
         local PlayerData = PlayerStore:GetData(tostring(PlayerId))
@@ -80,8 +80,8 @@ return function(Groups, Type, ...)
     elseif Type == "Group" then
         local Args = {...}
 
-        local TargetGroup = Args[2]
-        local PermStr = Args[3]
+        local TargetGroup = Args[1]
+        local PermStr = Args[2]
 
         -- Type Checks
         if type(TargetGroup) ~= "string" or TargetGroup == "" then return "Given Group is not a string!" end
@@ -92,7 +92,7 @@ return function(Groups, Type, ...)
         if type(Found) ~= "string" or Found == "" then return "Misformed Permission String!" end
 
         local Result = false
-        Result = CheckDescendantsForPerm(Groups, TargetGroup)
+        Result = CheckDescendantsForPerm(Groups, TargetGroup, PermStr)
         return Result
     end
 end

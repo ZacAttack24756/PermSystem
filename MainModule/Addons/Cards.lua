@@ -142,6 +142,7 @@ return function(Config)
 
     _G.PermSystem.Api(API_KEY.Value, "RegisterFunction", AddonName .."_Create", function(...)
         local Args = {...}
+        table.remove(Args, 1)
         if type(Args[1]) ~= "string" or Args[1] == "" then return "Argument 1 is not a string!" end
 
         if Args[1] == "UserCard" then
@@ -186,7 +187,8 @@ return function(Config)
     end)
     _G.PermSystem.Api(API_KEY.Value, "RegisterFunction", AddonName .."_Remove", function(...)
         local Args = {...}
-        if type(Args[1]) ~= "userdata" or typeof(Args[1]) ~= "Tool" then return "Given Argument 1 is not a Card Object" end
+        table.remove(Args, 1)
+        if type(Args[1]) ~= "userdata" or typeof(Args[1]) ~= "Instance" or not Args[1]:IsA("Tool") then return "Given Argument 1 is not a Card Object" end
 
         if type(CardTable[Args[1]]) ~= "table" then return "Invalid Card" end
 
@@ -197,7 +199,8 @@ return function(Config)
     end)
     _G.PermSystem.Api(API_KEY.Value, "RegisterFunction", AddonName .."_Check", function(...)
         local Args = {...}
-        if type(Args[1]) ~= "userdata" or typeof(Args[1]) ~= "Tool" then return "Given Argument 1 is not a Card Object" end
+        table.remove(Args, 1)
+        if type(Args[1]) ~= "userdata" or typeof(Args[1]) ~= "Instance" or not Args[1]:IsA("Tool") then return "Given Argument 1 is not a Card Object" end
 
         if type(CardTable[Args[1]]) ~= "table" then return "Invalid Card" end
 
@@ -206,4 +209,6 @@ return function(Config)
 
         return {Result = true, Type = CardData.Type, DataValue = CardData.DataName, Data = CardData.Data}
     end)
+
+    return true
 end

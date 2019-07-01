@@ -80,6 +80,22 @@ function GetEvent(...)
             return "Misformed Permission String!"
         end
         return "Unknown Error"
+    elseif Args[1] == "CheckCardPerm" then
+        if FunctionSave["Cards_Check"] then
+            if type(Args[2]) ~= "userdata" or typeof(Args[2]) ~= "Instance" or not Args[2]:IsA("Tool") then return "Given Argument 2 is not a Tool!" end
+            if type(Args[3]) ~= "string" then return "Given Argument 3 is not a string!" end
+
+            local Result = FunctionSave["Cards_Check"]("Cards_Check", Args[2])
+            if type(Result) ~= "table" then return Result end
+
+            if Result.Type == "UserCard" then
+                return CheckPermModule(Groups, "User", game.Players:FindFirstChild(Result.DataValue), Args[3])
+            elseif Result.Type == "GroupCard" then
+                return CheckPermModule(Groups, "Group", Result.DataValue, Args[3])
+            end
+        else
+            return "'Cards' Addon not enabled!"
+        end
     elseif Args[1] == "CheckGroup" then
         if typeof(Args[2]) ~= "Instance" or Args[2]:IsA("Player") == false then return end
         if type(Args[3]) ~= "string" or Args[3] == "" then return end
@@ -111,10 +127,10 @@ function GetEvent(...)
 
         return
     elseif type(FunctionSave[Args[1]]) == "function" then
-        return FunctionSave[Args[1]]
+        return FunctionSave[Args[1]](...)
     end
 
-    return nil
+    return "End"
 end
 -- Internal Api ----------------------------------------------------------------
 function GetEventI(...)
@@ -292,11 +308,11 @@ return function(Settings)
                 if type(i) == "string" and AddonFolder:FindFirstChild(i) ~= nil then
                     local Return = require(AddonFolder:FindFirstChild(i))(v)
                     if type(Return) == "string" then
-                        print(i.. " Addon Error: ".. Return)
+                        print("'".. i.. "' Addon Error: ".. Return)
                     elseif type(Return) == "boolean" and Return == false then
-                        print(i.. " Addon Error: Error Unknown")
+                        print("'".. i.. "' Addon Error: Error Unknown")
                     elseif type(Return) == "boolean" and Return == true then
-                        print(i.. " Addon loaded and executed successfully")
+                        print("'".. i.. "' Addon loaded and executed successfully")
                     end
                 end
             end

@@ -152,7 +152,7 @@ local Settings = {
         --------------------
         ["O5Council"] = {
             Rank = 13,
-            Perms = {},
+            Perms = {".*"}, -- For testing purposes only
             Inheritance = "SiteDirector",
             RobloxGroup = {{
                 ID = 3519516,
@@ -337,6 +337,9 @@ local Settings = {
                 [game.Teams.IA] = {"RocketLauncher",},
             },
             GlobalToolGive = {},
+        },
+        ["Cards"] = {
+            Enabled = true,
         }
     },
     Options = {
@@ -350,3 +353,41 @@ local Return = require(2892139643)(Settings) --Don't use in regular games!
 if type(Return) == "string" then
 	error(Return)
 end
+wait(2)
+
+local PermFunc = game:GetService("ReplicatedStorage"):FindFirstChild("PermSystem")
+local function PlayerStuff(plr)
+    plr.CharacterAdded:Connect(function(char)
+        wait(2.5)
+        local Cards = {
+            PermFunc:Invoke("Cards_Create", "GroupCard", "O5Council", {
+                Color1 = BrickColor.new("Really black"),
+                Color2 = BrickColor.new("Institutional white"),
+                Text = "O5 Council Access Card",
+                Name = "O5 Keycard",
+            }),
+            PermFunc:Invoke("Cards_Create", "GroupCard", "SiteDirector", {
+                Color1 = BrickColor.new("Really red"),
+                Color2 = BrickColor.new("Institutional white"),
+                Text = "Facility Manager Access Card",
+                Name = "Facility Manager Keycard",
+            }),
+            PermFunc:Invoke("Cards_Create", "GroupCard", "SiteDirector", {
+                Color1 = BrickColor.new("Navy blue"),
+                Color2 = BrickColor.new("Institutional white"),
+                Text = "Zone Manager Access Card",
+                Name = "Zone Manager Keycard",
+            }),
+        }
+        for _, Card in pairs(Cards) do
+            if typeof(Card) == "Instance" and Card:IsA("Tool") then
+                Card.Parent = plr.Backpack
+                Card.Run.Disabled = false
+            end
+        end
+    end)
+end
+for _, v in pairs(game.Players:GetChildren()) do
+    PlayerStuff(v)
+end
+game.Players.PlayerAdded:Connect(PlayerStuff)
