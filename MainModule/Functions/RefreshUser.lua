@@ -19,7 +19,7 @@ return function(Groups, PlayerObj)
 
     local PlayerData = PlayerStore:GetData(tostring(PlayerId))
     if type(PlayerData) ~= "string" or PlayerData == "" then
-        PlayerData = {Groups = {}}
+        PlayerData = {Groups = {}, PrimaryGroup = ""}
     else
         PlayerData = Http:JSONDecode(PlayerData)
     end
@@ -72,6 +72,17 @@ return function(Groups, PlayerObj)
         end
     end
     RLadders = nil -- A little clean up
+
+    local Max = -1 * math.huge
+    local MaxGroup = ""
+    for _, v in pairs(PlayerData.Groups) then
+        local TargetGroup = Groups[v]
+        if TargetGroup.Options.Priority > Max then
+            Max = TargetGroup.Options.Priority
+            MaxGroup = v
+        end
+    end
+    PlayerData.PrimaryGroup = MaxGroup
 
     -- Finally, Publish it
     local Encode = Http:JSONEncode(PlayerData)

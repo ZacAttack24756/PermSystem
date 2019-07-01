@@ -38,6 +38,8 @@
         {
             "SaveUsers"     [Bool]  :   Specify whether any users added to this group is saved. (Automatically set to false if "RobloxGroup" or "RobloxTeam" is enabled)
             "Override"      [Str]   :   Define a specific Permission Override (See "Permission Overrides")
+            "SubGroup"      [Bool]  :   If enabled, No player will be given this group
+            "Priority"      [Num]   :   The Priority of this Group being a Player's Primary Group (Higher = More Priority)
         }
         "AccessList"    [Array:Str] :   An array of people who are allowed into this (FORMAT: "UserId:<The Player's ID>", "Username:<The Player's Roblox Username")
         "RobloxGroup"   [Array:Tab]	:	Array of Tables which specify what roblox group and rank can get this group. (Refer Below)
@@ -90,6 +92,7 @@
         "Card:Material2"    [...]   :   Examples: <MaterialName>, "RankLadder:<RankLadder>"
         "Card:Font"         [...]   :   Examples: <FontName>, "RankLadder:<RankLadder>"
         "Card:Text"         [...]   :   Examples: "Disabled", "<Username>", "RankLadder:<RankLadder>", "RblxGroupID:<GroupId>", "SetText:<Text>"
+        "Card:Name"         [...]   :   Examples: "Disabled", "RankLadder:<RankLadder>", "SetText:<Text>"
         "Card:TextColor"    [...]   :   Examples: <Color3>
 
         "GlobalCardGive"    [Bool]  :   Wether or not cards are just given to every player
@@ -116,6 +119,7 @@
         "Card:Text"         [Str]   :   The Text on the Card (See Below)
         -- Examples: "Disabled", "<Username>", "SetText:<Text>"
         -- Examples: "RblxGroupID:<GroupId>" (Takes the name of whatever the player is in that group)
+        "Card:Name"         [Str]   :   The Name of the Card's actual Tool (See Above)
 
         "Card:TextColor" [Str/Col3] :   The Color3 of the Text
         -- Examples: "TeamColor", <Color3>

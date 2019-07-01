@@ -24,5 +24,21 @@ local PermSystem = game:GetService("ReplicatedStorage"):WaitForChild("PermSystem
     ->      <PlayerObject>          :   The Physical Player Object (i.e.   game.Players.Bob   )
     ->      "<GroupName>"           :   The Name of the Group to Check
     RETURNS ->  <Variant>               :   If the Player has that specific group (true/false); Or if the Group does not exist ("GroupEqualsNil")
+
+    Addon Functions:
+    "Cards_Create"              :   Creates a fully valided card
+    ->      "<Type>"                :   The type of Card to refer to ("UserCard" for when the Card Refers to a User's Permissions, "GroupCard" when a Card Refers to a Group's Permissions)
+    ->      "<Target>"              :   Whatever User or Group the Card is referring to, see above
+    ->      {
+                Color1 = <Color>,       :   The BrickColor of the Main Part of the Card
+                Color2 = <Color>,       :   The BrickColor of the Text Part of the Card
+                Mat1 = "<Material>",    :   The Material of the Main Part of the Card
+                Mat2 = "<Material>",    :   The Matieral of the Text Part of the Card
+                Font = "<FontName>",    :   The Name of the Font to use
+                Text = "<Text>",        :   What Text that would be on the Card
+                Name = "<Name>",        :   The Name of the Card's Tool
+                TextColor = <Color3>    :   The Color3 of the Text
+            }                       :   Settings about the Card's Asthetics (Supports Variables)
+    RETURNS ->  <Variant>               :   The Final Card Tool, Completely made and registered
 ]]--
 local Result = PermSystem:Invoke("<Function>", ...<Arguments>...)

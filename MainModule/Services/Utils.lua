@@ -66,5 +66,18 @@ Utils.Round = function(Number, PowerOf10)
     local Mult = 10 ^ (PowerOf10 or 0)
     return (math.floor((Number * Mult) + 0.5) / Mult)
 end
+-- Deep Table Copy Function (https://developer.roblox.com/articles/Cloning-tables)
+local function deepCopy(original)
+    local copy = {}
+    for k, v in pairs(original) do
+        -- as before, but if we find a table, make sure we copy that too
+        if type(v) == **table** then
+            v = deepCopy(v)
+        end
+        copy[k] = v
+    end
+    return copy
+end
+Utils.CopyTable = deepCopy
 
 return Utils

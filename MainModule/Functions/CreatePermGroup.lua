@@ -16,8 +16,12 @@ function MTable:PlayerBelongsInGroup(PlayerObj)
 	local Pass = false
 	local PlrId = PlayerObj.UserId
 
+	if self.Options.SubGroup == true then
+		return false
+	end
+
 	if self.Default == true then
-		Pass = true
+		return true
 	end
 
 	for _, v in pairs(self.AccessList) do
@@ -204,6 +208,8 @@ return function(Data, Name, Groups)
 	Content.Options = {}
 	Content.Options.SaveUsers = false
 	Content.Options.Override = "Normal"
+	Content.Options.SubGroup = false
+	Content.Options.Priority = 0
 	if type(Data.Options) == "table" then
 		if type(Data.Options.SaveUsers) == "boolean" then
 			Content.Options.SaveUsers = Data.Options.SaveUsers
@@ -214,6 +220,14 @@ return function(Data, Name, Groups)
 			if (Override == "NoAccess" or Override == "Normal" or Override == "Administrator") then
 				Data.Options.Override = Override
 			end
+		end
+
+		if type(Data.Options.SubGroup) == "boolean" then
+			Content.Options.SubGroup = Data.Options.SubGroup
+		end
+
+		if type(Data.Options.Priority) == "number" and (-1 * math.huge < Data.Options.Priority) and (Data.Options.Priority < math.huge) then
+			Content.Options.Priority = Data.Options.Priority
 		end
 	end
 
