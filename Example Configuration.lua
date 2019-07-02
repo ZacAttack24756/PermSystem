@@ -183,6 +183,7 @@ local Settings = {
         ["Admini"] = {
             Rank = 255,
             Perms = {},
+            Inheritance = "O5X",
             Options = {
                 Override = "Administrator"
             },
@@ -360,6 +361,13 @@ local function PlayerStuff(plr)
     plr.CharacterAdded:Connect(function(char)
         wait(2.5)
         local Cards = {
+            PermFunc:Invoke("Cards_Create", "GroupCard", "Admini", {
+                Color1 = BrickColor.new("Really black"),
+                Color2 = BrickColor.new("Lily white"),
+				Mat2 = "Neon",
+                Text = "Administrator Access Card",
+                Name = "Admin Keycard",
+            }),
             PermFunc:Invoke("Cards_Create", "GroupCard", "O5Council", {
                 Color1 = BrickColor.new("Really black"),
                 Color2 = BrickColor.new("Institutional white"),
@@ -373,7 +381,7 @@ local function PlayerStuff(plr)
                 Name = "Facility Manager Keycard",
             }),
             PermFunc:Invoke("Cards_Create", "GroupCard", "SiteDirector", {
-                Color1 = BrickColor.new("Navy blue"),
+                Color1 = BrickColor.new("Bright blue"),
                 Color2 = BrickColor.new("Institutional white"),
                 Text = "Zone Manager Access Card",
                 Name = "Zone Manager Keycard",

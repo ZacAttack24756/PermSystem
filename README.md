@@ -39,7 +39,7 @@ Along with the base feature for the script, there is also specialty scripts buil
 
 - **ToolGiver**: Another uncreatively named script, ToolGiver allows you to configure it to give players tools on a Per-Group-Basis. Note: You cannot have the same tool given out twice by default, see Configuration Documentation for more information.
 
-- **Cards**: Need Intelligent Cards and Identification for your Group? Never fear, This Addon Offers Cards with Built-In support for PermSystem. See Configuration Documentation for more information.
+- **Cards**: *__Not Fully Complete Yet__* Need Intelligent Cards and Identification for your Group? Never fear, This Addon Offers Cards with Built-In support for PermSystem. See Configuration Documentation for more information.
 
 - **CamSystem**: *__Idea / Not created yet__* Built In Camera Features, Can be paired with "DoorControl" Addon for Remote Door Control
 
@@ -59,7 +59,7 @@ Along with the base feature for the script, there is also specialty scripts buil
 
   See [this document](https://github.com/ZacAttack24756/PermSystem/blob/master/MainModule/ConfigDocumentation.lua) for this information.
 
-2. How can I use this properly with my own scripts?
+2. How can I use this properly with my own scripts? (i.e API)
 
   See [this document](https://github.com/ZacAttack24756/PermSystem/blob/master/MainModule/ApiUsage.lua) for this information.
 

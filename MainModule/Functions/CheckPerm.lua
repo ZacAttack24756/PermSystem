@@ -20,8 +20,7 @@ function CheckDescendantsForPerm(Groups, GroupName, Permission)
     local function Loop(GN, P)
         local TargetGroup = Groups[GN]
         if type(TargetGroup) == "table" then
-            local CheckThis = TargetGroup:GroupHasPerm(Permission)
-            if CheckThis == true then
+            if TargetGroup:GroupHasPerm(Permission) then
                 return true
             else
                 local Result = false

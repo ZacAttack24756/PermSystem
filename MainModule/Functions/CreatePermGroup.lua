@@ -216,7 +216,7 @@ return function(Data, Name, Groups)
 		if type(Data.Options.Override) == "string" then
 			local Override = Data.Options.Override
 			if (Override == "NoAccess" or Override == "Normal" or Override == "Administrator") then
-				Data.Options.Override = Override
+				Content.Options.Override = Override
 			end
 		end
 
