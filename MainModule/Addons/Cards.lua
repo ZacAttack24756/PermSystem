@@ -11,46 +11,9 @@ local CardTable = {
 local AddonName = "Cards"
 local Debug = false
 local Rand = Random.new()
+local Settings = {}
 
 local CardBase = script:FindFirstChild("CardBase")
-
--- Tweaked from SimpleTitles
-function LocateGroupAddonInfo(PlayerData, RankLadder)
-    local RankLadderGroups = _G.PermSystem.Api(API_KEY.Value, "GetRankLadderGroups", RankLadder)
-
-    if Debug==true then print("PlayerData")
-                        print(PlayerData)
-                        print("PlayerData.Groups")
-                        for i, v in pairs(PlayerData.Groups) do print(i) print(v) end
-                        print("RankLadder")
-                        print(RankLadder)
-
-                        print("RankLadderGroups")
-                        for i, v in pairs(RankLadderGroups) do print(i) print(v) end
-                        print("----------------")
-                        print("PlayerData.Groups Start") end
-    for _, v1 in pairs(PlayerData.Groups) do
-        if Debug==true then print("PlayerGroup Check")
-                            print(" ".. v1) end
-        for _, v2 in pairs(RankLadderGroups) do
-            if Debug== true then print("  ".. v2) end
-            if v1 == v2 then
-                if Debug==true then print("   Success! '".. v1 .."' and '".. v2 .."'") end
-                local Info = _G.PermSystem.Api(API_KEY.Value, "GetGroupData", v1)
-                if Debug==true then print("   GroupData")
-                                    print(Info)
-                                    print(Info.Addons)
-                                    print(Info.Addons[AddonName]) end
-                if type(Info) == "table" and type(Info.Addons) == "table" then
-                    if type(Info.Addons[AddonName]) == "table" then
-                        return Info.Addons[AddonName]
-                    end
-                end
-            end
-        end
-    end
-    return "No Matches"
-end
 
 -- Function to Create a Card and Register that Card
 function CreateCard(Args)
@@ -134,11 +97,48 @@ function CreateCard(Args)
     return CardClone
 end
 
+function RunPlayer(Player)
+
 return function(Config)
     if type(Config.Enabled) ~= "boolean" or Config.Enabled == false then return AddonName.. " not enabled!" end
-    --[[if typeof(Config["Card:Color1"]) == "BrickColor" then
-    elseif type(Config["Card:Color1"]) == "string" and (Config["Card:Color1"] == "TeamColor" or string.sub(Config["Card:Color1"], 1, 10) == "RankLadder:") then
-    else Config["Card:Color1"] = BrickColor.new("Smokey grey") end]]
+
+    if typeof(Config["Card:Color1"]) == "BrickColor" then
+        Settings["Card:Color1"] = Config["Card:Color1"]
+    elseif type(Config["Card:Color1"]) == "string" and (Config["Card:Color1"] == "TeamColor" or string.sub(Config["Card:Color1"], 1, 11) == "RankLadder:") then
+        Settings["Card:Color1"] = Config["Card:Color1"]
+    end
+
+    if typeof(Config["Card:Color2"]) == "BrickColor" then
+        Settings["Card:Color2"] = Config["Card:Color2"]
+    elseif type(Config["Card:Color2"]) == "string" and (Config["Card:Color2"] == "TeamColor" or string.sub(Config["Card:Color2"], 1, 11) == "RankLadder:") then
+        Settings["Card:Color2"] = Config["Card:Color2"]
+    end
+
+    iftype(Config["Card:Material1"]) == "string" and Enum.Material[Settings["Card:Material1"]] ~= nil then
+        Settings["Card:Material1"] = Enum.Material[Settings["Card:Material1"]]
+    elseif type(Config["Card:Material1"]) == "string" and string.sub(Config["Card:Material1"], 1, 11) == "RankLadder:" then
+        Settings["Card:Material1"] = Config["Card:Material1"]
+    end
+
+    if type(Config["Card:Material2"]) == "string" and Enum.Material[Settings["Card:Material2"]] ~= nil then
+        Settings["Card:Material2"] = Enum.Material[Settings["Card:Material2"]]
+    elseif type(Config["Card:Material2"]) == "string" and string.sub(Config["Card:Material2"], 1, 11) == "RankLadder:" then
+        Settings["Card:Material2"] = Config["Card:Material2"]
+    end
+
+    if type(Config["Card:Font"]) == "string" and Enum.Font[Config["Card:Font"]] ~= nil then
+        Settings["Card:Font"] = Enum.Font[Config["Card:Font"]]
+    elseif type(Config["Card:Font"]) == "string" and string.sub(Config["Card:Font"], 1, 11) == "RankLadder:" then
+        Settings["Card:Font"] = Config["Card:Font"]
+    end
+
+    if type(Config["Card:Text"]) == "string" then
+        Settings["Card:Text"] = Config["Card:Text"]
+    end
+
+    if type(Config["Card:Name"]) == "string" then
+        Settings["Card:Name"] = Config["Card:Name"]
+    end
 
     _G.PermSystem.Api(API_KEY.Value, "RegisterFunction", AddonName .."_Create", function(...)
         local Args = {...}

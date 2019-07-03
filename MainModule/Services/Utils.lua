@@ -2,7 +2,6 @@
     Utils.lua
     -> An All-In-One-Place script for most helper functions, to help save space and make
          reading scripts less confusing
-    -> Mostly is just iterators
 ]]
 
 local Utils = {}

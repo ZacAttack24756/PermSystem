@@ -82,6 +82,14 @@
     -- Cards: A built-in solution for having basic cards in your games
     -- Typically, Cards are assigned to an individual, and can contain all the Group Data an permissions of that individual
     -- Anonymous Cards can be created by Server Scripts, along with the Group Data of it's choosing.
+
+    -- Variables:
+    --  {DISABLED}                  :   If this is anywhere, the thing in question is disabled
+    --  {USERNAME}                  :   The Player's Username
+    --  {TEAMNAME}                  :   The Name of the Player's Team
+    --  {RANKLADDER:<Ladder>}       :   A Specific Setting in the Rank Ladder
+    --  {RBLXGROUPID:<GroupId>}     :   The Name of the Player's Rank in that group
+    
     ["Cards"] = {
         "Enabled"           [Bool]  :   Wether or not this addon is enabled
         ~~ Optional Settings ~~
@@ -92,7 +100,7 @@
         "Card:Material2"    [...]   :   Examples: <MaterialName>, "RankLadder:<RankLadder>"
         "Card:Font"         [...]   :   Examples: <FontName>, "RankLadder:<RankLadder>"
         "Card:Text"         [...]   :   Examples: "Disabled", "<Username>", "RankLadder:<RankLadder>", "RblxGroupID:<GroupId>", "SetText:<Text>"
-        "Card:Name"         [...]   :   Examples: "Disabled", "RankLadder:<RankLadder>", "SetText:<Text>"
+        "Card:Name"         [...]   :   Examples: "Disabled", "<Username>", "RankLadder:<RankLadder>", "SetText:<Text>"
         "Card:TextColor"    [...]   :   Examples: <Color3>
 
         "GlobalCardGive"    [Bool]  :   Wether or not cards are just given to every player
