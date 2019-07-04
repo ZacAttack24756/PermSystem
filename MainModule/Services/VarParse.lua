@@ -6,7 +6,9 @@
 local API_KEY = script.Parent.Parent:FindFirstChild("API_KEY")
 local Utl = require(script.Parent.Utils)
 
-function LocateGroupAddonInfo(AddonName, PlayerData, RankLadder)
+local Return = {}
+
+local function LocateGroupAddonInfo(AddonName, PlayerData, RankLadder)
     -- We need to find out what groups are in the RankLadder
     local RankLadderGroups = _G.PermSystem.Api(API_KEY.Value, "GetRankLadderGroups", RankLadder)
 
@@ -28,15 +30,46 @@ function LocateGroupAddonInfo(AddonName, PlayerData, RankLadder)
     end
     return nil
 end
+Return:LocateGroupAddonInfo = LocateGroupAddonInfo
 
-function ReturnFunction(String, Data)
+local function RankLadderFunction(Setting, Data, LoopFunc)
+    -- We need to get the player's data
+    local PlayerData = _G.PermSystem.Api(API_KEY.Value, "GetPlrData", Data.Player)
+
+    if type(PlayerData) == "string" then
+        warn("VarParse #1 GetPlrData Error for ".. Data.Player.Name ..", :".. PlayerData)
+    end
+    if type(PlayerData) == "nil" then
+        wait(0.5)
+        PlayerData = _G.PermSystem.Api(API_KEY.Value, "GetPlrData", Data.Player)
+    end
+    if type(PlayerData) == "string" then
+        warn("VarParse #2 GetPlrData Error for ".. Data.Player.Name ..", :".. PlayerData)
+    end
+
+    if type(PlayerData) == "table" then
+        -- Get the Ladder and AddonInfo
+        local RankLadder = string.sub(Setting, 13, (string.len(Setting) - 1))
+        local AddonInfo = LocateGroupAddonInfo(Data.AddonName, PlayerData, RankLadder)
+        if type(AddonInfo) == "table" then
+            if type(AddonInfo[Data.Setting]) == "string" or typeof(AddonInfo[Data.Setting]) == "BrickColor" then
+                local TheTable = Utl.ShallowCopyTable(Data)
+                TheTable.Loop = true
+                return LoopFunc(AddonInfo[Data.Setting], TheTable)
+            end
+        end
+    end
+end
+Return:RankLadderFunction = RankLadderFunction
+
+-- This will only Parse String Settings
+local function FunctionStr(String, Data)
 --[[
     Data = {
         Player = <PlayerObject>,
         AddonName = "<NameOfAddon>",
-        PlayerGroups = {<PlayerGroups>,...},
         Setting = "<SettingName>",
-        Loop = <true/false>,
+        Loop = <true/false>
     }
 ]]--
     if string.find(String, "{DISABLED}") then
@@ -111,9 +144,9 @@ function ReturnFunction(String, Data)
                     -- Only if we successfully get the AddonInfo
                     if type(AddonInfo) == "table" then
                         if type(AddonInfo[Data.Setting]) == "string" then
-                            local TheTable = Utl.deepCopy(Data)
+                            local TheTable = Utl.ShallowCopyTable(Data)
                             TheTable.Loop = true
-                            Translate[Part] = ReturnFunction(AddonInfo[Data.Setting], TheTable)
+                            Translate[Part] = FunctionStr(AddonInfo[Data.Setting], TheTable)
                             -- If the Addon Setting turns out to be false
                             if Translate[Part] == false then
                                 return false
@@ -133,5 +166,116 @@ function ReturnFunction(String, Data)
     --print("ok")
     return String
 end
+Return:ParseStr = FunctionStr
 
-return ReturnFunction
+
+
+-- This will only Parse BrickColor Settings
+local function FunctionBrickColor(Setting, Data)
+--[[
+    Data = {
+        Player = <PlayerObject>,
+        AddonName = "<AddonName>",
+        Setting = "<SettingName>",
+        Loop = <true/false>
+    }
+]]--
+    if type(Setting) == "string" and Setting == "{DISABLED}" then
+        return false
+    end
+
+    -- If the Setting itself is a BrickColor
+    if type(Setting) == "userdata" and typeof(Setting) == "BrickColor" then
+        return Setting
+    end
+
+    if type(Setting) == "string" and Data.Player then
+        if Setting == "{TEAMCOLOR}" and Data.Player.Team then
+            return Data.Player.TeamColor
+        end
+    end
+
+    if type(Setting) == "string" and string.sub(Setting, 1, 12) == "{RANKLADDER:" and string.sub(Setting, string.len(Setting), string.len(Setting)) == "}" and Data.Player and Data.Setting and Data.Loop ~= true then
+        return RankLadderFunction(Setting, Data, FunctionBrickColor)
+    end
+
+    return false
+end
+Return:ParseBrickColor = FunctionBrickColor
+
+
+-- This will only Parse Font Settings
+local function FunctionFont(Setting, Data)
+--[[
+    Data = {
+        Player = <PlayerObject>,
+        AddonName = "<AddonName>",
+        Setting = "<SettingName>",
+        Loop = <true/false>
+    }
+]]--
+    if type(Setting) == "string" and Setting == "{DISABLED}" then
+        return false
+    end
+
+    if type(Setting) == "string" and Enum.Font[Setting] ~= nil then
+        return Enum.Font[Setting]
+    end
+
+    if type(Setting) == "string" and string.sub(Setting, 1, 12) == "{RANKLADDER:" and string.sub(Setting, string.len(Setting), string.len(Setting)) == "}" and Data.Player and Data.Setting and Data.Loop ~= true then
+        return RankLadderFunction(Setting, Data, FunctionFont)
+    end
+end
+Return:ParseFont = FunctionFont
+
+
+-- This will only Parse Material Settings
+local function FunctionMaterial(Setting, Data)
+--[[
+    Data = {
+        Player = <PlayerObject>,
+        AddonName = "<AddonName>",
+        Setting = "<SettingName>",
+        Loop = <true/false>
+    }
+]]--
+    if type(Setting) == "string" and Setting == "{DISABLED}" then
+        return false
+    end
+
+    if type(Setting) == "string" and Enum.Material[Setting] ~= nil then
+        return Enum.Material[Setting]
+    end
+
+    if type(Setting) == "string" and string.sub(Setting, 1, 12) == "{RANKLADDER:" and string.sub(Setting, string.len(Setting), string.len(Setting)) == "}" and Data.Player and Data.Setting and Data.Loop ~= true then
+        return RankLadderFunction(Setting, Data, FunctionMaterial)
+    end
+end
+Return:ParseMaterial = FunctionMaterial
+
+
+-- This will only Parse Color3 Settings
+local function FunctionColor3(Setting, Data)
+--[[
+    Data = {
+        Player = <PlayerObject>,
+        AddonName = "<AddonName>",
+        Setting = "<SettingName>",
+        Loop = <true/false>
+    }
+]]--
+    if type(Setting) == "string" and Setting == "{DISABLED}" then
+        return false
+    end
+
+    if type(Setting) == "userdata" and typeof(Setting) == "Color3" then
+        return Setting
+    end
+
+    if type(Setting) == "string" and string.sub(Setting, 1, 12) == "{RANKLADDER:" and string.sub(Setting, string.len(Setting), string.len(Setting)) == "}" and Data.Player and Data.Setting and Data.Loop ~= true then
+        return RankLadderFunction(Setting, Data, FunctionColor3)
+    end
+end
+Return:ParseColor3 = FunctionColor3
+
+return Return

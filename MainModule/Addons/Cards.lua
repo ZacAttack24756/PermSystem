@@ -4,6 +4,7 @@
 
 local API_KEY = script.Parent.Parent:FindFirstChild("API_KEY")
 local Utl = require(script.Parent.Parent.Services.Utils)
+local VarParse = require(script.Parent.Parent.Services.VarParse)
 local CardTable = {
 --  [<CardObject>] = {Type = "<UserCard/GroupCard>", DataName = "<Name>", Created = "<Time>"}
 }
@@ -50,17 +51,17 @@ function CreateCard(Args)
         local Part = CardClone:FindFirstChild("TextPart")
         Part.BrickColor = Args[4]
     end
-    if type(Args[5]) == "string" then
+    if typeof(Args[5]) == "EnumItem" then
         local Strip1 = CardClone:FindFirstChild("TopStrip")
         local Strip2 = CardClone:FindFirstChild("BottomStrip")
         Strip1.Material = Args[5]
         Strip2.Material = Args[5]
     end
-    if type(Args[6]) == "string" then
+    if typeof(Args[6]) == "EnumItem" then
         local Part = CardClone:FindFirstChild("TextPart")
         Part.Material = Args[6]
     end
-    if type(Args[7]) == "string" then
+    if typeof(Args[7]) == "EnumItem" then
         local Part = CardClone:FindFirstChild("TextPart")
         local FrontLabel = Part.FrontGui.TextLabel
         local BackLabel = Part.BackGui.TextLabel
@@ -91,55 +92,231 @@ function CreateCard(Args)
         DataName = Args[2],
         Created = tick(),
         RanString = tostring(Rand:NextNumber()),
-        Data = Args[3]
+        Data = {}
     }
 
     return CardClone
 end
 
 function RunPlayer(Player)
+    -- Figure out if we can give the card out or not
+    local Give = false
+    if Settings["GlobalCardGive"] == true then
+        Give = true
+    end
+    if Player.Team and Settings["TeamCardGive"][Player.Team] then
+        if Settings["TeamCardGive"][Player.Team] == true then
+            Give = true
+        end
+    end
+    if Player.Team and Settings["TeamCardBlacklist"][Player.Team] then
+        if Settings["TeamCardBlacklist"][Player.Team] == true then
+            return false
+        end
+    end
+
+    if Give == false then
+        return
+    end
+    Give = nil
+
+    -- Create the Table to be used in VarParse
+    local OurData = {Player = Player, AddonName = "Cards"}
+
+    -- Start off with Colors
+    local CardColor1 = nil
+    if Settings["Card:Color1"] then
+        local OurDataClone = Utl:ShallowCopyTable(OurData)
+        OurDataClone.Setting = "Card:Color1"
+        local Results = VarParse:ParseBrickColor(Settings["Card:Color1"], OurDataClone)
+
+        if type(Results) == "userdata" and typeof(Results) == "BrickColor" then
+            CardColor1 = Results
+        end
+    end
+    local CardColor2 = nil
+    if Settings["Card:Color2"] then
+        local OurDataClone = Utl:ShallowCopyTable(OurData)
+        OurDataClone.Setting = "Card:Color2"
+        local Results = VarParse:ParseBrickColor(Settings["Card:Color2"], OurDataClone)
+
+        if type(Results) == "userdata" and typeof(Results) == "BrickColor" then
+            CardColor2 = Results
+        end
+    end
+
+    -- Move on to Materials
+    local CardMaterial1 = nil
+    if Settings["Card:Material1"] then
+        local OurDataClone = Utl:ShallowCopyTable(OurData)
+        OurDataClone.Setting = "Card:Material1"
+        local Results = VarParse:ParseMaterial(Settings["Card:Material1"], OurDataClone)
+
+        if type(Results) == "userdata" and typeof(Results) == "EnumItem" then
+            CardMaterial1 = Results
+        end
+    end
+    local CardMaterial2 = nil
+    if Settings["Card:Material2"] then
+        local OurDataClone = Utl:ShallowCopyTable(OurData)
+        OurDataClone.Setting = "Card:Material2"
+        local Results = VarParse:ParseMaterial(Settings["Card:Material2"], OurDataClone)
+
+        if type(Results) == "userdata" and typeof(Results) == "EnumItem" then
+            CardMaterial2 = Results
+        end
+    end
+
+    -- Then to String Based Variables
+    local CardFont = nil
+    if Settings["Card:Font"] then
+        local OurDataClone = Utl:ShallowCopyTable(OurData)
+        OurDataClone.Setting = "Card:Font"
+        local Results = VarParse:ParseFont(Settings["Card:Font"], OurDataClone)
+
+        if type(Results) == "userdata" and typeof(Results) == "EnumItem" then
+            CardFont = Results
+        end
+    end
+    local CardText = nil
+    if Settings["Card:Text"] then
+        local OurDataClone = Utl:ShallowCopyTable(OurData)
+        OurDataClone.Setting = "Card:Text"
+        local Results = VarParse:ParseStr(Settings["Card:Text"], OurDataClone)
+
+        if type(Results) == "string" then
+            CardText = Results
+        end
+    end
+    local CardName = nil
+    if Settings["Card:Name"] then
+        local OurDataClone = Utl:ShallowCopyTable(OurData)
+        OurDataClone.Setting = "Card:Name"
+        local Results = VarParse:ParseStr(Settings["Card:Name"], OurDataClone)
+
+        if type(Results) == "string" then
+            CardText = Results
+        end
+    end
+
+    -- Wrap up with TextColor
+    local CardTextColor = nil
+    if Settings["Card:TextColor"] then
+        local OurDataClone = Utl:ShallowCopyTable(OurData)
+        OurDataClone.Setting = "Card:TextColor"
+        local Results = VarParse:ParseColor3(Settings["Card:TextColor"], OurDataClone)
+
+        if type(Results) == "userdata" and typeof(Results) == "Color3" then
+            CardTextColor = Results
+        end
+    end
+
+    -- CardType, DataValue, Color1, Color2, Material1, Material2, Font, Text, Name, TextColor
+    local TheCard = CreateCard({
+        "UserCard",
+        Player.Name,
+        CardColor1,
+        CardColor2,
+        CardMaterial1,
+        CardMaterial2,
+        CardFont,
+        CardText,
+        CardName,
+        CardTextColor
+    })
+    if type(TheCard) == "userdata" and typeof(TheCard) == "Instance" and TheCard:IsA("Tool") then
+        TheCard.Parent = Player.Backpack
+    end
+
+    local Connection = Player.CharacterRemoving:Connect(function(...)
+        CardTable[Card] = nil
+        TheCard:Destroy()
+        wait()
+        Connection:Disconnect()
+    end)
+end
 
 return function(Config)
     if type(Config.Enabled) ~= "boolean" or Config.Enabled == false then return AddonName.. " not enabled!" end
 
+    Settings["Card:Color1"] = BrickColor.new("Medium stone grey")
     if typeof(Config["Card:Color1"]) == "BrickColor" then
         Settings["Card:Color1"] = Config["Card:Color1"]
     elseif type(Config["Card:Color1"]) == "string" and (Config["Card:Color1"] == "TeamColor" or string.sub(Config["Card:Color1"], 1, 11) == "RankLadder:") then
         Settings["Card:Color1"] = Config["Card:Color1"]
     end
 
+    Settings["Card:Color2"] = BrickColor.new("Institutional white")
     if typeof(Config["Card:Color2"]) == "BrickColor" then
         Settings["Card:Color2"] = Config["Card:Color2"]
     elseif type(Config["Card:Color2"]) == "string" and (Config["Card:Color2"] == "TeamColor" or string.sub(Config["Card:Color2"], 1, 11) == "RankLadder:") then
         Settings["Card:Color2"] = Config["Card:Color2"]
     end
 
+    Settings["Card:Material1"] = "SmoothPlastic"
     iftype(Config["Card:Material1"]) == "string" and Enum.Material[Settings["Card:Material1"]] ~= nil then
         Settings["Card:Material1"] = Enum.Material[Settings["Card:Material1"]]
     elseif type(Config["Card:Material1"]) == "string" and string.sub(Config["Card:Material1"], 1, 11) == "RankLadder:" then
         Settings["Card:Material1"] = Config["Card:Material1"]
     end
 
+    Settings["Card:Material2"] = "SmoothPlastic"
     if type(Config["Card:Material2"]) == "string" and Enum.Material[Settings["Card:Material2"]] ~= nil then
         Settings["Card:Material2"] = Enum.Material[Settings["Card:Material2"]]
     elseif type(Config["Card:Material2"]) == "string" and string.sub(Config["Card:Material2"], 1, 11) == "RankLadder:" then
         Settings["Card:Material2"] = Config["Card:Material2"]
     end
 
+    Settings["Card:Font"] = "SciFi"
     if type(Config["Card:Font"]) == "string" and Enum.Font[Config["Card:Font"]] ~= nil then
         Settings["Card:Font"] = Enum.Font[Config["Card:Font"]]
     elseif type(Config["Card:Font"]) == "string" and string.sub(Config["Card:Font"], 1, 11) == "RankLadder:" then
         Settings["Card:Font"] = Config["Card:Font"]
     end
 
+    Settings["Card:Name"] = "Card"
     if type(Config["Card:Text"]) == "string" then
         Settings["Card:Text"] = Config["Card:Text"]
     end
 
+    Settings["Card:Name"] = "Card"
     if type(Config["Card:Name"]) == "string" then
         Settings["Card:Name"] = Config["Card:Name"]
     end
 
+    Settings["Card:TextColor"] = Color3.new(15, 15, 15)
+    if type(Config["Card:TextColor"]) == "userdata" and typeof(Settings["Card:TextColor"]) == "Color3" then
+        Config["Card:TextColor"] = Settings["Card:TextColor"]
+    end
+
+    Settings["GlobalCardGive"] = false
+    if type(Config["GlobalCardGive"]) == "boolean" then
+        Settings["GlobalCardGive"] = Config["GlobalCardGive"]
+    end
+
+    Settings["TeamCardGive"] = {}
+    if type(Config["TeamCardGive"]) == "table" then
+        for index, value in pairs(Config["TeamCardGive"]) do
+            if typeof(index) == "Instance" and index:IsA("Team") then
+                if type(value) == "boolean" then
+                    Settings["TeamCardGive"][index] = value
+                end
+            end
+        end
+    end
+
+    Settings["TeamCardBlacklist"] = {}
+    if type(Config["TeamCardBlacklist"]) == "table" then
+        for index, value in pairs(Config["TeamCardBlacklist"]) do
+            if typeof(index) == "Instance" and index:IsA("Team") then
+                if type(value) == "boolean" then
+                    Settings["TeamCardBlacklist"][index] = value
+                end
+            end
+        end
+    end
+
+    ----    API Functions    ----
     _G.PermSystem.Api(API_KEY.Value, "RegisterFunction", AddonName .."_Create", function(...)
         local Args = {...}
         table.remove(Args, 1)
@@ -154,7 +331,7 @@ return function(Config)
         end
         local Sample = {}
         if type(Args[3]) == "table" then
-            local Tab = Utl.CopyTable(Args[3])
+            local Tab = Utl.ShallowCopyTable(Args[3])
             Args[3] = nil
 
             if Tab.Color1 and typeof(Tab.Color1) == "BrickColor" then
@@ -209,6 +386,23 @@ return function(Config)
 
         return {Result = true, Type = CardData.Type, DataValue = CardData.DataName, Data = CardData.Data}
     end)
+
+    -- Add some sort of hook here
+    wait(0.5) -- Wait for half a second for all the player datas to work
+    for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
+        plr.CharacterAdded:Connect(function(char)
+            RunPlayer(plr)
+        end)
+    end
+    game.Players.PlayerAdded:Connect(function(plr)
+        plr.CharacterAdded:Connect(function(char)
+            RunPlayer(plr)
+        end)
+    end)
+    wait(0.5) -- Refresh All Players after adding hooks
+    for _, v in pairs(game:GetService("Players"):GetPlayers()) do
+        v:LoadCharacter()
+    end
 
     return true
 end

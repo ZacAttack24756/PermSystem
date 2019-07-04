@@ -74,6 +74,45 @@
     - Normal                        :   A Normal Group; Nothing to see here (Making it this literally does nothing)
     - Administrator                 :   Full Access; Automatically given every privilage/permission
 
+    ---------------------------------
+    ----    Variable Settings    ----
+    ---------------------------------
+    Certian Settings allow for variables to be used in their output, instead of static variables. The Following is a list of usable variables
+    (If any of these settings come back without variables, Defaults will be used)
+
+    --  String Variables  --
+    NOTE: String Variables can be used along side constants (such as: "Hello {USERNAME}, You are on the {TEAMNAME} Team!")
+    --  "{DISABLED}"                :   If this is anywhere, The Setting is Disabled (Use Defaults)
+    --  "{USERNAME}"                :   The Player's Username
+    --  "{TEAMNAME}"                :   The Name of the Player's Team
+    --  "{RANKLADDER:<Ladder>}"     :   A Specific Setting in the Rank Ladder (Can only be used in Addon Settings)
+    --  "{RBLXGROUPID:<GroupId>}"   :   The Name of the Player's Rank in that group
+
+    --  BrickColor Settings  --
+    NOTE: BrickColor Variables cannot have more than one variable in them (Having something like: "{TEAMCOLOR} {RANKLADDER:Default}" would break and resort to defaults)
+    --  "{DISABLED}"                :   The Setting is Disabled (Use Defaults)
+    --  <BrickColor>                :   Use THIS BrickColor for the Setting
+    --  "{TEAMCOLOR}"               :   The Color of the Player's Team
+    --  "{RANKLADDER:<Ladder>}"     :   A Specific Setting in the Rank Ladder (Can only be used in Addon Settings)
+
+    --  Font Settings  --
+    NOTE: Font Settings cannot have more than one variable in them (Having something like: "{TEAMCOLOR} {RANKLADDER:Default}" would break and resort to defaults)
+    --  "{DISABLED}"                :   The Setting is Disabled (Use Defaults)
+    --  <FontName>                  :   The Name of the Font (You can see the fonts under Enum.Font.<FontName>)
+    --  "{RANKLADDER:<Ladder>}"     :   A Specific Setting in the Rank Ladder (Can only be used in Addon Settings)
+
+    --  Material Settings  --
+    NOTE: Material Settings cannot have more than one variable in them (Having something like: "{TEAMCOLOR} {RANKLADDER:Default}" would break and resort to defaults)
+    --  "{DISABLED}"                :   The Setting is Disabled (Use Defaults)
+    --  <MaterialName>              :   The Name of the Material (You can see the fonts under Enum.Material.<FontName>)
+    --  "{RANKLADDER:<Ladder>}"     :   A Specific Setting in the Rank Ladder (Can only be used in Addon Settings)
+
+    --  Color3 Settings  --
+    NOTE: Color3 Settings cannot have more than one variable in them (Having something like: "{TEAMCOLOR} {RANKLADDER:Default}" would break and resort to defaults)
+    --  "{DISABLED}"                :   The Setting is Disabled (Use Defaults)
+    --  <Color3>                    :   The actual Color3 value ( Color3.new(...) )
+    --  "{RANKLADDER:<Ladder>}"     :   A Specific Setting in the Rank Ladder (Can only be used in Addon Settings)
+
 
     ------------------------------
     ----    Addon Settings    ----
@@ -81,27 +120,20 @@
 
     -- Cards: A built-in solution for having basic cards in your games
     -- Typically, Cards are assigned to an individual, and can contain all the Group Data an permissions of that individual
-    -- Anonymous Cards can be created by Server Scripts, along with the Group Data of it's choosing.
+    -- Anonymous Cards can be created by Server Scripts, along with the Group Data of it's choosing. (See ApiUsage.lua)
 
-    -- Variables:
-    --  {DISABLED}                  :   If this is anywhere, the thing in question is disabled
-    --  {USERNAME}                  :   The Player's Username
-    --  {TEAMNAME}                  :   The Name of the Player's Team
-    --  {RANKLADDER:<Ladder>}       :   A Specific Setting in the Rank Ladder
-    --  {RBLXGROUPID:<GroupId>}     :   The Name of the Player's Rank in that group
-    
     ["Cards"] = {
         "Enabled"           [Bool]  :   Wether or not this addon is enabled
         ~~ Optional Settings ~~
 
-        "Card:Color1"       [...]   :   Examples: <BrickColor>, "TeamColor", "RankLadder:<RankLadder>"
-        "Card:Color2"       [...]   :   Examples: <BrickColor>, "TeamColor", "RankLadder:<RankLadder>"
-        "Card:Material1"    [...]   :   Examples: <MaterialName>, "RankLadder:<RankLadder>"
-        "Card:Material2"    [...]   :   Examples: <MaterialName>, "RankLadder:<RankLadder>"
-        "Card:Font"         [...]   :   Examples: <FontName>, "RankLadder:<RankLadder>"
-        "Card:Text"         [...]   :   Examples: "Disabled", "<Username>", "RankLadder:<RankLadder>", "RblxGroupID:<GroupId>", "SetText:<Text>"
-        "Card:Name"         [...]   :   Examples: "Disabled", "<Username>", "RankLadder:<RankLadder>", "SetText:<Text>"
-        "Card:TextColor"    [...]   :   Examples: <Color3>
+        "Card:Color1"       [...]   :   See "BrickColor Settings" above
+        "Card:Color2"       [...]   :   See "BrickColor Settings" above
+        "Card:Material1"    [...]   :   See "Material Settings" above
+        "Card:Material2"    [...]   :   See "Material Settings" above
+        "Card:Font"         [...]   :   See "Font Settings" above
+        "Card:Text"         [...]   :   See "String Variables" above
+        "Card:Name"         [...]   :   See "String Variables" above
+        "Card:TextColor"    [...]   :   See "Color3 Settings" above
 
         "GlobalCardGive"    [Bool]  :   Wether or not cards are just given to every player
 
@@ -114,9 +146,6 @@
     --- Cards Group Addon Format ---
     ["Cards"] = {
         ~~ Card Settings (ALL OPTIONAL) ~~
-        "CardGive"          [Bool]  :   Wether or not Cards are enabled for this Group
-        "CardBlacklist"     [Bool]  :   Wether or not Cards are blacklisted for this Group
-
         "Card:Color1"  [BrickColor] :   The BrickColor of the Main Card
         "Card:Color2"  [BrickColor] :   The BrickColor of the Text Part of the Card
 
