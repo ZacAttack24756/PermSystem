@@ -20,6 +20,9 @@ local PermSystem = game:GetService("ReplicatedStorage"):WaitForChild("PermSystem
     ->      "<Permission>"          :   The Permission to check on the player (See ConfigDocumentation for information on proper Permission Formats)
     RETURNS ->  <Variant>               :   If the Player has that specific permission (true/false); Or a string if there is any errors
 
+    "CheckCardPerm"             :   (Cards Addon required) Checks if a Card has a specific permission
+    ->      <CardObject>            :   The Actual Card Object
+
     "CheckGroup"                :   Checks if a player is in a specific group
     ->      <PlayerObject>          :   The Physical Player Object (i.e.   game.Players.Bob   )
     ->      "<GroupName>"           :   The Name of the Group to Check

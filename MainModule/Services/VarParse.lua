@@ -8,7 +8,7 @@ local Utl = require(script.Parent.Utils)
 
 local Return = {}
 
-local function LocateGroupAddonInfo(AddonName, PlayerData, RankLadder)
+function LocateGroupAddonInfo(AddonName, PlayerData, RankLadder)
     -- We need to find out what groups are in the RankLadder
     local RankLadderGroups = _G.PermSystem.Api(API_KEY.Value, "GetRankLadderGroups", RankLadder)
 
@@ -30,9 +30,27 @@ local function LocateGroupAddonInfo(AddonName, PlayerData, RankLadder)
     end
     return nil
 end
-Return:LocateGroupAddonInfo = LocateGroupAddonInfo
+Return.LocateGroupAddonInfo = LocateGroupAddonInfo
 
-local function RankLadderFunction(Setting, Data, LoopFunc)
+function RegexSafe(String)
+    String = string.gsub(String, "(\$)", "\$")
+    String = string.gsub(String, "(\%)", "\%")
+    String = string.gsub(String, "(\^)", "\^")
+    String = string.gsub(String, "(\*)", "\*")
+    String = string.gsub(String, "\\\(", "\(")
+    String = string.gsub(String, "\\\)", "\)")
+    String = string.gsub(String, "\\\.", "\.")
+    String = string.gsub(String, "[\[]", "\[")
+    String = string.gsub(String, "[\]]", "\]")
+    String = string.gsub(String, "(\+)", "\+")
+    String = string.gsub(String, "(\-)", "\-")
+    String = string.gsub(String, "(\?)", "\?")
+    return String
+end
+
+function RankLadderFunction(Setting, Data, LoopFunc)
+    --print("RankLadder Lookup on '".. Setting .."' for function:")
+    --print(LoopFunc)
     -- We need to get the player's data
     local PlayerData = _G.PermSystem.Api(API_KEY.Value, "GetPlrData", Data.Player)
 
@@ -60,10 +78,10 @@ local function RankLadderFunction(Setting, Data, LoopFunc)
         end
     end
 end
-Return:RankLadderFunction = RankLadderFunction
+Return.RankLadderFunction = RankLadderFunction
 
 -- This will only Parse String Settings
-local function FunctionStr(String, Data)
+function FunctionStr(String, Data)
 --[[
     Data = {
         Player = <PlayerObject>,
@@ -92,16 +110,21 @@ local function FunctionStr(String, Data)
     -- {RBLXGROUPID:<GroupId>}
     if Data.Player then
         local Translate = {}
-        for Part in string.gmatch(String, "({RBLXGROUPID:)(.*)?\}") do
-            local ID = string.sub(Part, 14, (string.len(String) - 1))
+        --print("String is: '".. String .."'")
+        for Part in string.gmatch(String, "((\{RBLXGROUPID\:)(%d*)\})") do
+            --print("  RBLXGROUPID is: '".. Part .."'")
+            local ID = string.match(Part, "%d+")
+            --print("  ~ID is: '".. ID .."' (".. type(ID) .."), type(tonumber(\"".. ID .."\")) is: '".. type(tonumber(ID)) .."'")
             -- Only bother if this hasn't been translated before
-            if not Translate[Part] then
+            if Translate[Part] == nil then
+                --print("   Translate['".. Part .."'] is nil")
                 if type(tonumber(ID)) == "number" then
+                    --print("    ID is: '".. ID .."'")
                     local ProperlyRan, PcallReturn = pcall(function()
-                        return Player:GetRoleInGroup(tonumber(ID))
+                        return Data.Player:GetRoleInGroup(tonumber(ID))
                     end)
                     if ProperlyRan then
-                        Translate[Part] = PcallReturn
+                        Translate[Part] = RegexSafe(PcallReturn)
                     else
                         warn("PermSystem VarPars GetRoleInGroup Error: ".. PcallReturn)
                     end
@@ -111,14 +134,17 @@ local function FunctionStr(String, Data)
 
         -- Now, we can convert everything we know
         for Target, ConvertTo in pairs(Translate) do
+            --print("Target: '".. Target .."', converting to :'".. ConvertTo .."'.")
             String = string.gsub(String, Target, ConvertTo)
         end
     end
 
     -- {RANKLADDER:<Ladder>}
-    if Data.Player and Data.AddonName and Data.Setting and Data.Loop ~= true then
+    if Data.Player and Data.AddonName and Data.Setting and type(Data.Loop) == "nil" then
         -- We need to get the player's data
         local PlayerData = _G.PermSystem.Api(API_KEY.Value, "GetPlrData", Data.Player)
+        --print("PlayerData")
+        --print(PlayerData)
 
         if type(PlayerData) == "string" then
             warn("VarParse #1 GetPlrData Error for ".. Data.Player.Name ..", :".. PlayerData)
@@ -134,7 +160,8 @@ local function FunctionStr(String, Data)
         -- Only if we successfully get the player's Data then we can proceed
         if type(PlayerData) == "table" then
             local Translate = {}
-            for Part in string.gmatch(String, "({RANKLADDER:)(.*)?\}") do
+            for Part in string.gmatch(String, "((\{RANKLADDER\:)(%w*)\})") do
+                --print(Part)
                 -- Its a good idea to have the name of the RankLadder
                 local RankLadder = string.sub(Part, 13, (string.len(Part) - 1))
                 -- Only bother if this hasn't been Translated Before
@@ -158,6 +185,7 @@ local function FunctionStr(String, Data)
 
             -- Now we change it
             for Target, ConvertTo in pairs(Translate) do
+                --print("Target: '".. Target .."', converting to :'".. ConvertTo .."'.")
                 String = string.gsub(String, Target, ConvertTo)
             end
         end
@@ -166,12 +194,12 @@ local function FunctionStr(String, Data)
     --print("ok")
     return String
 end
-Return:ParseStr = FunctionStr
+Return.ParseStr = FunctionStr
 
 
 
 -- This will only Parse BrickColor Settings
-local function FunctionBrickColor(Setting, Data)
+function FunctionBrickColor(Setting, Data)
 --[[
     Data = {
         Player = <PlayerObject>,
@@ -195,17 +223,17 @@ local function FunctionBrickColor(Setting, Data)
         end
     end
 
-    if type(Setting) == "string" and string.sub(Setting, 1, 12) == "{RANKLADDER:" and string.sub(Setting, string.len(Setting), string.len(Setting)) == "}" and Data.Player and Data.Setting and Data.Loop ~= true then
+    if type(Setting) == "string" and string.sub(Setting, 1, 12) == "{RANKLADDER:" and string.sub(Setting, string.len(Setting), string.len(Setting)) == "}" and Data.Player and Data.Setting and type(Data.Loop) == "nil" then
         return RankLadderFunction(Setting, Data, FunctionBrickColor)
     end
 
     return false
 end
-Return:ParseBrickColor = FunctionBrickColor
+Return.ParseBrickColor = FunctionBrickColor
 
 
 -- This will only Parse Font Settings
-local function FunctionFont(Setting, Data)
+function FunctionFont(Setting, Data)
 --[[
     Data = {
         Player = <PlayerObject>,
@@ -222,15 +250,15 @@ local function FunctionFont(Setting, Data)
         return Enum.Font[Setting]
     end
 
-    if type(Setting) == "string" and string.sub(Setting, 1, 12) == "{RANKLADDER:" and string.sub(Setting, string.len(Setting), string.len(Setting)) == "}" and Data.Player and Data.Setting and Data.Loop ~= true then
+    if type(Setting) == "string" and string.sub(Setting, 1, 12) == "{RANKLADDER:" and string.sub(Setting, string.len(Setting), string.len(Setting)) == "}" and Data.Player and Data.Setting and type(Data.Loop) == "nil" then
         return RankLadderFunction(Setting, Data, FunctionFont)
     end
 end
-Return:ParseFont = FunctionFont
+Return.ParseFont = FunctionFont
 
 
 -- This will only Parse Material Settings
-local function FunctionMaterial(Setting, Data)
+function FunctionMaterial(Setting, Data)
 --[[
     Data = {
         Player = <PlayerObject>,
@@ -247,15 +275,15 @@ local function FunctionMaterial(Setting, Data)
         return Enum.Material[Setting]
     end
 
-    if type(Setting) == "string" and string.sub(Setting, 1, 12) == "{RANKLADDER:" and string.sub(Setting, string.len(Setting), string.len(Setting)) == "}" and Data.Player and Data.Setting and Data.Loop ~= true then
+    if type(Setting) == "string" and string.sub(Setting, 1, 12) == "{RANKLADDER:" and string.sub(Setting, string.len(Setting), string.len(Setting)) == "}" and Data.Player and Data.Setting and type(Data.Loop) == "nil" then
         return RankLadderFunction(Setting, Data, FunctionMaterial)
     end
 end
-Return:ParseMaterial = FunctionMaterial
+Return.ParseMaterial = FunctionMaterial
 
 
 -- This will only Parse Color3 Settings
-local function FunctionColor3(Setting, Data)
+function FunctionColor3(Setting, Data)
 --[[
     Data = {
         Player = <PlayerObject>,
@@ -272,10 +300,10 @@ local function FunctionColor3(Setting, Data)
         return Setting
     end
 
-    if type(Setting) == "string" and string.sub(Setting, 1, 12) == "{RANKLADDER:" and string.sub(Setting, string.len(Setting), string.len(Setting)) == "}" and Data.Player and Data.Setting and Data.Loop ~= true then
+    if type(Setting) == "string" and string.sub(Setting, 1, 12) == "{RANKLADDER:" and string.sub(Setting, string.len(Setting), string.len(Setting)) == "}" and Data.Player and Data.Setting and type(Data.Loop) == "nil" then
         return RankLadderFunction(Setting, Data, FunctionColor3)
     end
 end
-Return:ParseColor3 = FunctionColor3
+Return.ParseColor3 = FunctionColor3
 
 return Return

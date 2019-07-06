@@ -98,13 +98,13 @@
     --  Font Settings  --
     NOTE: Font Settings cannot have more than one variable in them (Having something like: "{TEAMCOLOR} {RANKLADDER:Default}" would break and resort to defaults)
     --  "{DISABLED}"                :   The Setting is Disabled (Use Defaults)
-    --  <FontName>                  :   The Name of the Font (You can see the fonts under Enum.Font.<FontName>)
+    --  "<FontName>"                :   The Name of the Font (You can see the fonts under Enum.Font.<FontName>)
     --  "{RANKLADDER:<Ladder>}"     :   A Specific Setting in the Rank Ladder (Can only be used in Addon Settings)
 
     --  Material Settings  --
     NOTE: Material Settings cannot have more than one variable in them (Having something like: "{TEAMCOLOR} {RANKLADDER:Default}" would break and resort to defaults)
     --  "{DISABLED}"                :   The Setting is Disabled (Use Defaults)
-    --  <MaterialName>              :   The Name of the Material (You can see the fonts under Enum.Material.<FontName>)
+    --  "<MaterialName>"            :   The Name of the Material (You can see the fonts under Enum.Material.<FontName>)
     --  "{RANKLADDER:<Ladder>}"     :   A Specific Setting in the Rank Ladder (Can only be used in Addon Settings)
 
     --  Color3 Settings  --

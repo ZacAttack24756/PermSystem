@@ -20,6 +20,10 @@ local Settings = {
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:Class D"
+                },
+                ["Cards"] = {
+                    ["Card:Color1"] = BrickColor.new("CGA brown"),
+                    ["Card:Text"] = "-1"
                 }
             },
         },
@@ -35,6 +39,10 @@ local Settings = {
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:Class E"
+                },
+                ["Cards"] = {
+                    ["Card:Color1"] = BrickColor.new("Reddish brown"),
+                    ["Card:Text"] = "-1"
                 }
             },
         },
@@ -51,6 +59,10 @@ local Settings = {
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:Class A"
+                },
+                ["Cards"] = {
+                    ["Card:Color1"] = BrickColor.new("Royal purple"),
+                    ["Card:Text"] = "1"
                 }
             },
         },
@@ -66,6 +78,10 @@ local Settings = {
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:Level 0"
+                },
+                ["Cards"] = {
+                    ["Card:Color1"] = BrickColor.new("Mint"),
+                    ["Card:Text"] = "0"
                 }
             },
         },
@@ -81,6 +97,10 @@ local Settings = {
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:Level 1"
+                },
+                ["Cards"] = {
+                    ["Card:Color1"] = BrickColor.new("New Yeller"),
+                    ["Card:Text"] = "1"
                 }
             },
         },
@@ -96,6 +116,10 @@ local Settings = {
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:Level 2"
+                },
+                ["Cards"] = {
+                    ["Card:Color1"] = BrickColor.new("Bright yellow"),
+                    ["Card:Text"] = "2"
                 }
             },
         },
@@ -115,6 +139,10 @@ local Settings = {
                 ["ToolGiver"] = {
                     ToolBlackList = {"Pistol"},
                     ToolGiveList = {"[SCP] Card-L5"}
+                },
+                ["Cards"] = {
+                    ["Card:Color1"] = BrickColor.new("Deep orange"),
+                    ["Card:Text"] = "3"
                 }
             },
         },
@@ -131,6 +159,10 @@ local Settings = {
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:Level 4"
+                },
+                ["Cards"] = {
+                    ["Card:Color1"] = BrickColor.new("Neon orange"),
+                    ["Card:Text"] = "4"
                 }
             },
         },
@@ -145,7 +177,11 @@ local Settings = {
             }},
             Addons = {
                 ["SimpleTitles"] = {
-                    ["Box3:Text"] = "SetText:Site Director"
+                    ["Box3:Text"] = "SetText:Site Director",
+                    ["Card:Text"] = "4.5"
+                },
+                ["Cards"] = {
+                    ["Card:Color1"] = BrickColor.new("")
                 }
             },
         },
@@ -162,6 +198,10 @@ local Settings = {
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:[REDACTED]"
+                },
+                ["Cards"] = {
+                    ["Card:Color1"] = BrickColor.new("Really red"),
+                    ["Card:Text"] = "5"
                 }
             },
         },
@@ -177,6 +217,10 @@ local Settings = {
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:[REDACTED]"
+                },
+                ["Cards"] = {
+                    ["Card:Color1"] = BrickColor.new("Really black"),
+                    ["Card:Text"] = "5"
                 }
             },
         },
@@ -195,6 +239,11 @@ local Settings = {
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:The Administrator"
+                },
+                ["Cards"] = {
+                    ["Card:Color1"] = BrickColor.new("Really black"),
+                    ["Card:Material2"] = "Neon",
+                    ["Card:Text"] = "6"
                 }
             },
         },
@@ -341,6 +390,15 @@ local Settings = {
         },
         ["Cards"] = {
             Enabled = true,
+            ["Card:Color1"] = "{RANKLADDER:Default}",
+            ["Card:Color2"] = BrickColor.new("Institutional white"),
+            ["Card:Material1"] = "SmoothPlastic",
+            ["Card:Material2"] = "{RANKLADDER:Default}",
+            ["Card:Font"] = "SciFi",
+            ["Card:Text"] = "{USERNAME}\'s Card\nAccess Level {RANKLADDER:Default}",
+            ["Card:Name"] = "{RBLXGROUPID:3519516}",
+            ["Card:TextColor"] = Color3.new(15, 15, 15),
+            ["GlobalCardGive"] = true
         }
     },
     Options = {
