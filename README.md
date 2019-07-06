@@ -13,8 +13,10 @@ require(2892139643)(Settings) --Don't use in regular games!
 ```
 
 #### How to access:
-This script uses BindableFunctions for security, and global use/ease of access. Currently, only checking if a player has a permission is supported;
-- Arguments: ["CheckPerm"] [PlayerObject] [PermissionToCheck <str>]  ; Returns: [HasAccess <bool>]
+This script uses BindableFunctions for security, and global use/ease of access. Use the following to access said function:
+```
+local PermSystem = game:GetService("ReplicatedStorage"):WaitForChild("PermSystem")
+```
 
 ## Extended Description
 This script is meant to be a control module that can be applicable to almost any game. A basic example is this: Any server script sends a request to the module, asking if player "Bob" has the permission `.interact.door.house1`. The script will reference every group that the player "Bob" is in to see if any group has that permission or a better one. If he does or doesn't, the script responds back.
@@ -27,7 +29,7 @@ A "Rank Ladder" is another way to say a group of groups. One player may only be 
 
 One Powerful use of groups is inheritance, which saves you time in making groups. A group that is on another group's "inheritance" list 'inherits' any permissions from that group, and for any group that inherits from it as well.. Meaning if Group B inherits from Group A, and Group A has the permission `.interact.door.house1`, Group B also has that permission, and adding it specifically to it's permission would be a waste of time. Group C which inherits from Group B would also have that permission. Any group can inherit from any other group, and there are preventative measures to prevent loops from lagging servers.
 
-This script is also a, **one-time-configuration** type of script, meaning that it's configuration typically cannot be editing during a game, A strength and weakness.
+This script is also a, **one-time-configuration** script, meaning that it's configuration typically cannot be editing during a game, A strength and weakness.
 
 **Disclaimer:** This script takes preventative precautions in order to secure your game from exploitation. That being said, this script will not accept any messages or commands from any 'Local' or client script, but securing any server scripts is your responsibility. If a hacker somehow got access to a backdoor server script, and uses that server script to gain access to all permissions, its not my responsibility.
 
@@ -39,7 +41,7 @@ Along with the base feature for the script, there is also specialty scripts buil
 
 - **ToolGiver**: Another uncreatively named script, ToolGiver allows you to configure it to give players tools on a Per-Group-Basis. Note: You cannot have the same tool given out twice by default, see Configuration Documentation for more information.
 
-- **Cards**: *__Not Fully Complete Yet__* Need Intelligent Cards and Identification for your Group? Never fear, This Addon Offers Cards with Built-In support for PermSystem. See Configuration Documentation for more information.
+- **Cards**: Need Intelligent Cards and Identification for your Group? Never fear, This Addon Offers Cards with Built-In support for PermSystem. See Configuration Documentation for more information.
 
 - **CamSystem**: *__Idea / Not created yet__* Built In Camera Features, Can be paired with "DoorControl" Addon for Remote Door Control
 

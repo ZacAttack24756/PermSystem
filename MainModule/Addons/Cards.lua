@@ -13,6 +13,7 @@ local AddonName = "Cards"
 local Debug = false
 local Rand = Random.new()
 local Settings = {}
+local PlayerRunning = {}
 
 local CardBase = script:FindFirstChild("CardBase")
 
@@ -126,88 +127,104 @@ function RunPlayer(Player)
     -- Start off with Colors
     local CardColor1 = nil
     if Settings["Card:Color1"] then
-        local OurDataClone = Utl:ShallowCopyTable(OurData)
+        local OurDataClone = Utl.ShallowCopyTable(OurData)
         OurDataClone.Setting = "Card:Color1"
-        local Results = VarParse:ParseBrickColor(Settings["Card:Color1"], OurDataClone)
+        local Result = VarParse.ParseBrickColor(Settings["Card:Color1"], OurDataClone)
+        print("Color1 Result")
+        print(Result)
 
-        if type(Results) == "userdata" and typeof(Results) == "BrickColor" then
-            CardColor1 = Results
+        if type(Result) == "userdata" and typeof(Result) == "BrickColor" then
+            CardColor1 = Result
         end
     end
     local CardColor2 = nil
     if Settings["Card:Color2"] then
-        local OurDataClone = Utl:ShallowCopyTable(OurData)
+        local OurDataClone = Utl.ShallowCopyTable(OurData)
         OurDataClone.Setting = "Card:Color2"
-        local Results = VarParse:ParseBrickColor(Settings["Card:Color2"], OurDataClone)
+        local Result = VarParse.ParseBrickColor(Settings["Card:Color2"], OurDataClone)
+        print("Color2 Result")
+        print(Result)
 
-        if type(Results) == "userdata" and typeof(Results) == "BrickColor" then
-            CardColor2 = Results
+        if type(Result) == "userdata" and typeof(Result) == "BrickColor" then
+            CardColor2 = Result
         end
     end
 
     -- Move on to Materials
     local CardMaterial1 = nil
     if Settings["Card:Material1"] then
-        local OurDataClone = Utl:ShallowCopyTable(OurData)
+        local OurDataClone = Utl.ShallowCopyTable(OurData)
         OurDataClone.Setting = "Card:Material1"
-        local Results = VarParse:ParseMaterial(Settings["Card:Material1"], OurDataClone)
+        local Result = VarParse.ParseMaterial(Settings["Card:Material1"], OurDataClone)
+        print("Material1 Result")
+        print(Result)
 
-        if type(Results) == "userdata" and typeof(Results) == "EnumItem" then
-            CardMaterial1 = Results
+        if type(Result) == "userdata" and typeof(Result) == "EnumItem" then
+            CardMaterial1 = Result
         end
     end
     local CardMaterial2 = nil
     if Settings["Card:Material2"] then
-        local OurDataClone = Utl:ShallowCopyTable(OurData)
+        local OurDataClone = Utl.ShallowCopyTable(OurData)
         OurDataClone.Setting = "Card:Material2"
-        local Results = VarParse:ParseMaterial(Settings["Card:Material2"], OurDataClone)
+        local Result = VarParse.ParseMaterial(Settings["Card:Material2"], OurDataClone)
+        print("Material2 Result")
+        print(Result)
 
-        if type(Results) == "userdata" and typeof(Results) == "EnumItem" then
-            CardMaterial2 = Results
+        if type(Result) == "userdata" and typeof(Result) == "EnumItem" then
+            CardMaterial2 = Result
         end
     end
 
     -- Then to String Based Variables
     local CardFont = nil
     if Settings["Card:Font"] then
-        local OurDataClone = Utl:ShallowCopyTable(OurData)
+        local OurDataClone = Utl.ShallowCopyTable(OurData)
         OurDataClone.Setting = "Card:Font"
-        local Results = VarParse:ParseFont(Settings["Card:Font"], OurDataClone)
+        local Result = VarParse.ParseFont(Settings["Card:Font"], OurDataClone)
+        print("Font Result")
+        print(Result)
 
-        if type(Results) == "userdata" and typeof(Results) == "EnumItem" then
-            CardFont = Results
+        if type(Result) == "userdata" and typeof(Result) == "EnumItem" then
+            CardFont = Result
         end
     end
     local CardText = nil
     if Settings["Card:Text"] then
-        local OurDataClone = Utl:ShallowCopyTable(OurData)
+        local OurDataClone = Utl.ShallowCopyTable(OurData)
         OurDataClone.Setting = "Card:Text"
-        local Results = VarParse:ParseStr(Settings["Card:Text"], OurDataClone)
+        local Result = VarParse.ParseStr(Settings["Card:Text"], OurDataClone)
+        print("Text Result")
+        print(Result)
 
-        if type(Results) == "string" then
-            CardText = Results
+        if type(Result) == "string" then
+            CardText = Result
         end
     end
     local CardName = nil
     if Settings["Card:Name"] then
-        local OurDataClone = Utl:ShallowCopyTable(OurData)
+        local OurDataClone = Utl.ShallowCopyTable(OurData)
         OurDataClone.Setting = "Card:Name"
-        local Results = VarParse:ParseStr(Settings["Card:Name"], OurDataClone)
+        local Result = VarParse.ParseStr(Settings["Card:Name"], OurDataClone)
+        print("Name Result")
+        print(Result)
 
-        if type(Results) == "string" then
-            CardText = Results
+        if type(Result) == "string" then
+            CardName = Result
         end
     end
 
     -- Wrap up with TextColor
     local CardTextColor = nil
     if Settings["Card:TextColor"] then
-        local OurDataClone = Utl:ShallowCopyTable(OurData)
+        local OurDataClone = Utl.ShallowCopyTable(OurData)
         OurDataClone.Setting = "Card:TextColor"
-        local Results = VarParse:ParseColor3(Settings["Card:TextColor"], OurDataClone)
+        local Result = VarParse.ParseColor3(Settings["Card:TextColor"], OurDataClone)
+        print("TextColor Result")
+        print(Result)
 
-        if type(Results) == "userdata" and typeof(Results) == "Color3" then
-            CardTextColor = Results
+        if type(Result) == "userdata" and typeof(Result) == "Color3" then
+            CardTextColor = Result
         end
     end
 
@@ -224,16 +241,15 @@ function RunPlayer(Player)
         CardName,
         CardTextColor
     })
+    while Player.Character == nil do wait() end
     if type(TheCard) == "userdata" and typeof(TheCard) == "Instance" and TheCard:IsA("Tool") then
         TheCard.Parent = Player.Backpack
     end
+    while Player.Character.Humanoid.Health > 0 do wait() end
 
-    local Connection = Player.CharacterRemoving:Connect(function(...)
-        CardTable[Card] = nil
-        TheCard:Destroy()
-        wait()
-        Connection:Disconnect()
-    end)
+    CardTable[TheCard] = nil
+    TheCard:Destroy()
+    wait()
 end
 
 return function(Config)
@@ -242,35 +258,35 @@ return function(Config)
     Settings["Card:Color1"] = BrickColor.new("Medium stone grey")
     if typeof(Config["Card:Color1"]) == "BrickColor" then
         Settings["Card:Color1"] = Config["Card:Color1"]
-    elseif type(Config["Card:Color1"]) == "string" and (Config["Card:Color1"] == "TeamColor" or string.sub(Config["Card:Color1"], 1, 11) == "RankLadder:") then
+    elseif type(Config["Card:Color1"]) == "string" then
         Settings["Card:Color1"] = Config["Card:Color1"]
     end
 
     Settings["Card:Color2"] = BrickColor.new("Institutional white")
     if typeof(Config["Card:Color2"]) == "BrickColor" then
         Settings["Card:Color2"] = Config["Card:Color2"]
-    elseif type(Config["Card:Color2"]) == "string" and (Config["Card:Color2"] == "TeamColor" or string.sub(Config["Card:Color2"], 1, 11) == "RankLadder:") then
+    elseif type(Config["Card:Color2"]) == "string" then
         Settings["Card:Color2"] = Config["Card:Color2"]
     end
 
     Settings["Card:Material1"] = "SmoothPlastic"
-    iftype(Config["Card:Material1"]) == "string" and Enum.Material[Settings["Card:Material1"]] ~= nil then
+    if type(Config["Card:Material1"]) == "string" and Enum.Material[Settings["Card:Material1"]] ~= nil then
         Settings["Card:Material1"] = Enum.Material[Settings["Card:Material1"]]
-    elseif type(Config["Card:Material1"]) == "string" and string.sub(Config["Card:Material1"], 1, 11) == "RankLadder:" then
+    elseif type(Config["Card:Material1"]) == "string" then
         Settings["Card:Material1"] = Config["Card:Material1"]
     end
 
     Settings["Card:Material2"] = "SmoothPlastic"
     if type(Config["Card:Material2"]) == "string" and Enum.Material[Settings["Card:Material2"]] ~= nil then
         Settings["Card:Material2"] = Enum.Material[Settings["Card:Material2"]]
-    elseif type(Config["Card:Material2"]) == "string" and string.sub(Config["Card:Material2"], 1, 11) == "RankLadder:" then
+    elseif type(Config["Card:Material2"]) == "string" then
         Settings["Card:Material2"] = Config["Card:Material2"]
     end
 
     Settings["Card:Font"] = "SciFi"
     if type(Config["Card:Font"]) == "string" and Enum.Font[Config["Card:Font"]] ~= nil then
         Settings["Card:Font"] = Enum.Font[Config["Card:Font"]]
-    elseif type(Config["Card:Font"]) == "string" and string.sub(Config["Card:Font"], 1, 11) == "RankLadder:" then
+    elseif type(Config["Card:Font"]) == "string" then
         Settings["Card:Font"] = Config["Card:Font"]
     end
 
@@ -390,19 +406,24 @@ return function(Config)
     -- Add some sort of hook here
     wait(0.5) -- Wait for half a second for all the player datas to work
     for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
-        plr.CharacterAdded:Connect(function(char)
-            RunPlayer(plr)
-        end)
+        if PlayerRunning[plr] == nil then
+            PlayerRunning[plr] = true
+            plr.CharacterAdded:Connect(function(char)
+                RunPlayer(plr)
+            end)
+        end
     end
     game.Players.PlayerAdded:Connect(function(plr)
-        plr.CharacterAdded:Connect(function(char)
-            RunPlayer(plr)
-        end)
+        if PlayerRunning[plr] == nil then
+            PlayerRunning[plr] = true
+            plr.CharacterAdded:Connect(function(char)
+                RunPlayer(plr)
+            end)
+        end
     end)
-    wait(0.5) -- Refresh All Players after adding hooks
-    for _, v in pairs(game:GetService("Players"):GetPlayers()) do
-        v:LoadCharacter()
-    end
+    game.Players.PlayerRemoving:Connect(function(plr)
+        PlayerRunning[plr] = nil
+    end)
 
     return true
 end

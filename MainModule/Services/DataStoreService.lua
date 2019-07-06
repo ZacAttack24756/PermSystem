@@ -15,12 +15,18 @@ MTable.New = function(Name, Scope)
     assert((type(Name) == "string" and Name ~= ""), "DataStoreService.lua -> Improper Name")
     assert((type(Scope) == "string" and Scope ~= ""), "DataStoreService.lua -> Improper Scope")
 
-    local Store = DataStoreService:GetDataStore(Name, Scope)
+    local success, err = pcall(function()
+        return DataStoreService:GetDataStore(Name, Scope)
+    end)
+    if success then else
+        warn(err)
+        return nil
+    end
 
     local Data = {
         Name = Name,
         Scope = Scope,
-        DataStore = Store
+        DataStore = err
     }
 
     local self = setmetatable(Data, MTable)
