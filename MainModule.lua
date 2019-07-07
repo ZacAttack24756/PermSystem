@@ -320,7 +320,7 @@ return function(Settings)
     end)
 
     -- We have to respawn all the players, to ensure that all the addons are properly loaded in
-    delay(1.5, function()
+    delay(0.5, function()
         for _, plr in pairs(game:GetService("Players"):GetPlayers()) do
             local Char = plr.Character
             if Char and Char:FindFirstChild("Humanoid") then
@@ -332,4 +332,6 @@ return function(Settings)
             end
         end
     end)
+
+    return true
 end

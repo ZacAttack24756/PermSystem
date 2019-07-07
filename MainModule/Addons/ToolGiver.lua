@@ -292,6 +292,7 @@ return function(Config)
         LoopRefPCache(plr)
     end
     game:GetService("Players").PlayerAdded:Connect(LoopRefPCache)
+    wait()
 
     return true
 end

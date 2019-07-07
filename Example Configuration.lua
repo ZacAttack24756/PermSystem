@@ -7,6 +7,14 @@ local Settings = {
             Rank = 0,
             Perms = {},
             Default = true,
+            Addons = {
+                ["SimpleTitles"] = {
+                    ["Box3:Text"] = "SetText:Guest",
+                },
+                ["Cards"] = {
+                    ["Card:Text"] = "None"
+                }
+            }
         },
         ["ClassD"] = {
             Rank = 1,
@@ -23,7 +31,7 @@ local Settings = {
                 },
                 ["Cards"] = {
                     ["Card:Color1"] = BrickColor.new("CGA brown"),
-                    ["Card:Text"] = "-1"
+                    ["Card:Text"] = "Class D Access"
                 }
             },
         },
@@ -42,7 +50,7 @@ local Settings = {
                 },
                 ["Cards"] = {
                     ["Card:Color1"] = BrickColor.new("Reddish brown"),
-                    ["Card:Text"] = "-1"
+                    ["Card:Text"] = "Class E Access"
                 }
             },
         },
@@ -50,7 +58,7 @@ local Settings = {
         ["ClassA"] = {
             Rank = 4,
             Perms = {},
-            Inheritance = "Level1", -- ClassA deserve, at-most, Level 1
+            Inheritance = "Level2", -- ClassA deserve, at-most, Level 1
             RobloxGroup = {{
                 ID = 3519516,
                 Cond = "==",
@@ -62,7 +70,7 @@ local Settings = {
                 },
                 ["Cards"] = {
                     ["Card:Color1"] = BrickColor.new("Royal purple"),
-                    ["Card:Text"] = "1"
+                    ["Card:Text"] = "Access Level 2"
                 }
             },
         },
@@ -81,7 +89,7 @@ local Settings = {
                 },
                 ["Cards"] = {
                     ["Card:Color1"] = BrickColor.new("Mint"),
-                    ["Card:Text"] = "0"
+                    ["Card:Text"] = "Access Level 0"
                 }
             },
         },
@@ -100,7 +108,7 @@ local Settings = {
                 },
                 ["Cards"] = {
                     ["Card:Color1"] = BrickColor.new("New Yeller"),
-                    ["Card:Text"] = "1"
+                    ["Card:Text"] = "Access Level 1"
                 }
             },
         },
@@ -119,7 +127,7 @@ local Settings = {
                 },
                 ["Cards"] = {
                     ["Card:Color1"] = BrickColor.new("Bright yellow"),
-                    ["Card:Text"] = "2"
+                    ["Card:Text"] = "Access Level 2"
                 }
             },
         },
@@ -142,7 +150,7 @@ local Settings = {
                 },
                 ["Cards"] = {
                     ["Card:Color1"] = BrickColor.new("Deep orange"),
-                    ["Card:Text"] = "3"
+                    ["Card:Text"] = "Access Level 3"
                 }
             },
         },
@@ -162,7 +170,7 @@ local Settings = {
                 },
                 ["Cards"] = {
                     ["Card:Color1"] = BrickColor.new("Neon orange"),
-                    ["Card:Text"] = "4"
+                    ["Card:Text"] = "Access Level 4"
                 }
             },
         },
@@ -178,7 +186,7 @@ local Settings = {
             Addons = {
                 ["SimpleTitles"] = {
                     ["Box3:Text"] = "SetText:Site Director",
-                    ["Card:Text"] = "4.5"
+                    ["Card:Text"] = "Access Level 4.5"
                 },
                 ["Cards"] = {
                     ["Card:Color1"] = BrickColor.new("")
@@ -201,7 +209,7 @@ local Settings = {
                 },
                 ["Cards"] = {
                     ["Card:Color1"] = BrickColor.new("Really red"),
-                    ["Card:Text"] = "5"
+                    ["Card:Text"] = "Access Level 5"
                 }
             },
         },
@@ -220,7 +228,7 @@ local Settings = {
                 },
                 ["Cards"] = {
                     ["Card:Color1"] = BrickColor.new("Really black"),
-                    ["Card:Text"] = "5"
+                    ["Card:Text"] = "Access Level 5"
                 }
             },
         },
@@ -243,7 +251,7 @@ local Settings = {
                 ["Cards"] = {
                     ["Card:Color1"] = BrickColor.new("Really black"),
                     ["Card:Material2"] = "Neon",
-                    ["Card:Text"] = "6"
+                    ["Card:Text"] = "Access Level 6"
                 }
             },
         },
@@ -395,7 +403,7 @@ local Settings = {
             ["Card:Material1"] = "SmoothPlastic",
             ["Card:Material2"] = "{RANKLADDER:Default}",
             ["Card:Font"] = "SciFi",
-            ["Card:Text"] = "{USERNAME}\'s Card\nAccess Level {RANKLADDER:Default}",
+            ["Card:Text"] = "{USERNAME}\'s Card\n{RANKLADDER:Default}",
             ["Card:Name"] = "{RBLXGROUPID:3519516}",
             ["Card:TextColor"] = Color3.new(15, 15, 15),
             ["GlobalCardGive"] = true
@@ -412,48 +420,3 @@ local Return = require(2892139643)(Settings) --Don't use in regular games!
 if type(Return) == "string" then
 	error(Return)
 end
-wait(2)
-
-local PermFunc = game:GetService("ReplicatedStorage"):FindFirstChild("PermSystem")
-local function PlayerStuff(plr)
-    plr.CharacterAdded:Connect(function(char)
-        wait(2.5)
-        local Cards = {
-            PermFunc:Invoke("Cards_Create", "GroupCard", "Admini", {
-                Color1 = BrickColor.new("Really black"),
-                Color2 = BrickColor.new("Lily white"),
-				Mat2 = "Neon",
-                Text = "Administrator Access Card",
-                Name = "Admin Keycard",
-            }),
-            PermFunc:Invoke("Cards_Create", "GroupCard", "O5Council", {
-                Color1 = BrickColor.new("Really black"),
-                Color2 = BrickColor.new("Institutional white"),
-                Text = "O5 Council Access Card",
-                Name = "O5 Keycard",
-            }),
-            PermFunc:Invoke("Cards_Create", "GroupCard", "SiteDirector", {
-                Color1 = BrickColor.new("Really red"),
-                Color2 = BrickColor.new("Institutional white"),
-                Text = "Facility Manager Access Card",
-                Name = "Facility Manager Keycard",
-            }),
-            PermFunc:Invoke("Cards_Create", "GroupCard", "SiteDirector", {
-                Color1 = BrickColor.new("Bright blue"),
-                Color2 = BrickColor.new("Institutional white"),
-                Text = "Zone Manager Access Card",
-                Name = "Zone Manager Keycard",
-            }),
-        }
-        for _, Card in pairs(Cards) do
-            if typeof(Card) == "Instance" and Card:IsA("Tool") then
-                Card.Parent = plr.Backpack
-                Card.Run.Disabled = false
-            end
-        end
-    end)
-end
-for _, v in pairs(game.Players:GetChildren()) do
-    PlayerStuff(v)
-end
-game.Players.PlayerAdded:Connect(PlayerStuff)

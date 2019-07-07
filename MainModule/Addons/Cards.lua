@@ -130,8 +130,8 @@ function RunPlayer(Player)
         local OurDataClone = Utl.ShallowCopyTable(OurData)
         OurDataClone.Setting = "Card:Color1"
         local Result = VarParse.ParseBrickColor(Settings["Card:Color1"], OurDataClone)
-        print("Color1 Result")
-        print(Result)
+        --print("Color1 Result")
+        --print(Result)
 
         if type(Result) == "userdata" and typeof(Result) == "BrickColor" then
             CardColor1 = Result
@@ -142,8 +142,8 @@ function RunPlayer(Player)
         local OurDataClone = Utl.ShallowCopyTable(OurData)
         OurDataClone.Setting = "Card:Color2"
         local Result = VarParse.ParseBrickColor(Settings["Card:Color2"], OurDataClone)
-        print("Color2 Result")
-        print(Result)
+        --print("Color2 Result")
+        --print(Result)
 
         if type(Result) == "userdata" and typeof(Result) == "BrickColor" then
             CardColor2 = Result
@@ -156,8 +156,8 @@ function RunPlayer(Player)
         local OurDataClone = Utl.ShallowCopyTable(OurData)
         OurDataClone.Setting = "Card:Material1"
         local Result = VarParse.ParseMaterial(Settings["Card:Material1"], OurDataClone)
-        print("Material1 Result")
-        print(Result)
+        --print("Material1 Result")
+        --print(Result)
 
         if type(Result) == "userdata" and typeof(Result) == "EnumItem" then
             CardMaterial1 = Result
@@ -168,8 +168,8 @@ function RunPlayer(Player)
         local OurDataClone = Utl.ShallowCopyTable(OurData)
         OurDataClone.Setting = "Card:Material2"
         local Result = VarParse.ParseMaterial(Settings["Card:Material2"], OurDataClone)
-        print("Material2 Result")
-        print(Result)
+        --print("Material2 Result")
+        --print(Result)
 
         if type(Result) == "userdata" and typeof(Result) == "EnumItem" then
             CardMaterial2 = Result
@@ -182,8 +182,8 @@ function RunPlayer(Player)
         local OurDataClone = Utl.ShallowCopyTable(OurData)
         OurDataClone.Setting = "Card:Font"
         local Result = VarParse.ParseFont(Settings["Card:Font"], OurDataClone)
-        print("Font Result")
-        print(Result)
+        --print("Font Result")
+        --print(Result)
 
         if type(Result) == "userdata" and typeof(Result) == "EnumItem" then
             CardFont = Result
@@ -194,8 +194,8 @@ function RunPlayer(Player)
         local OurDataClone = Utl.ShallowCopyTable(OurData)
         OurDataClone.Setting = "Card:Text"
         local Result = VarParse.ParseStr(Settings["Card:Text"], OurDataClone)
-        print("Text Result")
-        print(Result)
+        --print("Text Result")
+        --print(Result)
 
         if type(Result) == "string" then
             CardText = Result
@@ -206,8 +206,8 @@ function RunPlayer(Player)
         local OurDataClone = Utl.ShallowCopyTable(OurData)
         OurDataClone.Setting = "Card:Name"
         local Result = VarParse.ParseStr(Settings["Card:Name"], OurDataClone)
-        print("Name Result")
-        print(Result)
+        --print("Name Result")
+        --print(Result)
 
         if type(Result) == "string" then
             CardName = Result
@@ -220,8 +220,8 @@ function RunPlayer(Player)
         local OurDataClone = Utl.ShallowCopyTable(OurData)
         OurDataClone.Setting = "Card:TextColor"
         local Result = VarParse.ParseColor3(Settings["Card:TextColor"], OurDataClone)
-        print("TextColor Result")
-        print(Result)
+        --print("TextColor Result")
+        --print(Result)
 
         if type(Result) == "userdata" and typeof(Result) == "Color3" then
             CardTextColor = Result
@@ -424,6 +424,7 @@ return function(Config)
     game.Players.PlayerRemoving:Connect(function(plr)
         PlayerRunning[plr] = nil
     end)
+    wait()
 
     return true
 end

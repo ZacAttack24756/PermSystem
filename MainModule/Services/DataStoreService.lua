@@ -33,10 +33,10 @@ MTable.New = function(Name, Scope)
     return self
 end
 
-function MTable:SetData(Name, Value)
-    assert((type(Name) == "string" and Name ~= ""), "DataStoreService.lua -> SetData: Improper Key")
+function MTable:SetData(Key, Value)
+    assert((type(Key) == "string" and Name ~= ""), "DataStoreService.lua -> SetData: Improper Key")
     local success, err = pcall(function()
-        self.DataStore:SetAsync(Name, Value)
+        self.DataStore:SetAsync(Name, Key)
     end)
     if success then
         return success
@@ -45,10 +45,10 @@ function MTable:SetData(Name, Value)
     end
 end
 
-function MTable:GetData(Name)
-    assert((type(Name) == "string" and Name ~= ""), "DataStore.lua -> GetData: Improper Key")
+function MTable:GetData(Key)
+    assert((type(Key) == "string" and Key ~= ""), "DataStore.lua -> GetData: Improper Key")
     local success, err = pcall(function()
-        self.DataStore:GetAsync(Name)
+        self.DataStore:GetAsync(Key)
     end)
     if success then
         return success
@@ -69,10 +69,10 @@ function MTable:DelData(Name)
     end
 end
 
-function MTable:UpdData(Name, func)
-    assert((type(Name) == "string" and Name ~= ""), "DataStoreService.lua -> UpdData: Improper Key")
+function MTable:UpdData(Key, func)
+    assert((type(Key) == "string" and Key ~= ""), "DataStoreService.lua -> UpdData: Improper Key")
     local success, err = pcall(function()
-        self.DataStore:UpdateAsync(Name, func)
+        self.DataStore:UpdateAsync(Key, func)
     end)
     if success then
         return success
